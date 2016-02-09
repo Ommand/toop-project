@@ -50,6 +50,6 @@ namespace toop_project
 
     interface Interface
     {
-
+        int I { get; set; }
     }
 }
