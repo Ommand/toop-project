@@ -47,4 +47,9 @@ namespace toop_project
         string Name { get; }
         IPreconditioner Preconditioner { set; }
     }
+
+    interface Interface
+    {
+
+    }
 }
