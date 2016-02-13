@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace toop_project.Preconditioner[
-    class Preconditioner : IPreconditioner[
-
-   ]
-]
-
-;)
+namespace toop_project
+{
+    interface IGUI
+    {
+    }
+}

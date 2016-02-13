@@ -52,7 +52,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces.cs" />
+    <Compile Include="IGUI.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IMatrix.cs" />
+    <Compile Include="IInputOutput.cs" />
+    <Compile Include="IPreconditioner.cs" />
+    <Compile Include="ISLAE.cs" />
+    <Compile Include="ISolver.cs" />
+    <Compile Include="IVector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
