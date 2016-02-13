@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace toop_project
 {
-    interface IMatrix
-    {
-        IVector Multiply(IVector x);
+    interface IMatrix {
+        IVector newMultiply;
+	IVector Multiply(IVector x); // new Test
         IVector TMultiply(IVector x);
+	//Test
     }
     interface IVector
     {
