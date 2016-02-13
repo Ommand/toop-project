@@ -10,7 +10,12 @@ namespace toop_project
         IVector newMultiply;
 	IVector Multiply(IVector x); // new Test
         IVector TMultiply(IVector x);
+<<<<<<< HEAD
 	//Test
+=======
+		
+		int a;
+>>>>>>> commit new branch
     }
     interface IVector
     {
