@@ -10,7 +10,8 @@ namespace toop_project
         IVector newMultiply;
 	IVector Multiply(IVector x); // new Test
         IVector TMultiply(IVector x);
-	//Test
+	float a;
+				int b;
     }
     interface IVector
     {
