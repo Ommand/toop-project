@@ -8,5 +8,6 @@ namespace toop_project
 {
     interface IInputOutput
     {
+
     }
 }
