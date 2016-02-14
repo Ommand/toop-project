@@ -46,23 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="src\GUI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="src\GUI\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="IGUI.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="IMatrix.cs" />
-    <Compile Include="IInputOutput.cs" />
-    <Compile Include="IPreconditioner.cs" />
-    <Compile Include="ISLAE.cs" />
-    <Compile Include="ISolver.cs" />
-    <Compile Include="IVector.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="src\GUI\IGUI.cs" />
+    <Compile Include="src\Logger\ILogger.cs" />
+    <Compile Include="src\Matrix\IMatrix.cs" />
+    <Compile Include="src\IO\IInputOutput.cs" />
+    <Compile Include="src\Preconditioner\IPreconditioner.cs" />
+    <Compile Include="src\SLAE\ISLAE.cs" />
+    <Compile Include="src\Solver\ISolver.cs" />
+    <Compile Include="src\Vector\IVector.cs" />
+    <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="src\GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -85,7 +85,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="src\App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

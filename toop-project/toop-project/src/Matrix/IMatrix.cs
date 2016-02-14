@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace toop_project
+namespace toop_project.src.Matrix
 {
     interface IMatrix
     {
@@ -24,7 +24,7 @@ namespace toop_project
 
         //IVector LtSolve(IVector x, bool UseDiagonal);//Lt-1*x Если false, то диагональ единички
         //IVector UtSolve(IVector x, bool UseDiagonal);//Ut-1*x Если false, то диагональ единички
-        IVector Diagonal { get; }
+        //IVector Diagonal { get; }
         int Size { get; }
     }
 }
