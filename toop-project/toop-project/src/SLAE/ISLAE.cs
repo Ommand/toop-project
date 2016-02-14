@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace toop_project
+namespace toop_project.src.SLAE
 {
-    interface IPreconditioner
+    interface ISLAE
     {
+        //IMatrix Matrix { get; set; }
+        //IVector RightPart { get; set; }
     }
 }

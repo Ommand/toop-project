@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace toop_project
+namespace toop_project.src.IO
 {
-    interface ISLAE
+    interface IInputOutput
     {
-        IMatrix Matrix { get; set; }
-        IVector RightPart { get; set; }
     }
 }
