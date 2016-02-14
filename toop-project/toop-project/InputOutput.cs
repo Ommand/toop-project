@@ -77,6 +77,33 @@ namespace toop_project
             InputFromFile(auFileName, m, out au);
         }
 
+        private void InputSkylineMatrix(out int n, out int m, out double[] al, out double[] au, out double[] di, out int[] ia)
+        {
+            string nFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\n.txt";
+            string alFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\al.txt";
+            string auFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\au.txt";
+            string diFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\di.txt";
+            string iaFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\ia.txt";
+
+            //чтение размерности матрицы из указанного файла
+            InputFromFile(nFileName, out n);
+
+            //чтение профиля матрицы по строкам из файла
+            InputFromFile(iaFileName, n + 1, out ia);
+
+            //число элементов равно последнему значению ia
+            m = ia[n];
+
+            //чтение диагонали матрицы из файла
+            InputFromFile(diFileName, n, out di);
+
+            //чтение элементов нижнего профиля матрицы
+            InputFromFile(alFileName, m, out al);
+
+            //чтение элементов верхнего профиля матрицы
+            InputFromFile(auFileName, m, out au);
+        }
+
         //ввод целого числа из файла
         private void InputFromFile(string fileName, out int result)
         {
