@@ -16,7 +16,7 @@ namespace toop_project.src.Logger
             INFO
         };
 
-        private string defaultLogFile = "log/log.txt";
+        private string defaultLogFile = "../../log/log.txt";
         private System.IO.StreamWriter fileStream;
         private List<string> log = new List<string>(); 
         private static Logger instance = new Logger();
@@ -24,7 +24,7 @@ namespace toop_project.src.Logger
         {
             try
             {
-                fileStream = new System.IO.StreamWriter(defaultLogFile, true);
+                SetFile(defaultLogFile);
             }
             catch (Exception e)
             {
@@ -36,17 +36,23 @@ namespace toop_project.src.Logger
         {
             string message = String.Format("[{0}][{1}] {2}", type, DateTime.Now, line);
             log.Add(message);
-            fileStream.WriteLine(message);
+            if (fileStream != null)
+            {
+                fileStream.WriteLine(message);
+                fileStream.Flush();
+            }
         }
-        public static Logger Instance()
+        public static Logger Instance
         {
-            return instance;
+            get { return instance; }
         }
 
         public void SetFile(string filename)
         {
-            fileStream.Close();
+            if (fileStream != null)
+                fileStream.Close();
             fileStream = new System.IO.StreamWriter(filename);
+            Info("Logger started to work");
         }
 
         public void Info(string message)
@@ -68,6 +74,5 @@ namespace toop_project.src.Logger
         {
             get { return log; }
         }
-
     }
 }
