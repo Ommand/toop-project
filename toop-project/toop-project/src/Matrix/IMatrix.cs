@@ -15,11 +15,14 @@ namespace toop_project.src.Matrix
         IVector LMult(IVector x, bool UseDiagonal);//L*x , Если false, то диагональ нулевая
         IVector UMult(IVector x, bool UseDiagonal);//U*x, Если false, то диагональ нулевая
 
-        IVector LSolve(IVector x);//L-1*x
-        IVector USolve(IVector x);//U-1*x
+		IVector LtMult(IVector x, bool UseDiagonal);//Lt*x , Если false, то диагональ нулевая
+        IVector UtMult(IVector x, bool UseDiagonal);//Ut*x, Если false, то диагональ нулевая
 
-        IVector LtSolve(IVector x);//Lt-1*x
-        IVector UtSolve(IVector x);//Ut-1*x
+        IVector LSolve(IVector x, bool UseDiagonal);//L-1*x
+        IVector USolve(IVector x, bool UseDiagonal);//U-1*x
+
+        IVector LtSolve(IVector x, bool UseDiagonal);//Lt-1*x
+        IVector UtSolve(IVector x, bool UseDiagonal);//Ut-1*x
 
         IVector Diagonal { get; }
         int Size { get; }
