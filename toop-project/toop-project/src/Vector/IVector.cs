@@ -9,8 +9,11 @@ namespace toop_project.src.Vector
     interface IVector
     {
         double this[int i] { get; set; }
-        double Norm();
-        void Nullify();
+        double Norm();// Вычисление нормы
+        double ScalarMult(IVector vec);// Скалярное умножение векторов
+        IVector SumVectors(IVector vec);// Сложение векторов
+        IVector ConstMult(double x);// Умножение вектора на число
+        void Nullify();// Занулить вектор
         int Size { get; }
     }
 }
