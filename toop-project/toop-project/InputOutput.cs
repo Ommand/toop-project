@@ -8,177 +8,211 @@ using System.IO;
 
 namespace toop_project
 {
-    class InputOutput : IInputOutput
+    static class InputOutput
     {
-
-        private StreamReader streamReader;                                          //читалка из файла
-        private CultureInfo cultureInfo;                                            //нужно для того, чтобы заменить , на . при конвертации строки в double
-        private List<string> stringsToParse;                                        //содержимое файла, разбитое на строки
-
-        public InputOutput()
+        public static void Input(string fileName, out object[] matrixView)
         {
-            cultureInfo = new CultureInfo("en-US");
-        }
+            StreamReader streamReader = new StreamReader(fileName);
+            string[] fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
-        public void Input()
-        {
-            int n;
-            int m;
-            double[] al;
-            double[] au;
-            double[] di;
-            int[] ia;
-            int[] ja;
-            InputCompressedSparseRowColumnMatrix(out n, out m, out al, out au, out di, out ia, out ja);
+			string matrixFormat = fileContent[0];
+
+            switch (matrixFormat)
+            {
+				//плотный формат
+				case "DENSE":
+				{
+					InputDenseMatrix(ref fileContent, out matrixView);
+					break;
+				}
+				//профильный формат
+				case "SKYLINE":
+				{
+					InputSkylineMatrix(ref fileContent, out matrixView);
+					break;
+				}
+				//разреженный строчно-столбцовый формат
+				case "SPARSE":
+				{
+					InputSparseMatrix(ref fileContent, out matrixView);
+					break;
+				}
+				//диагональный формат
+				/*case "DIAGONAL":
+				{
+					//InputDiagonalMatrix(ref fileContent, out matrixView);
+					break;
+				}
+				//ленточный формат
+				case "BAND":
+				{
+					//InputBandMatrix(ref fileContent, out matrixView);
+					break;
+				}*/
+				//если пользователь не заинтересован в корректном вводе
+				default:
+				{
+					matrixView = new object[1];
+					matrixView[0] = 0;
+					//throw какой-нибудь эксепшен
+					break;
+				}
+            }
         }
 
         //ввод матрицы в плотном формате
-        private void InputDenseMatrix(out int n, out double[,] matrix)
+        private static void InputDenseMatrix(ref string[] fileContent, out object[] matrixView)
         {
-            string nFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\n.txt";
-            string matrixFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\Dense Matrix.txt";
+			int pos = 2;
+			CultureInfo cultureInfo = new CultureInfo("en-US");
 
-            //чтение размерности матрицы из указанного файла
-            InputFromFile(nFileName, out n);
+			//чтение n
+			int n;
+			int.TryParse(fileContent[1], out n);
 
-            //чтение матрицы из указанного файла
-            InputFromFile(matrixFileName, n, n, out matrix);
-        }
+			//чтение матрицы
+			double[,] matrix = new double[n, n];
+			for (int i = 0; i < n; i++)
+			{
+				for (int j = 0; j < n; j++)
+				{
+					double.TryParse(fileContent[pos + i * n + j], NumberStyles.Any, cultureInfo, out matrix[i, j]);
+				}
+			}
 
-        //ввод матрицы в разреженном строчно-столбцовом формате
-        private void InputCompressedSparseRowColumnMatrix(out int n, out int m, out double[] al, out double[] au, out double[] di, out int[] ia, out int[] ja)
+			//формирование образа матрицы на вывод
+			matrixView = new object[3];
+
+			matrixView[0] = 1;
+			matrixView[1] = n;
+			matrixView[2] = matrix;
+		}
+
+		private static void InputSkylineMatrix(ref string[] fileContent, out object[] matrixView)
+		{
+			int pos = 2;
+			CultureInfo cultureInfo = new CultureInfo("en-US");
+
+			//чтение n
+			int n;
+			int.TryParse(fileContent[1], out n);
+
+			//чтение ia
+			int[] ia = new int[n];
+			for (int i = 0; i < n; i++)
+			{
+				int.TryParse(fileContent[pos + i], out ia[i]);
+			}
+			pos += n;
+
+			int m = ia[n - 1];
+
+			//чтение di
+			double[] di = new double[n];
+			for (int i = 0; i < n; i++)
+			{
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out di[i]);
+			}
+			pos += n;
+
+			//чтение al
+			double[] al = new double[m];
+			for (int i = 0; i < m; i++)
+			{
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out al[i]);
+			}
+			pos += m;
+
+			//чтение au
+			double[] au = new double[m];
+			for (int i = 0; i < m; i++)
+			{
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out au[i]);
+			}
+
+			//формирование образа матрицы на вывод
+			matrixView = new object[6];
+
+			matrixView[0] = 2;
+			matrixView[1] = n;
+			matrixView[2] = ia;
+			matrixView[3] = di;
+			matrixView[4] = al;
+			matrixView[5] = au;
+		}
+
+		//ввод матрицы в разреженном строчно-столбцовом формате
+		private static void InputSparseMatrix(ref string[] fileContent, out object[] matrixView)
         {
-            string nFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\n.txt";
-            string alFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\al.txt";
-            string auFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\au.txt";
-            string diFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\di.txt";
-            string iaFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\ia.txt";
-            string jaFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\ja.txt";
+			int pos = 2;
+			CultureInfo cultureInfo = new CultureInfo("en-US");
 
-            //чтение размерности матрицы из указанного файла
-            InputFromFile(nFileName, out n);
+			//чтение n
+			int n;
+			int.TryParse(fileContent[1], out n);
 
-            //чтение профиля матрицы по строкам(это же так называется?) из файла
-            InputFromFile(iaFileName, n + 1, out ia);
+			//чтение ia
+			int[] ia = new int[n];
+			for (int i = 0; i < n; i++)
+			{
+				int.TryParse(fileContent[pos + i], out ia[i]);
+			}
+			pos += n;
 
-            //число элементов равно последнему значению ia
-            m = ia[n];
+			int m = ia[n - 1];
 
-            //чтение профиля матрицы по столбцам из файла
-            InputFromFile(jaFileName, m, out ja);
+			//чтение ja
+			int[] ja = new int[m];
+			for (int i = 0; i < m; i++)
+			{
+				int.TryParse(fileContent[pos + i], out ja[i]);
+			}
+			pos += m;
 
-            //чтение диагонали матрицы из файла
-            InputFromFile(diFileName, n, out di);
+			//чтение di
+			double[] di = new double[n];
+			for (int i = 0; i < n; i++)
+			{
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out di[i]);
+			}
+			pos += n;
 
-            //чтение элементов нижнего профиля матрицы
-            InputFromFile(alFileName, m, out al);
+			//чтение al
+			double[] al = new double[m];
+			for (int i = 0; i < m; i++)
+			{
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out al[i]);
+			}
+			pos += m;
 
-            //чтение элементов верхнего профиля матрицы
-            InputFromFile(auFileName, m, out au);
-        }
+			//чтение au
+			double[] au = new double[m];
+			for (int i = 0; i < m; i++)
+			{
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out au[i]);
+			}
 
-        private void InputSkylineMatrix(out int n, out int m, out double[] al, out double[] au, out double[] di, out int[] ia)
-        {
-            string nFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\n.txt";
-            string alFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\al.txt";
-            string auFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\au.txt";
-            string diFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\di.txt";
-            string iaFileName = "D:\\Git\\toop-project\\toop-project\\toop-project\\ia.txt";
+			//формирование образа матрицы на вывод
+			matrixView = new object[7];
 
-            //чтение размерности матрицы из указанного файла
-            InputFromFile(nFileName, out n);
+			matrixView[0] = 3;
+			matrixView[1] = n;
+			matrixView[2] = ia;
+			matrixView[3] = ja;
+			matrixView[4] = di;
+			matrixView[5] = al;
+			matrixView[6] = au;
+		}
 
-            //чтение профиля матрицы по строкам из файла
-            InputFromFile(iaFileName, n + 1, out ia);
+		/*private static void InputDiagonalMatrix(ref string[] fileContent, out object[] matrixView)
+		{
 
-            //число элементов равно последнему значению ia
-            m = ia[n];
+		}
 
-            //чтение диагонали матрицы из файла
-            InputFromFile(diFileName, n, out di);
+		private static void InputBandMatrix(ref string[] fileContent, out object[] matrixView)
+		{
 
-            //чтение элементов нижнего профиля матрицы
-            InputFromFile(alFileName, m, out al);
-
-            //чтение элементов верхнего профиля матрицы
-            InputFromFile(auFileName, m, out au);
-        }
-
-        //ввод целого числа из файла
-        private void InputFromFile(string fileName, out int result)
-        {
-            streamReader = new StreamReader(fileName);
-            int.TryParse(streamReader.ReadLine(), out result);
-        }
-
-        //ввод n целых чисел из файла
-        private void InputFromFile(string fileName, int n, out int[] result)
-        {
-            result = new int[n];
-            streamReader = new StreamReader(fileName);
-            stringsToParse = Parse(streamReader.ReadToEnd());
-            for (int i = 0; i < n; i++)
-            {
-                int.TryParse(stringsToParse[i], NumberStyles.Any, cultureInfo, out result[i]);
-            }
-        }
-
-        //ввод n чисел из файла
-        private void InputFromFile(string fileName, int n, out double[] result)
-        {
-            result = new double[n];
-            streamReader = new StreamReader(fileName);
-            stringsToParse = Parse(streamReader.ReadToEnd());
-            for (int i = 0; i < n; i++)
-            {
-                double.TryParse(stringsToParse[i], NumberStyles.Any, cultureInfo, out result[i]);
-            }
-        }
-
-        //ввод nxm целых чисел из файла (скорее всего, не понадобится, но пусть будет)
-        private void InputFromFile(string fileName, int n, int m, out int[,] result)
-        {
-            result = new int[n, m];
-            streamReader = new StreamReader(fileName);
-            stringsToParse = Parse(streamReader.ReadToEnd());
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    int.TryParse(stringsToParse[i * m + j], NumberStyles.Any, cultureInfo, out result[i, j]);
-                }
-            }
-        }
-
-        //ввод nxm чисел из файла
-        private void InputFromFile(string fileName, int n, int m, out double[,] result)
-        {
-            result = new double[n, m];
-            streamReader = new StreamReader(fileName);
-            stringsToParse = Parse(streamReader.ReadToEnd());
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    double.TryParse(stringsToParse[i * m + j], NumberStyles.Any, cultureInfo, out result[i, j]);
-                }
-            }
-        }
-
-        private List<string> Parse(string stringToParse)
-        {
-            List<string> stringsToParse = stringToParse.Split(' ', '\n', '\r', '\t').ToList<string>();
-
-            for(int i = 0; i < stringsToParse.Count(); i++)
-            {
-                if (stringsToParse[i] == "")
-                {
-                    stringsToParse.RemoveAt(i);
-                    i--;
-                }
-            }
-            return stringsToParse;
-        }
+		}*/
 
     }
 }
