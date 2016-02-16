@@ -10,7 +10,8 @@ namespace toop_project
 {
     static class InputOutput
     {
-        public static void Input(string fileName, out object[] matrixView)
+		//метод для чтения матрицы из файла
+        public static void InputMatrix(string fileName, out object[] matrixView)
         {
             StreamReader streamReader = new StreamReader(fileName);
             string[] fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
@@ -59,6 +60,29 @@ namespace toop_project
 				}
             }
         }
+
+		//метод для чтения правой части из файла
+		public static void InputRightPart(string fileName, out List<double> rightPart)
+		{
+			CultureInfo cultureInfo = new CultureInfo("en-US");
+
+			StreamReader streamReader = new StreamReader(fileName);
+			string[] fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+			//чтение n
+			int n;
+			int.TryParse(fileContent[0], out n);
+
+			double value;
+
+			//чтение правой части
+			rightPart = new List<double>(n);
+			for (int i = 0; i < n; i++)
+			{
+				double.TryParse(fileContent[1 + i], NumberStyles.Any, cultureInfo, out value);
+				rightPart.Add(value);
+			}
+		}
 
         //ввод матрицы в плотном формате
         private static void InputDenseMatrix(ref string[] fileContent, out object[] matrixView)
