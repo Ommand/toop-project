@@ -51,7 +51,7 @@ namespace toop_project.src.Logging
         {
             if (fileStream != null)
                 fileStream.Close();
-            fileStream = new System.IO.StreamWriter(filename,true);
+            fileStream = System.IO.File.AppendText(filename);
             Info("Logger started to work");
         }
 
