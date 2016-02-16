@@ -48,7 +48,7 @@ namespace toop_project.src.Vector
             }
         }
 
-        public IVector ConstMult(double multiple)
+        public IVector Mult(double multiple)
         {
              Vector vector = new Vector(); 
              foreach (var value in _vector)
@@ -68,24 +68,34 @@ namespace toop_project.src.Vector
             _vector.Clear();
         }
 
-        public double ScalarMult(IVector vec)
+        public double Dot(IVector vec)
         {
             double sum = 0;
-            for (int index = 0; index < vec.Size; index ++)
+            if (this.Size == vec.Size)
             {
-                sum += _vector[index] * vec[index];
+                for (int index = 0; index < vec.Size; index++)
+                {
+                    sum += _vector[index] * vec[index];
+                }
+                return sum;
             }
-            return sum;
+            else
+                throw new Exception();// Разобраться с типом исключения
         }
 
-        public IVector SumVectors(IVector vec)
+        public IVector Sum(IVector vec)
         {
-            Vector vector = new Vector();
-            for ( int index = 0; index < vec.Size; index++ )
+            if (this.Size == vec.Size)
             {
-                vector[index] = _vector[index] + vec[index];
+                Vector vector = new Vector(vec.Size);
+                for (int index = 0; index < vec.Size; index++)
+                {
+                    vector[index] = _vector[index] + vec[index];
+                }
+                return vector;
             }
-            return vector;
+            else
+                throw new Exception();// Разобраться с типом исключения
         }
 
         #endregion IVector
