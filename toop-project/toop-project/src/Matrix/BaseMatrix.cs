@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using  toop_project.src.Vector_;
+
 namespace toop_project.src.Matrix
 {
     public abstract class BaseMatrix

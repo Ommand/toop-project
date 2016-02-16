@@ -55,6 +55,7 @@
     <Compile Include="src\GUI\IGUI.cs" />
     <Compile Include="src\Logger\ILogger.cs" />
     <Compile Include="src\IO\IInputOutput.cs" />
+    <Compile Include="src\Matrix\BandMatrix.cs" />
     <Compile Include="src\Matrix\BaseMatrix.cs" />
     <Compile Include="src\Matrix\SparseMatrix.cs" />
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
