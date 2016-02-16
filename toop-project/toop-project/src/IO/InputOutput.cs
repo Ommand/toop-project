@@ -23,31 +23,31 @@ namespace toop_project.src.IO
 				//плотный формат
 				case "DENSE":
 				{
-					InputDenseMatrix(ref fileContent, out matrixView);
+					InputDenseMatrix(fileContent, out matrixView);
 					break;
 				}
 				//профильный формат
 				case "SKYLINE":
 				{
-					InputSkylineMatrix(ref fileContent, out matrixView);
+					InputSkylineMatrix(fileContent, out matrixView);
 					break;
 				}
 				//разреженный строчно-столбцовый формат
 				case "SPARSE":
 				{
-					InputSparseMatrix(ref fileContent, out matrixView);
+					InputSparseMatrix(fileContent, out matrixView);
 					break;
 				}
 				//диагональный формат
 				/*case "DIAGONAL":
 				{
-					//InputDiagonalMatrix(ref fileContent, out matrixView);
+					//InputDiagonalMatrix(fileContent, out matrixView);
 					break;
 				}
 				//ленточный формат
 				case "BAND":
 				{
-					//InputBandMatrix(ref fileContent, out matrixView);
+					//InputBandMatrix(fileContent, out matrixView);
 					break;
 				}*/
 				//если пользователь не заинтересован в корректном вводе
@@ -85,7 +85,7 @@ namespace toop_project.src.IO
 		}
 
 		//ввод матрицы в плотном формате
-		private static void InputDenseMatrix(ref string[] fileContent, out object[] matrixView)
+		private static void InputDenseMatrix(string[] fileContent, out object[] matrixView)
 		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -112,7 +112,7 @@ namespace toop_project.src.IO
 			matrixView[2] = matrix;
 		}
 
-		private static void InputSkylineMatrix(ref string[] fileContent, out object[] matrixView)
+		private static void InputSkylineMatrix(string[] fileContent, out object[] matrixView)
 		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -166,7 +166,7 @@ namespace toop_project.src.IO
 		}
 
 		//ввод матрицы в разреженном строчно-столбцовом формате
-		private static void InputSparseMatrix(ref string[] fileContent, out object[] matrixView)
+		private static void InputSparseMatrix(string[] fileContent, out object[] matrixView)
 		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -228,12 +228,12 @@ namespace toop_project.src.IO
 			matrixView[6] = au;
 		}
 
-		/*private static void InputDiagonalMatrix(ref string[] fileContent, out object[] matrixView)
+		/*private static void InputDiagonalMatrix(string[] fileContent, out object[] matrixView)
 		{
 
 		}
 
-		private static void InputBandMatrix(ref string[] fileContent, out object[] matrixView)
+		private static void InputBandMatrix(string[] fileContent, out object[] matrixView)
 		{
 
 		}*/
