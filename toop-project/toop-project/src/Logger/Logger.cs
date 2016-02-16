@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace toop_project.src.Logger
 {
-    class Logger
+    class Logger : IDisposable
     {
         private enum MessageType
         {
@@ -51,7 +51,7 @@ namespace toop_project.src.Logger
         {
             if (fileStream != null)
                 fileStream.Close();
-            fileStream = new System.IO.StreamWriter(filename);
+            fileStream = new System.IO.StreamWriter(filename,true);
             Info("Logger started to work");
         }
 
@@ -74,5 +74,35 @@ namespace toop_project.src.Logger
         {
             get { return log; }
         }
+
+        #region IDisposable 
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private bool m_Disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!m_Disposed)
+            {
+                if (fileStream != null)
+                {
+                    if (disposing)
+                        fileStream.Dispose();
+                }
+                m_Disposed = true;                             
+            }
+        }
+
+        ~Logger()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

@@ -53,7 +53,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="src\GUI\IGUI.cs" />
-    <Compile Include="src\Logger\ILogger.cs" />
+    <Compile Include="src\Logger\Logger.cs" />
     <Compile Include="src\Matrix\IMatrix.cs" />
     <Compile Include="src\IO\IInputOutput.cs" />
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
@@ -86,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="log\log.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
