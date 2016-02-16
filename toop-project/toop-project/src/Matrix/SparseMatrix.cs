@@ -89,7 +89,19 @@ namespace toop_project.src.Matrix
 
         public override Vector Multiply(Vector x)
         {
-            throw new NotImplementedException();
-        }
+            int i, j;
+            Vector v = new Vector(n);            
+            for (i = 0; i < n; i++)
+            {
+                v[i] = di[i] * x[i];
+		        for (j = ia[i]; j < ja[i + 1]; j++)
+		            {
+			            v[i] += al[j] * x[ja[j]];
+			            v[ja[j]] += au[j] * x[i];
+		            }
+            }
+            return v;	            
+	       
+         }
     }
 }
