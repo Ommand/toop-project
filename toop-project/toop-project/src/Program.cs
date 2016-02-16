@@ -14,12 +14,6 @@ namespace toop_project
         [STAThread]
         static void Main()
         {
-            src.Logger.Logger log = src.Logger.Logger.Instance;
-
-            List<int> list = null;
-
-            //list.Add(0);
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
