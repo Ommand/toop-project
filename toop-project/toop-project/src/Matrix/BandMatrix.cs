@@ -5,6 +5,42 @@ using System.Text;
 using System.Threading.Tasks;
 using toop_project.src.Vector_;
 
+/*
+    Реализация ленточного формата хранения матрицы.
+    В качестве характеристики ленты выступает полуширина.
+    Хранение следующее:
+    di - массив главной диагонали.
+    al - двумерный массив нижнего треугольника матрицы.
+    au - двумерный массив верхнего треугольника матрицы.
+    
+    Общий вид матрицы:
+    di u1 u2 u3 0 0 0 ...
+    l1 di u1 u2 u3 0 0 ...
+    l2 l1 di u1 u2 u3 0 ...
+    l3 l2 l1 di u1 u2 u3 ...
+    0 l3 l2 l1 di u1 u2 ...
+    0 0 l3 l2 l1 di u1 ...
+    0 0 0 l3 l2 l1 di ... 
+    ...................
+
+    Хранение элементов в массивах al, au:
+    al:
+    0  0  0
+    l1 0  0
+    l1 l2 0
+    l1 l2 l3
+    ........
+    l1 l2 l3
+
+    au:
+    0  0  0
+    u1 0  0
+    u1 u2 0
+    u1 u2 u3
+    ........
+    u1 u2 u3
+*/
+
 namespace toop_project.src.Matrix
 {
     public class BandMatrix: BaseMatrix
@@ -45,17 +81,29 @@ namespace toop_project.src.Matrix
 
         public override Vector LMult(Vector x, bool UseDiagonal)
         {
-            Vector result = new Vector(n);
-            result.Nullify();
             if (n == x.Size)
             {
-                for (int i = 0; i < n; i++)// обрабатываем i строку
+                Vector result = new Vector(n);
+                result.Nullify();
+                if (UseDiagonal)
                 {
-                    for (int j = i-1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
-                        result[i] += al[i][count] * x[j];
-                    if (UseDiagonal)
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
+                            result[i] += al[i][count] * x[j];
+
                         result[i] += di[i] * x[i];// обработка диагонального элемента
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
+                            result[i] += al[i][count] * x[j];
+                    }
+                }
+                
                 return result;
             }
             else
@@ -64,22 +112,61 @@ namespace toop_project.src.Matrix
 
         public override Vector LSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (n == x.Size)
+            {
+                Vector result = new Vector(n);
+// Разобраться с присваиванием, пока обобщенно написано            
+result = x;
+                if (UseDiagonal)
+                {
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
+                            result[i] -= al[i][count] * result[j];
+
+                        result[i] /= di[i];// обработка диагонального элемента
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
+                            result[i] -= al[i][count] * result[j];
+                    }
+                }
+                
+                return result;
+            }
+            else
+                throw new NotImplementedException();
         }
 
         public override Vector LtMult(Vector x, bool UseDiagonal)
         {
-            Vector result = new Vector(n);
-            result.Nullify();
             if (n == x.Size)
             {
-                for (int i = 0; i < n; i++)// обрабатываем i строку
+                Vector result = new Vector(n);
+                result.Nullify();
+                if (UseDiagonal)
                 {
-                    for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка нижнего транспонированного треугольника
-                        result[i] += al[j - i][count] * x[j];
-                    if (UseDiagonal)
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка нижнего транспонированного треугольника
+                            result[i] += al[j - i][count] * x[j];
+
                         result[i] += di[i] * x[i];// обработка диагонального элемента
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка нижнего транспонированного треугольника
+                            result[i] += al[j - i][count] * x[j];
+                    }
+                }
+                
                 return result;
             }
             else
@@ -93,17 +180,29 @@ namespace toop_project.src.Matrix
 
         public override Vector UMult(Vector x, bool UseDiagonal)
         {
-            Vector result = new Vector(n);
-            result.Nullify();
             if (n == x.Size)
             {
-                for (int i = 0; i < n; i++)// обрабатываем i строку
+                Vector result = new Vector(n);
+                result.Nullify();
+                if (UseDiagonal)
                 {
-                    for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка верхнего треугольника
-                        result[i] += au[j-i][count] * x[j];
-                    if (UseDiagonal)
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка верхнего треугольника
+                            result[i] += au[j - i][count] * x[j];
+
                         result[i] += di[i] * x[i];// обработка диагонального элемента
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка верхнего треугольника
+                            result[i] += au[j - i][count] * x[j];
+                    }
+                }
+               
                 return result;
             }
             else
@@ -112,22 +211,62 @@ namespace toop_project.src.Matrix
 
         public override Vector USolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (n == x.Size)
+            {
+                Vector result = new Vector(n);
+// Разобраться с присваиванием, пока обобщенно написано            
+result = x;
+                if (UseDiagonal)
+                {
+                    for (int i = n - 1; i >= 0; i--)// обрабатываем i строку
+                    {
+                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)
+                            result[i] -= au[j][count] * result[j];
+                       
+                        result[i] /= di[i] * x[i];// обработка диагонального элемента
+                    }
+                }
+                else
+                {
+                    for (int i = n - 1; i >= 0; i--)// обрабатываем i строку
+                    {
+                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)
+                            result[i] -= au[j][count] * result[j];
+                    }
+                }
+
+                return result;
+               
+            }
+            else
+                throw new NotImplementedException();
         }
 
         public override Vector UtMult(Vector x, bool UseDiagonal)
         {
-            Vector result = new Vector(n);
-            result.Nullify();
             if (n == x.Size)
             {
-                for (int i = 0; i < n; i++)// обрабатываем i строку
+                Vector result = new Vector(n);
+                result.Nullify();
+                if (UseDiagonal)
                 {
-                    for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка верхнего транспонирвоанного треугольника
-                        result[i] += au[i][count] * x[j];
-                    if (UseDiagonal)
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка верхнего транспонирвоанного треугольника
+                            result[i] += au[i][count] * x[j];
+
                         result[i] += di[i] * x[i];// обработка диагонального элемента
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    {
+                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка верхнего транспонирвоанного треугольника
+                            result[i] += au[i][count] * x[j];
+                    }
+                }
+               
                 return result;
             }
             else
