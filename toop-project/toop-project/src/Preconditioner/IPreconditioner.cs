@@ -7,7 +7,7 @@ using System.Threading.Tasks;
     {
         interface IPreconditioner
         {
-            void LU(toop_project.src.Matrix.IMatrix matrix, out toop_project.src.Matrix.IMatrix matrixPrecond);
+            void LU(toop_project.src.Matrix.BaseMatrix matrix, out toop_project.src.Matrix.BaseMatrix matrixPrecond);
             // void LLT (IMatrix matrix, out IMatrix matrixPrecond);
         }
     }
