@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace toop_project.src.Logger
+namespace toop_project.src.Logging
 {
     class Logger : IDisposable
     {

@@ -53,7 +53,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="src\GUI\IGUI.cs" />
-    <Compile Include="src\Logger\Logger.cs" />
+    <Compile Include="src\Logging\Logger.cs" />
     <Compile Include="src\IO\IInputOutput.cs" />
     <Compile Include="src\Matrix\BaseMatrix.cs" />
     <Compile Include="src\Matrix\SparseMatrix.cs" />
