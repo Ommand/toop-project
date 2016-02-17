@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using toop_project.src.Preconditioner;
 using toop_project.src.Vector_;
 namespace toop_project.src.Matrix
 {
-    public class SparseMatrix : BaseMatrix
+    public class SparseMatrix : BaseMatrix , IPreconditioner 
     {
         private int[] ia;
         private int[] ja;
@@ -275,8 +276,21 @@ namespace toop_project.src.Matrix
 			            v[ja[j]] += au[j] * x[i];
 		            }
             }
-            return v;	            
-	       
+            return v;	             
          }
+        #region Preconditioner
+        public BaseMatrix LU()
+        {
+            return this;
+        }
+        public BaseMatrix LUsq()
+        {
+            return this;
+        }
+        public BaseMatrix LLt()
+        {
+            return this;
+        }
+        #endregion Preconditioner
     }
 }
