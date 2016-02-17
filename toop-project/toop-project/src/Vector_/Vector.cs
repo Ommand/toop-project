@@ -10,14 +10,8 @@ namespace toop_project.src.Vector_
     {
         private double[] _vector;
 
-        private Vector(double[] v) { _vecotr = v;}
+        private Vector(double[] v) { _vector = v;}
 		
-		
-		public Vector()
-        {
-            _vector = new List<double>();
-        }
-
         public Vector(int capacity)
         {
             _vector = new double[capacity];
@@ -25,7 +19,7 @@ namespace toop_project.src.Vector_
 
         public object Clone()
         {
-            var vec = _vector.CLone() as double[];
+            var vec = _vector.Clone() as double[];
 			
 			Vector newvec = new Vector(vec);
 			return newvec;
@@ -71,7 +65,7 @@ namespace toop_project.src.Vector_
 
         public void Nullify()
         {
-            for (int index = 0; index < _vector.Count; index++)
+            for (int index = 0; index < _vector.Length; index++)
             {
                 _vector[index] = 0;
             }

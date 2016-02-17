@@ -12,7 +12,6 @@ namespace toop_project
 {
     public partial class Form1 : Form
     {
-        private InputOutput inputOutput;
         public Form1()
         {
             InitializeComponent();
