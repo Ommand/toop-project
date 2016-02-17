@@ -121,7 +121,27 @@ namespace toop_project.src.Matrix
 
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            int i, j;
+            Vector v = new Vector(n);
+            if (UseDiagonal == true)// Деление на динагональ
+            {
+                v = x;// в смысле копирование элементов
+                for (i = n - 1; i >= 0; i--)
+                {
+                    v[i] /= di[i];
+                    for (j = ia[i]; j < ia[i + 1]; j++)
+                        v[ja[j]] -= al[j] * v[i];
+                }
+                return v;
+            }
+            else// Без деления на диагональ
+            {
+                v = x;// в смысле копирование элементов
+                for (i = n - 1; i >= 0; i--)
+                    for (j = ia[i]; j < ia[i + 1]; j++)
+                        v[ja[j]] -= al[j] * v[i];
+                return v;
+            }
         }
 
         public override Vector TMultiply(Vector x)
