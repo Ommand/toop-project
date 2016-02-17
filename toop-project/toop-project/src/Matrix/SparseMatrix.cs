@@ -102,7 +102,18 @@ namespace toop_project.src.Matrix
 
         public override Vector TMultiply(Vector x)
         {
-            throw new NotImplementedException();
+            int i, j;
+            Vector v = new Vector(n);
+            for (i = 0; i < n; i++)
+            {
+                v[i] = di[i] * x[i];
+                for (j = ia[i]; j < ja[i + 1]; j++)
+                {
+                    v[i] += au[j] * x[ja[j]];
+                    v[ja[j]] += al[j] * x[i];
+                }
+            }
+            return v;
         }
 
         public override Vector UMult(Vector x, bool UseDiagonal)
