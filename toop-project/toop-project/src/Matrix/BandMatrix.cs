@@ -43,7 +43,7 @@ using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Matrix
 {
-    public class BandMatrix: BaseMatrix, IPreconditioner
+    public class BandMatrix: BaseMatrix
     {
         private double[] di; // диагональ
         private double[][] au;// верхняя половина
@@ -326,11 +326,8 @@ namespace toop_project.src.Matrix
             throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и вектора при умножении(T)");
         }
 
-        #endregion Matrix
+        #endregion
 
-        #region Preconditioner
-        public override void LU();
-        #endregion Preconditioner
     }
 
 
