@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace toop_project.src.Vector_
 {
-    public class Vector
+    public class Vector: ICloneable
     {
         private IList<double> _vector;
 
@@ -23,6 +23,14 @@ namespace toop_project.src.Vector_
         public void Add(double value)
         {
             _vector.Add(value);
+        }
+
+        public object Clone()
+        {
+            Vector vec = new Vector(this.Size);
+            for (int i = 0; i < this.Size; i++)
+                vec.Add(this[i]);
+            return vec;
         }
 
         #region Vector
@@ -83,7 +91,7 @@ namespace toop_project.src.Vector_
                 return sum;
             }
             else
-                throw new Exception("Не совпадение длин у операндов при скалярном умножении");// Разобраться с типом исключения
+                throw new Exception("Несовпадение длин у операндов при скалярном умножении");// Разобраться с типом исключения
         }
 
         public static Vector operator +(Vector v1, Vector v2)
@@ -98,8 +106,9 @@ namespace toop_project.src.Vector_
                 return vector;
             }
             else
-                throw new Exception("Не совпадение длин у операндов при сложении");
+                throw new Exception("Несовпадение длин у операндов при сложении");
         }
+
         #endregion Vector
     }
 }
