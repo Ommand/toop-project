@@ -68,7 +68,31 @@ namespace toop_project.src.Matrix
 
         public override Vector LSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            int i, j;
+            double result;
+            Vector v = new Vector(n);
+            if(UseDiagonal == true)// Деление на динагональ
+            {
+                for (i = 0; i < n; i++)
+                {
+                    result = 0;
+                    for ( j = ia[i]; j < ia[i + 1]; j++)                    
+                        result += al[j] * v[ja[j]];		            
+		            v[i] = (x[i] - result) / di[i];
+	            }
+                return v;
+            }
+            else// Без деления на диагональ
+            {
+                for (i = 0; i < n; i++)
+                {
+                    result = 0;
+                    for (j = ia[i]; j < ia[i + 1]; j++)
+                        result += al[j] * v[ja[j]];
+                    v[i] = (x[i] - result);
+                }
+                return v;
+            }
         }
 
         public override Vector LtMult(Vector x, bool UseDiagonal)
