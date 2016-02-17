@@ -329,7 +329,18 @@ namespace toop_project.src.Matrix
         #endregion Matrix
 
         #region Preconditioner
-        public override void LU();
+        public BaseMatrix LU()
+        {
+            return this;
+        }
+        public BaseMatrix LUsq()
+        {
+            return this;
+        }
+        public BaseMatrix LLt()
+        {
+            return this;
+        }
         #endregion Preconditioner
     }
 
