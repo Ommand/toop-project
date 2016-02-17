@@ -8,29 +8,27 @@ namespace toop_project.src.Vector_
 {
     public class Vector: ICloneable
     {
-        private IList<double> _vector;
+        private double[] _vector;
 
-        public Vector()
+        private Vector(double[] v) { _vecotr = v;}
+		
+		
+		public Vector()
         {
             _vector = new List<double>();
         }
 
         public Vector(int capacity)
         {
-            _vector = new List<double>(capacity);
-        }
-
-        public void Add(double value)
-        {
-            _vector.Add(value);
+            _vector = new double[capacity];
         }
 
         public object Clone()
         {
-            Vector vec = new Vector(this.Size);
-            for (int i = 0; i < this.Size; i++)
-                vec.Add(this[i]);
-            return vec;
+            var vec = _vector.CLone() as double[];
+			
+			Vector newvec = new Vector(vec);
+			return newvec;
         }
 
         #region Vector
@@ -52,7 +50,7 @@ namespace toop_project.src.Vector_
         {
             get
             {
-                return _vector.Count;
+                return _vector.Length;
             }
         }
 
