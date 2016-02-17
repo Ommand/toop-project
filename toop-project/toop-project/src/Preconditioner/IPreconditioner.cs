@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using toop_project.src.Matrix;
     namespace toop_project.src.Preconditioner
     {
         interface IPreconditioner
         {
-            void LU(out toop_project.src.Matrix.BaseMatrix matrixPrecond);
+        BaseMatrix LU();
+        BaseMatrix LLt();
+        BaseMatrix LUsq();
+
             // void LLT (IMatrix matrix, out IMatrix matrixPrecond);
         }
     }

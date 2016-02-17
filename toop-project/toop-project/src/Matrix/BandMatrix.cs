@@ -43,7 +43,7 @@ using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Matrix
 {
-    public class BandMatrix: BaseMatrix
+    public class BandMatrix: BaseMatrix, IPreconditioner
     {
         private double[] di; // диагональ
         private double[][] au;// верхняя половина
@@ -327,6 +327,22 @@ namespace toop_project.src.Matrix
         }
 
         #endregion
+
+
+        #region Preconditioner
+        public BaseMatrix LU()
+        {
+            return this;
+        }
+        public BaseMatrix LUsq()
+        {
+            return this;
+        }
+        public BaseMatrix LLt()
+        {
+            return this;
+        }
+        #endregion Preconditioner
 
     }
 
