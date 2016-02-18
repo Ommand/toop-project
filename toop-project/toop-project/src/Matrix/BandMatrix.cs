@@ -230,14 +230,19 @@ namespace toop_project.src.Matrix
                 if (UseDiagonal)
                 {
                     result[n - 1] /= di[n - 1];
-                    for (int i = n - 2; i >= 0; i--)
+                    for (int i = n - 1; i >= 0; i--)
+                    {
                         for (int j = bandWidth - 1; j >= 0; j--)
-                            result[i + bandWidth - j - 1] -= au[][] * result[i + bandWidth - j];
+                            result[i + j - bandWidth] -= au[i][j] * result[i];
+                        result[i] /= di[i];
+                    }
 
                 }
                 else
                 {
-                    
+                    for (int i = n - 1; i >= 0; i--)
+                        for (int j = bandWidth - 1; j >= 0; j--)
+                            result[i + j - bandWidth] -= au[i][j] * result[i];
                 }
 
                 return result;
