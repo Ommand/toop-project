@@ -22,7 +22,10 @@ namespace toop_project.src.Matrix
         {
             get
             {
-                throw new NotImplementedException();
+                Vector v = new Vector(n);
+                for (int i = 0; i < n; i++)
+                    v[i] = a[i][i];
+                return v;
             }
         }
 
@@ -30,7 +33,7 @@ namespace toop_project.src.Matrix
         {
             get
             {
-                throw new NotImplementedException();
+                return n; ;
             }
         }
 
@@ -56,7 +59,17 @@ namespace toop_project.src.Matrix
 
         public override Vector Multiply(Vector x)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов Multiply");
+            else
+            {
+                Vector v = new Vector(n);
+                for (int i = 0; i < n; i++)
+                    for (int j = 0; j < n; j++)
+                        v[i] += a[i][j] *x[j];
+                return v;
+            }
+           
         }
 
         public override Vector TMultiply(Vector x)
