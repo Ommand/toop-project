@@ -68,13 +68,21 @@ namespace toop_project.src.Matrix
                     for (int j = 0; j < n; j++)
                         v[i] += a[i][j] *x[j];
                 return v;
-            }
-           
+            }           
         }
 
         public override Vector TMultiply(Vector x)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов TMultiply");
+            else
+            {
+                Vector v = new Vector(n);
+                for (int i = 0; i < n; i++)
+                    for (int j = 0; j < n; j++)
+                        v[j] += a[i][j] * x[i];
+                return v;
+            }
         }
 
         public override Vector UMult(Vector x, bool UseDiagonal)
