@@ -7,13 +7,14 @@ using System.Windows.Forms;
 
 namespace toop_project.src.Logging
 {
-    class Logger : IDisposable
+    class Logger : ILogger,ISolverLogger,IDisposable
     {
         private enum MessageType
         {
             ERROR,
             DEBUG,
-            INFO
+            INFO,
+            SOLVER
         };
 
         private string defaultLogFile = "../../log/log.txt";
@@ -32,6 +33,8 @@ namespace toop_project.src.Logging
             }
 
         }
+
+        #region ILogger
         private void AddLine(MessageType type, string line)
         {
             string message = String.Format("[{0}][{1}] {2}", type, DateTime.Now, line);
@@ -69,7 +72,15 @@ namespace toop_project.src.Logging
         {
             AddLine(MessageType.ERROR, message);
         }
+        #endregion
 
+        #region ISolverLogger
+        public void AddIterationInfo(int num, double residual)
+        {
+            AddLine(MessageType.SOLVER, String.Format("Solving: iteration number {0}, residual is {1}", num, residual));
+        }
+
+        #endregion
         public List<string> Log
         {
             get { return log; }
