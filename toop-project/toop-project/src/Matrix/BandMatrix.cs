@@ -55,7 +55,7 @@ namespace toop_project.src.Matrix
 
         public BandMatrix(int bandWidth, double[] di, double[][] al, double[][] au)
         {
-            this.n = di.Count();
+            this.n = di.Length;
             this.bandWidth = bandWidth;
             this.di = di;
             this.al = al;
@@ -89,21 +89,32 @@ namespace toop_project.src.Matrix
                 result.Nullify();
                 if (UseDiagonal)
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    result[0] = di[0] * x[0];
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
                     {
-                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
-                            result[i] += al[i][count] * x[j];
-
-                        result[i] += di[i] * x[i];// обработка диагонального элемента
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] += al[i][j] * x[j + i - bandWidth];
+                        result[i] += di[i] * x[i];
+                    }
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                    {
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] += al[i][j - i + bandWidth] * x[j];
+                        result[i] += di[i] * x[i];
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
-                    {
-                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
-                            result[i] += al[i][count] * x[j];
-                    }
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] += al[i][j] * x[j + i - bandWidth];
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] += al[i][j - i + bandWidth] * x[j];
                 }
                 
                 return result;
@@ -116,27 +127,36 @@ namespace toop_project.src.Matrix
         {
             if (n == x.Size)
             {
-                //Vector result = new Vector(n);
-                // Разобраться с присваиванием, пока обобщенно написано            
-                //result = x;
+               
                 Vector result = (Vector)x.Clone();
                 if (UseDiagonal)
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    result[0] /= di[0];
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
                     {
-                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
-                            result[i] -= al[i][count] * result[j];
-
-                        result[i] /= di[i];// обработка диагонального элемента
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] -= al[i][j] * result[j + i - bandWidth];
+                        result[i] /= di[i];
+                    }
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                    {
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] -= al[i][j - i + bandWidth] * result[j];
+                        result[i] /= di[i];
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
-                    {
-                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
-                            result[i] -= al[i][count] * result[j];
-                    }
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] -= al[i][j] * result[j + i - bandWidth];
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] -= al[i][j - i + bandWidth] * result[j];
                 }
                 
                 return result;
@@ -151,25 +171,19 @@ namespace toop_project.src.Matrix
             {
                 Vector result = new Vector(n);
                 result.Nullify();
+                
+                for (int j = 0; j < bandWidth; j++)
+                {
+                    for (int i = bandWidth - j; i < n; i++)
+                        result[i - bandWidth + j] += al[i][j] * x[i + bandWidth - j];
+                }
+
                 if (UseDiagonal)
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
-                    {
-                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка нижнего транспонированного треугольника
-                            result[i] += al[j - i][count] * x[j];
+                    for (int i = 0; i < n; i++)
+                        result[i] += di[i] * x[i];
+                }
 
-                        result[i] += di[i] * x[i];// обработка диагонального элемента
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
-                    {
-                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка нижнего транспонированного треугольника
-                            result[i] += al[j - i][count] * x[j];
-                    }
-                }
-                
                 return result;
             }
             else
@@ -187,25 +201,18 @@ namespace toop_project.src.Matrix
             {
                 Vector result = new Vector(n);
                 result.Nullify();
+                for (int j = 0; j < bandWidth; j++)
+                {
+                    for (int i = bandWidth - j; i < n; i++)
+                        result[i - bandWidth + j] += au[i][j] * x[i + bandWidth - j];
+                }
+
                 if (UseDiagonal)
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
-                    {
-                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка верхнего треугольника
-                            result[i] += au[j - i][count] * x[j];
-
-                        result[i] += di[i] * x[i];// обработка диагонального элемента
-                    }
+                    for (int i = 0; i < n; i++)
+                        result[i] += di[i] * x[i];
                 }
-                else
-                {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
-                    {
-                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка верхнего треугольника
-                            result[i] += au[j - i][count] * x[j];
-                    }
-                }
-               
+                              
                 return result;
             }
             else
@@ -222,21 +229,15 @@ namespace toop_project.src.Matrix
                 Vector result = (Vector) x.Clone();
                 if (UseDiagonal)
                 {
-                    for (int i = n - 1; i >= 0; i--)// обрабатываем i строку
-                    {
-                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)
-                            result[i] -= au[j][count] * result[j];
-                       
-                        result[i] /= di[i] * x[i];// обработка диагонального элемента
-                    }
+                    result[n - 1] /= di[n - 1];
+                    for (int i = n - 2; i >= 0; i--)
+                        for (int j = bandWidth - 1; j >= 0; j--)
+                            result[i + bandWidth - j - 1] -= au[][] * result[i + bandWidth - j];
+
                 }
                 else
                 {
-                    for (int i = n - 1; i >= 0; i--)// обрабатываем i строку
-                    {
-                        for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)
-                            result[i] -= au[j][count] * result[j];
-                    }
+                    
                 }
 
                 return result;
@@ -254,23 +255,34 @@ namespace toop_project.src.Matrix
                 result.Nullify();
                 if (UseDiagonal)
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
+                    result[0] = di[0] * x[0];
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
                     {
-                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка верхнего транспонирвоанного треугольника
-                            result[i] += au[i][count] * x[j];
-
-                        result[i] += di[i] * x[i];// обработка диагонального элемента
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] += au[i][j] * x[j + i - bandWidth];
+                        result[i] += di[i] * x[i];
+                    }
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                    {
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] += au[i][j - i + bandWidth] * x[j];
+                        result[i] += di[i] * x[i];
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < n; i++)// обрабатываем i строку
-                    {
-                        for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка верхнего транспонирвоанного треугольника
-                            result[i] += au[i][count] * x[j];
-                    }
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] += au[i][j] * x[j + i - bandWidth];
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] += au[i][j - i + bandWidth] * x[j];
                 }
-               
+
                 return result;
             }
             else
@@ -288,17 +300,27 @@ namespace toop_project.src.Matrix
             result.Nullify();
             if (n == x.Size)
             {
-                for (int i = 0; i < n; i++)// обрабатываем i строку
+                // Нижний треугольник
+                // Обработка части al, где есть 0
+                for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                    for (int j = bandWidth - i; j < bandWidth; j++)
+                        result[i] += al[i][j] * x[j + i - bandWidth];
+                //Обработка без 0
+                for (int i = bandWidth; i < n; i++)
+                    for (int j = i - bandWidth; j < i; j++)
+                        result[i] += al[i][j - i + bandWidth] * x[j];
+
+                //Диагональ
+                for (int i = 0; i < n; i++)
+                    result[i] += di[i] * x[i];
+
+                //Верхний треугольник
+                for (int j = 0; j < bandWidth; j++)
                 {
-                    for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка нижнего треугольника
-                        result[i] += al[i][count] * x[j];
-
-                    result[i] += di[i] * x[i];// обработка диагонального элемента
-
-                    for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка верхнего треугольника
-                        result[i] += au[j - i][count] * x[j];
-
+                    for (int i = bandWidth - j; i < n; i++)
+                        result[i - bandWidth + j] += au[i][j] * x[i + bandWidth - j];
                 }
+
                 return result;
             }
             throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и вектора при умножении");
@@ -310,17 +332,27 @@ namespace toop_project.src.Matrix
             result.Nullify();
             if (n == x.Size)
             {
-                for (int i = 0; i < n; i++)// обрабатываем i строку
+                // Верхний треугольник
+                // Обработка части au, где есть 0
+                for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                    for (int j = bandWidth - i; j < bandWidth; j++)
+                        result[i] += au[i][j] * x[j + i - bandWidth];
+                //Обработка без 0
+                for (int i = bandWidth; i < n; i++)
+                    for (int j = i - bandWidth; j < i; j++)
+                        result[i] += au[i][j - i + bandWidth] * x[j];
+
+                //Диагональ
+                for (int i = 0; i < n; i++)
+                    result[i] += di[i] * x[i];
+
+                //Нижний треугольник
+                for (int j = 0; j < bandWidth; j++)
                 {
-                    for (int j = i - 1, count = 0; j >= 0 && count < bandWidth; j--, count++)// обработка верхнего t треугольника
-                        result[i] += au[i][count] * x[j];
-
-                    result[i] += di[i] * x[i];// обработка диагонального элемента
-
-                    for (int j = i + 1, count = 0; j < n && count < bandWidth; j++, count++)// обработка нижнего t треугольника
-                        result[i] += al[j - i][count] * x[j];
-
+                    for (int i = bandWidth - j; i < n; i++)
+                        result[i - bandWidth + j] += al[i][j] * x[i + bandWidth - j];
                 }
+
                 return result;
             }
             throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и вектора при умножении(T)");
