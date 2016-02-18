@@ -9,7 +9,5 @@ namespace toop_project.src.Logging
     interface ISolverLogger
     {
         void AddIterationInfo(int num,double residual);
-
-        void SetFile(string filename);
     }
 }
