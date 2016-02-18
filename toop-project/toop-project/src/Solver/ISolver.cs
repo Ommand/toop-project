@@ -11,8 +11,8 @@ namespace toop_project.src.Solver
 {
     interface ISolver
     {
-   Vector Solve(BaseMatrix matr, Vector rightpart, Vector initial,
-                        Logger logger, double eps, int maxiter);
+   Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
+                        Logger logger, double epsilon, int maxIterations, double optionalRelaxationParameter = 1);
         string Name { get; }
     }
 }
