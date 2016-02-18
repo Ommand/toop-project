@@ -26,7 +26,6 @@ namespace toop_project.src.Solver
             int size, k;
             double relativeResidual, w;
             Vector DUx, DFx, Db;
-            string info;
 
             size = initialSolution.Size;           
             x = new Vector(size);
@@ -41,9 +40,7 @@ namespace toop_project.src.Solver
             relativeResidual = r.Norm() / rightPart.Norm();
             Db = diagonalSolve(diagonal, rightPart);
 
-            info = "k = " + k.ToString() + "    r = " + 
-                    relativeResidual.ToString() + "\n";
-            logger.Info(info);
+            logger.AddIterationInfo(k, relativeResidual);
             
             while (k <= maxIterations && relativeResidual > epsilon)
             {
@@ -57,9 +54,7 @@ namespace toop_project.src.Solver
                 r = matrix.Multiply(x) + rightPart * (-1);
                 relativeResidual = r.Norm() / rightPart.Norm();
 
-                info = "k = " + k.ToString() + "    r = " +
-                        relativeResidual.ToString() + "\n";
-                logger.Info(info);
+                logger.AddIterationInfo(k, relativeResidual);
             }
 
             return x;
