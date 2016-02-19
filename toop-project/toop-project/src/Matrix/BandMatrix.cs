@@ -126,8 +126,7 @@ namespace toop_project.src.Matrix
         public override Vector LSolve(Vector x, bool UseDiagonal)
         {
             if (n == x.Size)
-            {
-               
+            { 
                 Vector result = (Vector)x.Clone();
                 if (UseDiagonal)
                 {
