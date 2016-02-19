@@ -91,10 +91,50 @@ namespace toop_project.src.Matrix
             {
                 Vector result = (Vector)x.Clone();
 
+                if (UseDiagonal)
+                {
+                    result[0] /= di[0];
+                    int i;
+                    // Спускаемся, пока не дойдем до последней диагонали
+                    for (i = 1; i < shift_l[0]; i++)
+                        result[i] /= di[i];
+                    for (int k = 0; k < shift_l.Length; k++)
+                    {
+                        for (; i < shift_l[k + 1]; i++)
+                        {
+                            for (int j = k; j >= 0; j--)
+                                result[i] -= al[i][j] * result[i - shift_l[j]];
+                            result[i] /= di[i];
+                        }
+                    }
+                    //Спустились до последней диагонали, обрабатываем все вместе
+                    for (; i < di.Length; i++)
+                    {
+                        for (int j = 0; j < shift_l.Length; j++)
+                            result[i] -= al[i][j] * result[i-shift_l[j]];
+                        result[i] /= di[i];
+                    }
+                }
+                else
+                {
+                    int i = 1;
+                    // Спускаемся, пока не дойдем до последней диагонали
+                    
+                    for (int k = 0; k < shift_l.Length; k++)
+                        for (; i < shift_l[k + 1]; i++)
+                            for (int j = k; j >= 0; j--)
+                                result[i] -= al[i][j] * result[i - shift_l[j]];
+
+                    //Спустились до последней диагонали, обрабатываем все вместе
+                    for (; i < di.Length; i++)
+                        for (int j = 0; j < shift_l.Length; j++)
+                            result[i] -= al[i][j] * result[i - shift_l[j]];
+                }
+
                 return result;
             }
             else
-                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в умножении нижнего треугольника");
+                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в прямом ходе");
         }
 
         public override Vector LtMult(Vector x, bool UseDiagonal)
@@ -200,7 +240,34 @@ namespace toop_project.src.Matrix
 
         public override Vector USolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (di.Length == x.Size)
+            {
+                Vector result = (Vector)x.Clone();
+
+                if (UseDiagonal)
+                {
+                    int n = di.Length - shift_u[shift_u.Length - 1];
+
+                    result[di.Length - 1] /= di[di.Length - 1];
+                    for (int i = di.Length - 2; i >= n; i--)
+                    {
+                        for (int j = 0; j < shift_u.Length; j++)
+                            result[i-shift_u[j]] -= au[i+1][shift_u[j]] * result[i + 1];
+                        result[i] /= di[i];
+                    }
+                }
+                else
+                {
+                    int n = di.Length - shift_u[shift_u.Length - 1];
+
+                    for (int i = di.Length - 2; i >= n; i--)                    
+                        for (int j = 0; j < shift_u.Length; j++)
+                            result[i - shift_u[j]] -= au[i + 1][shift_u[j]] * result[i + 1];
+                }
+                return result;
+            }
+            else
+                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в умножении нижнего треугольника");
         }
 
         public override Vector UtMult(Vector x, bool UseDiagonal)
