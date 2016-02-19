@@ -22,7 +22,7 @@ namespace toop_project
 			switch (matrixFormat)
 			{
 				//плотный формат
-				/*case "DENSE":
+				case "DENSE":
 				{
 					InputDenseMatrix(fileContent, out matrix);
 					break;
@@ -86,7 +86,7 @@ namespace toop_project
 		}
 
 		//ввод матрицы в плотном формате
-		/*private static void InputDenseMatrix(string[] fileContent, out BaseMatrix matrix)
+		private static void InputDenseMatrix(string[] fileContent, out BaseMatrix matrix)
 		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -107,11 +107,7 @@ namespace toop_project
 			}
 
 			//формирование образа матрицы на вывод
-			matrixView = new object[3];
-
-			matrixView[0] = 1;
-			matrixView[1] = n;
-			matrixView[2] = matrix;
+			matrix = new DenseMatrix(matr);
 		}
 
 		//ввод матрицы в профильном формате
