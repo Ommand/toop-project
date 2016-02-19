@@ -162,7 +162,7 @@ namespace toop_project.src.Matrix
                 return result;
             }
             else
-                throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и ветора при прямом ходе");
+                throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и вектора при прямом ходе");
         }
 
         public override Vector LtMult(Vector x, bool UseDiagonal)
@@ -192,7 +192,35 @@ namespace toop_project.src.Matrix
 
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (n == x.Size)
+            {
+                //Vector result = new Vector(n);
+                // Разобраться с присваиванием, пока обобщенно написано            
+                //result =  x;
+                Vector result = (Vector)x.Clone();
+                if (UseDiagonal)
+                {
+                    result[n - 1] /= di[n - 1];
+                    for (int i = n - 1; i >= 0; i--)
+                    {
+                        for (int j = bandWidth - 1; j >= 0; j--)
+                            result[i + j - bandWidth] -= al[i][j] * result[i];
+                        result[i] /= di[i];
+                    }
+
+                }
+                else
+                {
+                    for (int i = n - 1; i >= 0; i--)
+                        for (int j = bandWidth - 1; j >= 0; j--)
+                            result[i + j - bandWidth] -= al[i][j] * result[i];
+                }
+
+                return result;
+
+            }
+            else
+                throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и вектора при прямом (T) ходе");
         }
 
         public override Vector UMult(Vector x, bool UseDiagonal)
@@ -296,7 +324,44 @@ namespace toop_project.src.Matrix
 
         public override Vector UtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (n == x.Size)
+            {
+
+                Vector result = (Vector)x.Clone();
+                if (UseDiagonal)
+                {
+                    result[0] /= di[0];
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                    {
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] -= au[i][j] * result[j + i - bandWidth];
+                        result[i] /= di[i];
+                    }
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                    {
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] -= au[i][j - i + bandWidth] * result[j];
+                        result[i] /= di[i];
+                    }
+                }
+                else
+                {
+                    // Обработка части al, где есть 0
+                    for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                        for (int j = bandWidth - i; j < bandWidth; j++)
+                            result[i] -= au[i][j] * result[j + i - bandWidth];
+                    //Обработка без 0
+                    for (int i = bandWidth; i < n; i++)
+                        for (int j = i - bandWidth; j < i; j++)
+                            result[i] -= au[i][j - i + bandWidth] * result[j];
+                }
+
+                return result;
+            }
+            else
+                throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и вектора при обратном (T) ходе");
         }
 
         public override Vector Multiply(Vector x)
