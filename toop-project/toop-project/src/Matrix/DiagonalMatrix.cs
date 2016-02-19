@@ -63,6 +63,16 @@ namespace toop_project.src.Matrix
 
 
         #region Matrix
+
+        public DiagonalMatrix(double[] di, double[][] al, double[][] au, int[] shift_l, int[] shift_u)
+        {
+            this.di = di;
+            this.al = al;
+            this.au = au;
+            this.shift_l = shift_l;
+            this.shift_u = shift_u;
+        }
+
         public override Vector LMult(Vector x, bool UseDiagonal)
         {
             if (di.Length == x.Size)
