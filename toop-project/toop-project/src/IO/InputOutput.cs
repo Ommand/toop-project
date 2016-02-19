@@ -5,61 +5,62 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.IO;
+using toop_project.src.Matrix;
 
 namespace toop_project
 {
-    static class InputOutput
-    {
+	static class InputOutput
+	{
 		//метод для чтения матрицы из файла
-        public static void InputMatrix(string fileName, out object[] matrixView)
-        {
-            StreamReader streamReader = new StreamReader(fileName);
-            string[] fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+		public static void InputMatrix(string fileName, out BaseMatrix matrix)
+		{
+			StreamReader streamReader = new StreamReader(fileName);
+			string[] fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
 			string matrixFormat = fileContent[0];
 
-            switch (matrixFormat)
-            {
+			switch (matrixFormat)
+			{
 				//плотный формат
 				case "DENSE":
 				{
-					InputDenseMatrix(ref fileContent, out matrixView);
+					InputDenseMatrix(fileContent, out matrix);
 					break;
 				}
 				//профильный формат
+				/*
 				case "SKYLINE":
 				{
-					InputSkylineMatrix(ref fileContent, out matrixView);
+					InputSkylineMatrix(fileContent, out matrix);
 					break;
-				}
+				}*/
 				//разреженный строчно-столбцовый формат
 				case "SPARSE":
 				{
-					InputSparseMatrix(ref fileContent, out matrixView);
+					InputSparseMatrix(fileContent, out matrix);
 					break;
 				}
 				//диагональный формат
-				/*case "DIAGONAL":
+				case "DIAGONAL":
 				{
-					//InputDiagonalMatrix(ref fileContent, out matrixView);
+					InputDiagonalMatrix(fileContent, out matrix);
 					break;
 				}
 				//ленточный формат
 				case "BAND":
 				{
-					//InputBandMatrix(ref fileContent, out matrixView);
+					InputBandMatrix(fileContent, out matrix);
 					break;
-				}*/
+				}
 				//если пользователь не заинтересован в корректном вводе
 				default:
 				{
-					matrixView = new object[1];
-					matrixView[0] = 0;
+					matrix = null;
 					//throw какой-нибудь эксепшен
 					break;
 				}
-            }
-        }
+			}
+		}
 
 		//метод для чтения правой части из файла
 		public static void InputRightPart(string fileName, out List<double> rightPart)
@@ -84,9 +85,9 @@ namespace toop_project
 			}
 		}
 
-        //ввод матрицы в плотном формате
-        private static void InputDenseMatrix(ref string[] fileContent, out object[] matrixView)
-        {
+		//ввод матрицы в плотном формате
+		private static void InputDenseMatrix(string[] fileContent, out BaseMatrix matrix)
+		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
 
@@ -95,24 +96,22 @@ namespace toop_project
 			int.TryParse(fileContent[1], out n);
 
 			//чтение матрицы
-			double[,] matrix = new double[n, n];
+			double[][] matr = new double[n][];
 			for (int i = 0; i < n; i++)
 			{
-				for (int j = 0; j < n; j++)
+				matr[i] = new double[n];
+				for (int j = 0; j < n; j++, pos++)
 				{
-					double.TryParse(fileContent[pos + i * n + j], NumberStyles.Any, cultureInfo, out matrix[i, j]);
+					double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out matr[i][j]);
 				}
 			}
 
-			//формирование образа матрицы на вывод
-			matrixView = new object[3];
-
-			matrixView[0] = 1;
-			matrixView[1] = n;
-			matrixView[2] = matrix;
+			//формирование новой плотной матрицы
+			matrix = new DenseMatrix(matr);
 		}
 
-		private static void InputSkylineMatrix(ref string[] fileContent, out object[] matrixView)
+		//ввод матрицы в профильном формате
+		/*private static void InputSkylineMatrix(string[] fileContent, out BaseMatrix matrix)
 		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -163,11 +162,11 @@ namespace toop_project
 			matrixView[3] = di;
 			matrixView[4] = al;
 			matrixView[5] = au;
-		}
+		}*/
 
 		//ввод матрицы в разреженном строчно-столбцовом формате
-		private static void InputSparseMatrix(ref string[] fileContent, out object[] matrixView)
-        {
+		private static void InputSparseMatrix(string[] fileContent, out BaseMatrix matrix)
+		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
 
@@ -177,66 +176,110 @@ namespace toop_project
 
 			//чтение ia
 			int[] ia = new int[n];
-			for (int i = 0; i < n; i++)
+			for (int i = 0; i < n; i++, pos++)
 			{
-				int.TryParse(fileContent[pos + i], out ia[i]);
+				int.TryParse(fileContent[pos], out ia[i]);
 			}
-			pos += n;
 
 			int m = ia[n - 1];
 
 			//чтение ja
 			int[] ja = new int[m];
-			for (int i = 0; i < m; i++)
+			for (int i = 0; i < m; i++, pos++)
 			{
-				int.TryParse(fileContent[pos + i], out ja[i]);
+				int.TryParse(fileContent[pos], out ja[i]);
 			}
-			pos += m;
 
 			//чтение di
 			double[] di = new double[n];
-			for (int i = 0; i < n; i++)
+			for (int i = 0; i < n; i++, pos++)
 			{
-				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out di[i]);
+				double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out di[i]);
 			}
-			pos += n;
 
 			//чтение al
 			double[] al = new double[m];
-			for (int i = 0; i < m; i++)
+			for (int i = 0; i < m; i++, pos++)
 			{
-				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out al[i]);
+				double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out al[i]);
 			}
-			pos += m;
 
 			//чтение au
 			double[] au = new double[m];
-			for (int i = 0; i < m; i++)
+			for (int i = 0; i < m; i++, pos++)
 			{
-				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out au[i]);
+				double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out au[i]);
 			}
 
-			//формирование образа матрицы на вывод
-			matrixView = new object[7];
-
-			matrixView[0] = 3;
-			matrixView[1] = n;
-			matrixView[2] = ia;
-			matrixView[3] = ja;
-			matrixView[4] = di;
-			matrixView[5] = al;
-			matrixView[6] = au;
+			//формирование новой разреженной матрицы
+			matrix = new SparseMatrix(ia, ja, al, au, di);
 		}
 
-		/*private static void InputDiagonalMatrix(ref string[] fileContent, out object[] matrixView)
+		//ввод матрицы в диагональном формате
+		private static void InputDiagonalMatrix(string[] fileContent, out BaseMatrix matrix)
 		{
+			int pos = 2;
+			CultureInfo cultureInfo = new CultureInfo("en-US");
+
+			//чтение n
+			int n;
+			int.TryParse(fileContent[1], out n);
+
 
 		}
 
-		private static void InputBandMatrix(ref string[] fileContent, out object[] matrixView)
+		//ввод матрицы в ленточном формате
+		private static void InputBandMatrix(string[] fileContent, out BaseMatrix matrix)
 		{
+			int pos = 3;
+			CultureInfo cultureInfo = new CultureInfo("en-US");
 
-		}*/
+			//чтение n
+			int n;
+			int.TryParse(fileContent[1], out n);
 
-    }
+			//чтение ширины полуленты
+			int bandWidth;
+			int.TryParse(fileContent[2], out bandWidth);
+
+			//ширина полуленты не может превышать значение n - 1
+			if (bandWidth > n - 1)
+			{
+				//throw какой-нибудь эксепшен
+			}
+
+			//чтение di
+			double[] di = new double[n];
+			for (int i = 0; i < n; i++, pos++)
+			{
+				double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out di[i]);
+			}
+
+			//чтение al
+			double[][] al = new double[n][];
+			for (int i = 0; i < n; i++)
+			{
+				al[i] = new double[bandWidth];
+				for (int j = (bandWidth - i) > 0 ? (bandWidth - i) : 0; j < bandWidth; j++, pos++)
+				{
+					double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out al[i][j]);
+				}
+			}
+
+			//чтение au
+			double[][] au = new double[n][];
+			for (int i = 0; i < n; i++)
+			{
+				au[i] = new double[bandWidth];
+				for (int j = (bandWidth - i) > 0 ? (bandWidth - i) : 0; j < bandWidth; j++, pos++)
+				{
+					double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out au[i][j]);
+				}
+			}
+
+			//формирование новой ленточной матрицы
+			matrix = new BandMatrix(bandWidth, di, al, au);
+		}
+
+	}
 }

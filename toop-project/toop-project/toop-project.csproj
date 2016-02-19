@@ -59,6 +59,7 @@
     <Compile Include="src\Logging\Logger.cs" />
     <Compile Include="src\Matrix\BaseMatrix.cs" />
     <Compile Include="src\Matrix\DenseMatrix.cs" />
+    <Compile Include="src\Matrix\DiagonalMatrix.cs" />
     <Compile Include="src\Matrix\SparseMatrix.cs" />
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
     <Compile Include="src\Solver\ISolver.cs" />
