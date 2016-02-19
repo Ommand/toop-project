@@ -41,11 +41,12 @@ namespace toop_project
 					break;
 				}
 				//диагональный формат
+				/*
 				case "DIAGONAL":
 				{
 					InputDiagonalMatrix(fileContent, out matrix);
 					break;
-				}
+				}*/
 				//ленточный формат
 				case "BAND":
 				{
@@ -216,7 +217,7 @@ namespace toop_project
 		}
 
 		//ввод матрицы в диагональном формате
-		private static void InputDiagonalMatrix(string[] fileContent, out BaseMatrix matrix)
+		/*private static void InputDiagonalMatrix(string[] fileContent, out BaseMatrix matrix)
 		{
 			int pos = 2;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -226,7 +227,7 @@ namespace toop_project
 			int.TryParse(fileContent[1], out n);
 
 
-		}
+		}*/
 
 		//ввод матрицы в ленточном формате
 		private static void InputBandMatrix(string[] fileContent, out BaseMatrix matrix)
