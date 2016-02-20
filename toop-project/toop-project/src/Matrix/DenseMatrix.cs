@@ -70,7 +70,28 @@ namespace toop_project.src.Matrix
 
         public override Vector LtMult(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов LMult");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j <= i; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j < i; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+
+            }
         }
 
         public override Vector LtSolve(Vector x, bool UseDiagonal)
