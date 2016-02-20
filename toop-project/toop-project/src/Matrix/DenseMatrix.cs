@@ -264,7 +264,36 @@ namespace toop_project.src.Matrix
 
         public override Vector UtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов UtSolve");
+            else
+            {
+                double result;
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                    {
+                        result = 0;
+                        for (int j = 0; j < i; j++)
+                            result += a[j][i] * v[j];
+                        v[i] = (x[i] - result) / a[i][i];
+                    }
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                    {
+                        result = 0;
+                        for (int j = 0; j < i; j++)
+                            result += a[j][i] * v[j];
+                        v[i] = (x[i] - result);
+                    }
+                    return v;
+                }
+            }
         }
         #endregion Matrix
     }
