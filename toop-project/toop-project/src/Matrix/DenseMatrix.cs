@@ -71,7 +71,7 @@ namespace toop_project.src.Matrix
         public override Vector LtMult(Vector x, bool UseDiagonal)
         {
             if (x.Size != n)
-                throw new Exception("Несовпадение длин у операндов LMult");
+                throw new Exception("Несовпадение длин у операндов LtMult");
             else
             {
                 if (UseDiagonal == true)
@@ -130,7 +130,38 @@ namespace toop_project.src.Matrix
         public override Vector UMult(Vector x, bool UseDiagonal)
         {
             if (x.Size != n)
-                throw new Exception("Несовпадение длин у операндов LMult");
+                throw new Exception("Несовпадение длин у операндов UMult");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = i; j < n; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = i + 1; j < n; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+
+            }
+        }
+
+        public override Vector USolve(Vector x, bool UseDiagonal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Vector UtMult(Vector x, bool UseDiagonal)
+        {
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов UMult");
             else
             {
                 if (UseDiagonal == true)
@@ -151,16 +182,6 @@ namespace toop_project.src.Matrix
                 }
 
             }
-        }
-
-        public override Vector USolve(Vector x, bool UseDiagonal)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Vector UtMult(Vector x, bool UseDiagonal)
-        {
-            throw new NotImplementedException();
         }
 
         public override Vector UtSolve(Vector x, bool UseDiagonal)
