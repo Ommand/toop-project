@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.IO;
 using toop_project.src.Matrix;
+using toop_project.src.Vector_;
 
 namespace toop_project
 {
@@ -41,12 +42,11 @@ namespace toop_project
 					break;
 				}
 				//диагональный формат
-				/*
 				case "DIAGONAL":
 				{
 					InputDiagonalMatrix(fileContent, out matrix);
 					break;
-				}*/
+				}
 				//ленточный формат
 				case "BAND":
 				{
@@ -64,7 +64,7 @@ namespace toop_project
 		}
 
 		//метод для чтения правой части из файла
-		public static void InputRightPart(string fileName, out List<double> rightPart)
+		public static void InputRightPart(string fileName, out Vector rightPart)
 		{
 			CultureInfo cultureInfo = new CultureInfo("en-US");
 
@@ -75,14 +75,14 @@ namespace toop_project
 			int n;
 			int.TryParse(fileContent[0], out n);
 
-			double value;
+			double bi;
 
 			//чтение правой части
-			rightPart = new List<double>(n);
+			rightPart = new Vector(n);
 			for (int i = 0; i < n; i++)
 			{
-				double.TryParse(fileContent[1 + i], NumberStyles.Any, cultureInfo, out value);
-				rightPart.Add(value);
+				double.TryParse(fileContent[1 + i], NumberStyles.Any, cultureInfo, out bi);
+				rightPart[i] = bi;
 			}
 		}
 
@@ -217,17 +217,75 @@ namespace toop_project
 		}
 
 		//ввод матрицы в диагональном формате
-		/*private static void InputDiagonalMatrix(string[] fileContent, out BaseMatrix matrix)
+		private static void InputDiagonalMatrix(string[] fileContent, out BaseMatrix matrix)
 		{
-			int pos = 2;
+			int pos = 4;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
 
 			//чтение n
 			int n;
 			int.TryParse(fileContent[1], out n);
 
+			//чтение nl
+			int nl;
+			int.TryParse(fileContent[2], out nl);
 
-		}*/
+			//чтение nu
+			int nu;
+			int.TryParse(fileContent[3], out nu);
+
+			//чтение shiftl
+			int[] shiftl = new int[nl];
+			for (int i = 0; i < nl; i++, pos++)
+			{
+				int.TryParse(fileContent[pos], out shiftl[i]);
+			}
+
+			//чтение shiftu
+			int[] shiftu = new int[nu];
+			for (int i = 0; i < nu; i++, pos++)
+			{
+				int.TryParse(fileContent[pos], out shiftu[i]);
+			}
+
+			//чтение di
+			double[] di = new double[n];
+			for (int i = 0; i < n; i++, pos++)
+			{
+				double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out di[i]);
+			}
+
+			//чтение al
+			double[][] al = new double[n][];
+			for (int i = 0; i < n; i++)
+			{
+				al[i] = new double[nl];
+			}
+			for (int i = 0; i < nl; i++)
+			{
+				for (int j = shiftl[i]; j < n; j++, pos++)
+				{
+					double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out al[j][i]);
+				}
+			}
+
+			//чтение au
+			double[][] au = new double[n][];
+			for (int i = 0; i < n; i++)
+			{
+				au[i] = new double[nu];
+			}
+			for (int i = 0; i < nu; i++)
+			{
+				for (int j = shiftu[i]; j < n; j++, pos++)
+				{
+					double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out au[j][i]);
+				}
+			}
+
+			//формирование новой диагональной матрицы
+			matrix = new DiagonalMatrix(di, al, au, shiftl, shiftu);
+		}
 
 		//ввод матрицы в ленточном формате
 		private static void InputBandMatrix(string[] fileContent, out BaseMatrix matrix)
