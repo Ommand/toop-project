@@ -125,7 +125,32 @@ namespace toop_project.src.Matrix
 
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов LtSolve");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = n - 1; i >= 0; i--)
+                    {
+                        v[i] /= a[i][i];
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[j][i] * v[i];
+                    }
+                    return v;
+                }
+                else
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = n - 1; i >= 0; i--)
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[j][i] * v[i];
+                    return v;
+                }
+            }
         }
 
         public override Vector Multiply(Vector x)
