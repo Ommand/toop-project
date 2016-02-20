@@ -39,22 +39,118 @@ namespace toop_project.src.Matrix
 
         public override Vector LMult(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов LMult");
+            else
+            {
+                if(UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j <= i; j++)
+                            v[i] += a[i][j] * x[j];
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j < i; j++)
+                            v[i] += a[i][j] * x[j];
+                    return v;
+                }
+                
+            }
         }
 
         public override Vector LSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов LSolve");
+            else
+            {
+                double result;
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                    {
+                        result = 0;
+                        for (int j = 0; j < i; j++)
+                            result += a[i][j] * v[j];
+                        v[i] = (x[i] - result) / a[i][i];
+                    }                        
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                    {
+                        result = 0;
+                        for (int j = 0; j < i; j++)
+                            result += a[i][j] * v[j];
+                        v[i] = (x[i] - result);
+                    }
+                    return v;
+                }
+            }
         }
 
         public override Vector LtMult(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов LtMult");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j <= i; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j < i; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+
+            }
         }
 
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов LtSolve");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = n - 1; i >= 0; i--)
+                    {
+                        v[i] /= a[i][i];
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[j][i] * v[i];
+                    }
+                    return v;
+                }
+                else
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = n - 1; i >= 0; i--)
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[j][i] * v[i];
+                    return v;
+                }
+            }
         }
 
         public override Vector Multiply(Vector x)
@@ -87,22 +183,117 @@ namespace toop_project.src.Matrix
 
         public override Vector UMult(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов UMult");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = i; j < n; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = i + 1; j < n; j++)
+                            v[j] += a[i][j] * x[i];
+                    return v;
+                }
+            }
         }
 
         public override Vector USolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов USolve");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = n - 1; i >= 0; i--)
+                    {
+                        v[i] /= a[i][i];
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[i][j] * v[i];                       
+                    }                        
+                    return v;
+                }
+                else
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = n - 1; i >= 0; i--)                                          
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[i][j] * v[i];                   
+                    return v;
+                }
+            }
         }
 
         public override Vector UtMult(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов UMult");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = i; j < n; j++)
+                            v[i] += a[i][j] * x[j];
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                        for (int j = i + 1; j < n; j++)
+                            v[i] += a[i][j] * x[j];
+                    return v;
+                }
+
+            }
         }
 
         public override Vector UtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов UtSolve");
+            else
+            {
+                double result;
+                if (UseDiagonal == true)
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                    {
+                        result = 0;
+                        for (int j = 0; j < i; j++)
+                            result += a[j][i] * v[j];
+                        v[i] = (x[i] - result) / a[i][i];
+                    }
+                    return v;
+                }
+                else
+                {
+                    Vector v = new Vector(n);
+                    for (int i = 0; i < n; i++)
+                    {
+                        result = 0;
+                        for (int j = 0; j < i; j++)
+                            result += a[j][i] * v[j];
+                        v[i] = (x[i] - result);
+                    }
+                    return v;
+                }
+            }
         }
         #endregion Matrix
     }
