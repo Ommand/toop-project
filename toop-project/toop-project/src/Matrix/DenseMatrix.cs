@@ -178,13 +178,37 @@ namespace toop_project.src.Matrix
                             v[j] += a[i][j] * x[i];
                     return v;
                 }
-
             }
         }
 
         public override Vector USolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != n)
+                throw new Exception("Несовпадение длин у операндов UMult");
+            else
+            {
+                if (UseDiagonal == true)
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = 0; i < n; i++)
+                    {
+                        v[i] /= a[i][i];
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[i][j] * v[i];                       
+                    }                        
+                    return v;
+                }
+                else
+                {
+                    Vector v;
+                    v = (Vector)x.Clone();// в смысле копирование элементов
+                    for (int i = 0; i < n; i++)                                          
+                        for (int j = i + 1; j < n; j++)
+                            v[j] -= a[i][j] * v[i];                   
+                    return v;
+                }
+            }
         }
 
         public override Vector UtMult(Vector x, bool UseDiagonal)
