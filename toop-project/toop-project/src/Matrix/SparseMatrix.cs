@@ -58,7 +58,7 @@ namespace toop_project.src.Matrix
                     for (i = 0; i < n; i++)
                     {
                         v[i] = di[i] * x[i];
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[i] += al[j] * x[ja[j]];
                     }
                     return v;
@@ -66,7 +66,7 @@ namespace toop_project.src.Matrix
                 else// если без диагонали
                 {
                     for (i = 0; i < n; i++)
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[i] += al[j] * x[ja[j]];
 
                     return v;
@@ -121,7 +121,7 @@ namespace toop_project.src.Matrix
                     for (i = 0; i < n; i++)
                     {
                         v[i] = di[i] * x[i];
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[ja[j]] += al[j] * x[i];
                     }
                     return v;
@@ -129,7 +129,7 @@ namespace toop_project.src.Matrix
                 else// если без диагонали
                 {
                     for (i = 0; i < n; i++)
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[ja[j]] += al[j] * x[i];
 
                     return v;
@@ -178,7 +178,7 @@ namespace toop_project.src.Matrix
                 for (i = 0; i < n; i++)
                 {
                     v[i] = di[i] * x[i];
-                    for (j = ia[i]; j < ja[i + 1]; j++)
+                    for (j = ia[i]; j < ia[i + 1]; j++)
                     {
                         v[i] += au[j] * x[ja[j]];
                         v[ja[j]] += al[j] * x[i];
@@ -201,7 +201,7 @@ namespace toop_project.src.Matrix
                     for (i = 0; i < n; i++)
                     {
                         v[i] = di[i] * x[i];
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[ja[j]] += au[j] * x[i];
                     }
                     return v;
@@ -209,7 +209,7 @@ namespace toop_project.src.Matrix
                 else// если без диагонали
                 {
                     for (i = 0; i < n; i++)
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[ja[j]] += au[j] * x[i];
 
                     return v;
@@ -260,7 +260,7 @@ namespace toop_project.src.Matrix
                     for (i = 0; i < n; i++)
                     {
                         v[i] = di[i] * x[i];
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[i] += au[j] * x[ja[j]];
                     }
                     return v;
@@ -268,7 +268,7 @@ namespace toop_project.src.Matrix
                 else// если без диагонали
                 {
                     for (i = 0; i < n; i++)
-                        for (j = ia[i]; j < ja[i + 1]; j++)
+                        for (j = ia[i]; j < ia[i + 1]; j++)
                             v[i] += au[j] * x[ja[j]];
 
                     return v;
@@ -322,7 +322,7 @@ namespace toop_project.src.Matrix
                 for (i = 0; i < n; i++)
                 {
                     v[i] = di[i] * x[i];
-                    for (j = ia[i]; j < ja[i + 1]; j++)
+                    for (j = ia[i]; j < ia[i + 1]; j++)
                     {
                         v[i] += al[j] * x[ja[j]];
                         v[ja[j]] += au[j] * x[i];
