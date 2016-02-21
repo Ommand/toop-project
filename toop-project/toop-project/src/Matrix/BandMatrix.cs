@@ -174,7 +174,7 @@ namespace toop_project.src.Matrix
                 for (int j = 0; j < bandWidth; j++)
                 {
                     for (int i = bandWidth - j; i < n; i++)
-                        result[i - bandWidth + j] += al[i][j] * x[i + bandWidth - j];
+                        result[i - bandWidth + j] += al[i][j] * x[i];
                 }
 
                 if (UseDiagonal)
@@ -200,19 +200,33 @@ namespace toop_project.src.Matrix
                 if (UseDiagonal)
                 {
                     result[n - 1] /= di[n - 1];
-                    for (int i = n - 1; i >= 0; i--)
+                    // без 0
+                    for (int i = n - 1; i >= bandWidth; i--)
                     {
                         for (int j = bandWidth - 1; j >= 0; j--)
                             result[i + j - bandWidth] -= al[i][j] * result[i];
-                        result[i-1] /= di[i-1];
+                        result[i - 1] /= di[i - 1];
+                    }
+                    // с 0 
+                    for (int i = bandWidth - 1; i > 0; i--)
+                    {
+                        for (int j = bandWidth - 1; j >= bandWidth - i; j--)
+                            result[i + j - bandWidth] -= al[i][j] * result[i];
+                        result[i - 1] /= di[i - 1];
                     }
 
                 }
                 else
                 {
-                    for (int i = n - 1; i >= 0; i--)
+                    // без 0
+                    for (int i = n - 1; i >= bandWidth; i--)
                         for (int j = bandWidth - 1; j >= 0; j--)
                             result[i + j - bandWidth] -= al[i][j] * result[i];
+                    // с 0 
+                    for (int i = bandWidth - 1; i > 0; i--)
+                        for (int j = bandWidth - 1; j >= bandWidth - i; j--)
+                            result[i + j - bandWidth] -= al[i][j] * result[i];
+
                 }
 
                 return result;
@@ -231,7 +245,7 @@ namespace toop_project.src.Matrix
                 for (int j = 0; j < bandWidth; j++)
                 {
                     for (int i = bandWidth - j; i < n; i++)
-                        result[i - bandWidth + j] += au[i][j] * x[i + bandWidth - j];
+                        result[i - bandWidth + j] += au[i][j] * x[i];
                 }
 
                 if (UseDiagonal)
@@ -257,19 +271,33 @@ namespace toop_project.src.Matrix
                 if (UseDiagonal)
                 {
                     result[n - 1] /= di[n - 1];
-                    for (int i = n - 1; i > 0; i--)
+                    // без 0
+                    for (int i = n - 1; i >= bandWidth; i--)
                     {
                         for (int j = bandWidth - 1; j >= 0; j--)
                             result[i + j - bandWidth] -= au[i][j] * result[i];
-                        result[i-1] /= di[i-1];
+                        result[i - 1] /= di[i - 1];
+                    }
+                    // с 0 
+                    for (int i = bandWidth - 1; i > 0; i--)
+                    {
+                        for (int j = bandWidth - 1; j >= bandWidth - i; j--)
+                            result[i + j - bandWidth] -= au[i][j] * result[i];
+                        result[i - 1] /= di[i - 1];
                     }
 
                 }
                 else
                 {
-                    for (int i = n - 1; i > 0; i--)
+                    // без 0
+                    for (int i = n - 1; i >= bandWidth; i--)
                         for (int j = bandWidth - 1; j >= 0; j--)
                             result[i + j - bandWidth] -= au[i][j] * result[i];
+                    // с 0 
+                    for (int i = bandWidth - 1; i > 0; i--)
+                        for (int j = bandWidth - 1; j >= bandWidth - i; j--)
+                            result[i + j - bandWidth] -= au[i][j] * result[i];
+                        
                 }
 
                 return result;
@@ -387,7 +415,7 @@ namespace toop_project.src.Matrix
                 for (int j = 0; j < bandWidth; j++)
                 {
                     for (int i = bandWidth - j; i < n; i++)
-                        result[i - bandWidth + j] += au[i][j] * x[i + bandWidth - j];
+                        result[i - bandWidth + j] += au[i][j] * x[i];
                 }
 
                 return result;
@@ -419,7 +447,7 @@ namespace toop_project.src.Matrix
                 for (int j = 0; j < bandWidth; j++)
                 {
                     for (int i = bandWidth - j; i < n; i++)
-                        result[i - bandWidth + j] += al[i][j] * x[i + bandWidth - j];
+                        result[i - bandWidth + j] += al[i][j] * x[i];
                 }
 
                 return result;
