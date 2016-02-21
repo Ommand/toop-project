@@ -461,15 +461,103 @@ namespace toop_project.src.Matrix
         #region Preconditioner
         public BaseMatrix LU()
         {
-            return this;
+            double[] diPrecond = new double[n];
+            double[][] alPrecond = new double[n][];
+            double[][] auPrecond = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                alPrecond[i] = new double[bandWidth];
+                auPrecond[i] = new double[bandWidth];
+            }
+            for (int i = 0; i < n; i++)
+            {
+                double diSum = 0;
+                for (int k = 0; k < bandWidth; k++)
+                {
+                    diSum += alPrecond[i][k] * auPrecond[i][k];
+                }
+                diPrecond[i] = di[i] - diSum;
+                diSum = 0;
+                int countRow = Math.Min(i + bandWidth + 1, n);
+                for (int j = i + 1; j < countRow; j++)
+                {
+                    double sumL = 0;
+                    double sumU = 0;
+                    for (int k = i - (j - bandWidth) - 1, p = bandWidth - 1; k >= 0; k--, p--)
+                    {
+                        sumL += alPrecond[j][k] * auPrecond[i][p];
+                        sumU += alPrecond[i][p] * auPrecond[j][k];
+                    }
+                    alPrecond[j][i - (j - bandWidth)] = al[j][i - (j - bandWidth)] - sumL;
+                    auPrecond[j][i - (j - bandWidth)] = (au[j][i - (j - bandWidth)] - sumU) / diPrecond[i];
+                }
+            }
+            return new BandMatrix(bandWidth, diPrecond, alPrecond, auPrecond);
         }
         public BaseMatrix LUsq()
         {
-            return this;
+            double[] diPrecond = new double[n];
+            double[][] alPrecond = new double[n][];
+            double[][] auPrecond = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                alPrecond[i] = new double[bandWidth];
+                auPrecond[i] = new double[bandWidth];
+            }
+            for (int i = 0; i < n; i++)
+            {
+                double diSum = 0;
+                for (int k = 0; k < bandWidth; k++)
+                {
+                    diSum += alPrecond[i][k] * auPrecond[i][k];
+                }
+                diPrecond[i] = Math.Sqrt(di[i] - diSum);
+                diSum = 0;
+                int countRow = Math.Min(i + bandWidth + 1, n);
+                for (int j = i + 1; j < countRow; j++)
+                {
+                    double sumL = 0;
+                    double sumU = 0;
+                    for (int k = i - (j - bandWidth) - 1, p = bandWidth - 1; k >= 0; k--, p--)
+                    {
+                        sumL += alPrecond[j][k] * auPrecond[i][p];
+                        sumU += alPrecond[i][p] * auPrecond[j][k];
+                    }
+                    alPrecond[j][i - (j - bandWidth)] = (al[j][i - (j - bandWidth)] - sumL) / diPrecond[i];
+                    auPrecond[j][i - (j - bandWidth)] = (au[j][i - (j - bandWidth)] - sumU) / diPrecond[i];
+                }
+            }
+            return new BandMatrix(bandWidth, diPrecond, alPrecond, auPrecond);
         }
         public BaseMatrix LLt()
         {
-            return this;
+            double[] diPrecond = new double[n];
+            double[][] alPrecond = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                alPrecond[i] = new double[bandWidth];
+            }
+            for (int i = 0; i < n; i++)
+            {
+                double diSum = 0;
+                for (int k = 0; k < bandWidth; k++)
+                {
+                    diSum += alPrecond[i][k] * alPrecond[i][k];
+                }
+                diPrecond[i] = Math.Sqrt(di[i] - diSum);
+                diSum = 0;
+                int countRow = Math.Min(i + bandWidth + 1, n);
+                for (int j = i + 1; j < countRow; j++)
+                {
+                    double sumL = 0;
+                    for (int k = i - (j - bandWidth) - 1, p = bandWidth - 1; k >= 0; k--, p--)
+                    {
+                        sumL += alPrecond[j][k] * alPrecond[i][p];
+                    }
+                    alPrecond[j][i - (j - bandWidth)] = (al[j][i - (j - bandWidth)] - sumL) / diPrecond[i];
+                }
+            }
+            return new BandMatrix(bandWidth, diPrecond, alPrecond, alPrecond);
         }
         #endregion Preconditioner
 
