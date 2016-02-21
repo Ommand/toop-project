@@ -9,7 +9,7 @@ using toop_project.src.Matrix;
         interface IPreconditioner
         {
         BaseMatrix LU();
-        BaseMatrix LLt();
+        BaseMatrix LLt(); // Только для симметричной матрицы, все элементы хранятся в al
         BaseMatrix LUsq();
 
         }
