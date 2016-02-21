@@ -10,20 +10,20 @@ namespace toop_project.src.Matrix
 {
     class ProfileMatrix : BaseMatrix, IPreconditioner
     {
-        private int[] _ia;
+        private int[] _ig;
         private double[] _al;
         private double[] _au;
         private double[] _di;
         private int _count;
 
-        public ProfileMatrix(int[] ia , double[] al , double[] au, double[] di)
+        public ProfileMatrix(int[] ig , double[] al , double[] au, double[] di)
         {
-            _ia = ia;
+            _ig = ig;
             _al = al;
             _au = au;
             _di = di;
             _count = di.Length;
-            if (_ia.Length != _count + 1 || _ia[_count] != al.Length 
+            if (_ig.Length != _count + 1 || _ig[_count] != al.Length 
                  || al.Length != au.Length)
                 throw new Exception("Некорректная матрица");
         }
@@ -55,7 +55,80 @@ namespace toop_project.src.Matrix
             if (x.Size != _count)
                 throw new Exception("Несовпадение длин у операндов LMult");
 
+            Vector vector = new Vector(_count);
+     
+            for (int row = 0; row < _count; row++)
+            {
+                int index = _ig[row];
+                for (int column = row - (_ig[row + 1] - index); column < row; column++,index++)
+                    vector[row] += _al[index] * x[column];
+            }
+                      
+            if (UseDiagonal)
+                for (int index = 0; index < _count; index++)
+                    vector[index] += _di[index] * x[index];
+            return vector;
 
+        }
+
+        public override Vector UMult(Vector x, bool UseDiagonal)
+        {
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов UMult");
+
+            Vector vector = new Vector(_count);
+
+            for (int column = 0; column < _count; column++)
+            {
+                int index = _ig[column];
+                for (int row = column - (_ig[column + 1] - index); row < column; row++, index++)
+                    vector[row] += _al[index] * x[column];
+            }
+
+            if (UseDiagonal)
+                for (int index = 0; index < _count; index++)
+                    vector[index] += _di[index] * x[index];
+            return vector;
+        }
+
+        public override Vector LtMult(Vector x, bool UseDiagonal)
+        {
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов LtMult");
+
+            Vector vector = new Vector(_count);
+
+            for (int row = 0; row < _count; row++)
+            {
+                int index = _ig[row];
+                for (int column = row - (_ig[row + 1] - index); column < row; column++, index++)
+                    vector[column] += _al[index] * x[row];
+            }
+
+            if (UseDiagonal)
+                for (int index = 0; index < _count; index++)
+                    vector[index] += _di[index] * x[index];
+            return vector;
+        }
+
+        public override Vector UtMult(Vector x, bool UseDiagonal)
+        {
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов UtMult");
+
+            Vector vector = new Vector(_count);
+
+            for (int column = 0; column < _count; column++)
+            {
+                int index = _ig[column];
+                for (int row = column - (_ig[column + 1] - index); row < column; row++, index++)
+                    vector[column] += _al[index] * x[row];
+            }
+
+            if (UseDiagonal)
+                for (int index = 0; index < _count; index++)
+                    vector[index] += _di[index] * x[index];
+            return vector;
         }
 
         public override Vector LSolve(Vector x, bool UseDiagonal)
@@ -63,10 +136,7 @@ namespace toop_project.src.Matrix
             throw new NotImplementedException();
         }
 
-        public override Vector LtMult(Vector x, bool UseDiagonal)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
@@ -85,20 +155,14 @@ namespace toop_project.src.Matrix
             throw new NotImplementedException();
         }
 
-        public override Vector UMult(Vector x, bool UseDiagonal)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public override Vector USolve(Vector x, bool UseDiagonal)
         {
             throw new NotImplementedException();
         }
 
-        public override Vector UtMult(Vector x, bool UseDiagonal)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public override Vector UtSolve(Vector x, bool UseDiagonal)
         {
