@@ -12,7 +12,6 @@ using toop_project.src.Matrix;
         BaseMatrix LLt();
         BaseMatrix LUsq();
 
-            // void LLT (IMatrix matrix, out IMatrix matrixPrecond);
         }
     }
 
