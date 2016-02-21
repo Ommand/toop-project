@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using toop_project.src.Vector_;
+using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Matrix
 {
-    class DenseMatrix : BaseMatrix
+    class DenseMatrix : BaseMatrix,IPreconditioner
     {
         private double[][] a;
         private int n;
@@ -296,5 +297,98 @@ namespace toop_project.src.Matrix
             }
         }
         #endregion Matrix
+            #region Preconditioner 
+        public BaseMatrix LU()
+        {
+            double[][] aPrecond = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                aPrecond[i] = new double[n];
+            }
+            for (int i = 0; i < n; i++)
+            {
+                double sumdi = 0;
+                for (int k = 0; k < i; k++)
+                {
+                    sumdi += aPrecond[i][k] * aPrecond[k][i];
+                }
+                aPrecond[i][i] = a[i][i] - sumdi;
+                sumdi = 0;
+                for (int j = i + 1; j < n; j++)
+                {
+                    double sumL = 0;
+                    double sumU = 0;
+                    for (int k = 0; k < i; k++)
+                    {
+                        sumL += aPrecond[j][k] * aPrecond[k][i];
+                        sumU += aPrecond[i][k] * aPrecond[k][j];
+                    }
+                    aPrecond[j][i] = a[j][i] - sumL;
+                    aPrecond[i][j] = (a[i][j] - sumU) / aPrecond[i][i];
+                }
+            }
+            return new DenseMatrix(aPrecond);
+        }
+        public BaseMatrix LUsq()
+        {
+            double[][] aPrecond = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                aPrecond[i] = new double[n];
+            }
+            for (int i = 0; i < n; i++)
+            {
+                double sumdi = 0;
+                for (int k = 0; k < i; k++)
+                {
+                    sumdi += aPrecond[i][k] * aPrecond[k][i];
+                }
+                aPrecond[i][i] = Math.Sqrt(a[i][i] - sumdi);
+                sumdi = 0;
+                for (int j = i + 1; j < n; j++)
+                {
+                    double sumL = 0;
+                    double sumU = 0;
+                    for (int k = 0; k < i; k++)
+                    {
+                        sumL += aPrecond[j][k] * aPrecond[k][i];
+                        sumU += aPrecond[i][k] * aPrecond[k][j];
+                    }
+                    aPrecond[j][i] = (a[j][i] - sumL) / aPrecond[i][i];
+                    aPrecond[i][j] = (a[i][j] - sumU) / aPrecond[i][i];
+                }
+            }
+            return new DenseMatrix(aPrecond);
+        }
+        public BaseMatrix LLt() 
+        {
+            double[][] aPrecond = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                aPrecond[i] = new double[n];
+            }
+            for (int i = 0; i < n; i++)
+            {
+                double sumdi = 0;
+                for (int k = 0; k < i; k++)
+                {
+                    sumdi += aPrecond[i][k] * aPrecond[i][k];
+                }
+                aPrecond[i][i] = Math.Sqrt(a[i][i] - sumdi);
+                sumdi = 0;
+                for (int j = i + 1; j < n; j++)
+                {
+                    double sumL = 0;
+                    for (int k = 0; k < i; k++)
+                    {
+                        sumL += aPrecond[j][k] * aPrecond[k][i];
+                    }
+                    aPrecond[j][i] = aPrecond[i][j] = (a[j][i] - sumL) / aPrecond[i][i];
+                }
+            }
+            return new DenseMatrix(aPrecond);
+        }
+
+#endregion Preconditioner
     }
 }
