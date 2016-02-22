@@ -12,7 +12,7 @@ namespace toop_project.src.Solver
     interface ISolver
     {
    Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                        ILogger logger, ISolverLogger solverLogger , ISolverParametrs solverParametrs);
+                        Logger logger, double epsilon, int maxIterations, double optionalRelaxationParameter = 1);
         string Name { get; }
     }
 }

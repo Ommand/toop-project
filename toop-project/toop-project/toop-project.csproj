@@ -55,7 +55,6 @@
     <Compile Include="src\GUI\IGUI.cs" />
     <Compile Include="src\Logging\ILogger.cs" />
     <Compile Include="src\Logging\ISolverLogger.cs" />
-    <Compile Include="src\Solver\ISolverParametrs.cs" />
     <Compile Include="src\Matrix\BandMatrix.cs" />
     <Compile Include="src\Logging\Logger.cs" />
     <Compile Include="src\Matrix\BaseMatrix.cs" />
