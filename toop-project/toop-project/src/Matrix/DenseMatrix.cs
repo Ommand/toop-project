@@ -193,7 +193,7 @@ namespace toop_project.src.Matrix
                     Vector v = new Vector(n);
                     for (int i = 0; i < n; i++)
                         for (int j = i; j < n; j++)
-                            v[j] += a[i][j] * x[i];
+                            v[i] += a[i][j] * x[j];
                     return v;
                 }
                 else
@@ -201,7 +201,7 @@ namespace toop_project.src.Matrix
                     Vector v = new Vector(n);
                     for (int i = 0; i < n; i++)
                         for (int j = i + 1; j < n; j++)
-                            v[j] += a[i][j] * x[i];
+                            v[i] += a[i][j] * x[j];
                     return v;
                 }
             }
