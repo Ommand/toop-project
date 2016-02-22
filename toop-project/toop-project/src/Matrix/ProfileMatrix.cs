@@ -171,22 +171,113 @@ namespace toop_project.src.Matrix
         #endregion Matrix
 
         #region Preconditioner
-
         public BaseMatrix LU()
         {
-            throw new NotImplementedException();
+            int[] igPrecond = new int[_count + 1];
+            for (int i = 0; i < _count + 1; i++)
+                igPrecond[i] = _ig[i];
+            double[] alPrecond = new double[_al.Count()];
+            double[] auPrecond = new double[_au.Count()];
+            double[] diPrecond = new double[_count];
+            for (int i = 0; i < _count; i++)
+            {
+                double diSum = 0;
+                for (int k = _ig[i]; k < _ig[i + 1]; k++)
+                {
+                    diSum += alPrecond[k] * auPrecond[k];
+                }
+                diPrecond[i] = _di[i] - diSum;
+                diSum = 0;
+                for (int j = i + 1; j < _count; j++)
+                {
+                    int minCount = Math.Min(i - (j - (_ig[j + 1] - _ig[j])), _ig[i + 1] - _ig[i]);
+                    if (minCount >= 0)
+                    {
+                        double sumL = 0;
+                        double sumU = 0;
+                        for (int k = _ig[j] + (i - (j - (_ig[j + 1] - _ig[j]))) - 1, p = _ig[i + 1] - 1, m = 0; m < minCount; m++, k--, p--)
+                        {
+                            sumL += alPrecond[k] * auPrecond[p];
+                            sumU += alPrecond[p] * auPrecond[k];
+                        }
+                        int index = _ig[j] + (i - (j - (_ig[j + 1] - _ig[j])));
+                        alPrecond[index] = _al[index] - sumL;
+                        auPrecond[index] = (_au[index] - sumU) / diPrecond[i];
+                    }
+                }
+            }
+            return new ProfileMatrix(igPrecond, alPrecond, auPrecond, diPrecond);
         }
-
-        public BaseMatrix LUsq()
-        {
-            throw new NotImplementedException();
-        }
-
         public BaseMatrix LLt()
         {
-            throw new NotImplementedException();
+            int[] igPrecond = new int[_count + 1];
+            for (int i = 0; i < _count + 1; i++)
+                igPrecond[i] = _ig[i];
+            double[] alPrecond = new double[_al.Count()];
+            double[] diPrecond = new double[_count];
+            for (int i = 0; i < _count; i++)
+            {
+                double diSum = 0;
+                for (int k = _ig[i]; k < _ig[i + 1]; k++)
+                {
+                    diSum += alPrecond[k] * alPrecond[k];
+                }
+                diPrecond[i] = Math.Sqrt(_di[i] - diSum);
+                diSum = 0;
+                for (int j = i + 1; j < _count; j++)
+                {
+                    int minCount = Math.Min(i - (j - (_ig[j + 1] - _ig[j])), _ig[i + 1] - _ig[i]);
+                    if (minCount >= 0)
+                    {
+                        double sumL = 0;
+                        for (int k = _ig[j] + (i - (j - (_ig[j + 1] - _ig[j]))) - 1, p = _ig[i + 1] - 1, m = 0; m < minCount; m++, k--, p--)
+                        {
+                            sumL += alPrecond[k] * alPrecond[p];
+                        }
+                        int index = _ig[j] + (i - (j - (_ig[j + 1] - _ig[j])));
+                        alPrecond[index] = (_al[index] - sumL) / diPrecond[i];
+                    }
+                }
+            }
+            return new ProfileMatrix(igPrecond, alPrecond, alPrecond, diPrecond);
         }
-
+        public BaseMatrix LUsq()
+        {
+            int[] igPrecond = new int[_count + 1];
+            for (int i = 0; i < _count + 1; i++)
+                igPrecond[i] = _ig[i];
+            double[] alPrecond = new double[_al.Count()];
+            double[] auPrecond = new double[_au.Count()];
+            double[] diPrecond = new double[_count];
+            for (int i = 0; i < _count; i++)
+            {
+                double diSum = 0;
+                for (int k = _ig[i]; k < _ig[i + 1]; k++)
+                {
+                    diSum += alPrecond[k] * auPrecond[k];
+                }
+                diPrecond[i] = Math.Sqrt(_di[i] - diSum);
+                diSum = 0;
+                for (int j = i + 1; j < _count; j++)
+                {
+                    int minCount = Math.Min(i - (j - (_ig[j + 1] - _ig[j])), _ig[i + 1] - _ig[i]);
+                    if (minCount >= 0)
+                    {
+                        double sumL = 0;
+                        double sumU = 0;
+                        for (int k = _ig[j] + (i - (j - (_ig[j + 1] - _ig[j]))) - 1, p = _ig[i + 1] - 1, m = 0; m < minCount; m++, k--, p--)
+                        {
+                            sumL += alPrecond[k] * auPrecond[p];
+                            sumU += alPrecond[p] * auPrecond[k];
+                        }
+                        int index = _ig[j] + (i - (j - (_ig[j + 1] - _ig[j])));
+                        alPrecond[index] = (_al[index] - sumL) / diPrecond[i];
+                        auPrecond[index] = (_au[index] - sumU) / diPrecond[i];
+                    }
+                }
+            }
+            return new ProfileMatrix(igPrecond, alPrecond, auPrecond, diPrecond);
+        }
         #endregion Preconditioner
     }
 }
