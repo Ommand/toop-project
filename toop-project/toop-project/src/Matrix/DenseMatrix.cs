@@ -136,9 +136,10 @@ namespace toop_project.src.Matrix
                     v = (Vector)x.Clone();// в смысле копирование элементов
                     for (int i = n - 1; i >= 0; i--)
                     {
-                        v[i] /= a[i][i];
+                       
                         for (int j = i + 1; j < n; j++)
-                            v[j] -= a[j][i] * v[i];
+                            v[i] -= a[j][i] * v[j];
+                        v[i] /= a[i][i];
                     }
                     return v;
                 }
@@ -148,7 +149,7 @@ namespace toop_project.src.Matrix
                     v = (Vector)x.Clone();// в смысле копирование элементов
                     for (int i = n - 1; i >= 0; i--)
                         for (int j = i + 1; j < n; j++)
-                            v[j] -= a[j][i] * v[i];
+                            v[i] -= a[j][i] * v[j];
                     return v;
                 }
             }
@@ -193,7 +194,7 @@ namespace toop_project.src.Matrix
                     Vector v = new Vector(n);
                     for (int i = 0; i < n; i++)
                         for (int j = i; j < n; j++)
-                            v[j] += a[i][j] * x[i];
+                            v[i] += a[i][j] * x[j];
                     return v;
                 }
                 else
@@ -201,7 +202,7 @@ namespace toop_project.src.Matrix
                     Vector v = new Vector(n);
                     for (int i = 0; i < n; i++)
                         for (int j = i + 1; j < n; j++)
-                            v[j] += a[i][j] * x[i];
+                            v[i] += a[i][j] * x[j];
                     return v;
                 }
             }
@@ -219,9 +220,10 @@ namespace toop_project.src.Matrix
                     v = (Vector)x.Clone();// в смысле копирование элементов
                     for (int i = n - 1; i >= 0; i--)
                     {
-                        v[i] /= a[i][i];
+                        
                         for (int j = i + 1; j < n; j++)
-                            v[j] -= a[i][j] * v[i];                       
+                            v[i] -= a[i][j] * v[j];
+                        v[i] /= a[i][i];
                     }                        
                     return v;
                 }
@@ -231,7 +233,7 @@ namespace toop_project.src.Matrix
                     v = (Vector)x.Clone();// в смысле копирование элементов
                     for (int i = n - 1; i >= 0; i--)                                          
                         for (int j = i + 1; j < n; j++)
-                            v[j] -= a[i][j] * v[i];                   
+                            v[i] -= a[i][j] * v[j];
                     return v;
                 }
             }
@@ -248,7 +250,7 @@ namespace toop_project.src.Matrix
                     Vector v = new Vector(n);
                     for (int i = 0; i < n; i++)
                         for (int j = i; j < n; j++)
-                            v[i] += a[i][j] * x[j];
+                            v[j] += a[i][j] * x[i];
                     return v;
                 }
                 else
@@ -256,7 +258,7 @@ namespace toop_project.src.Matrix
                     Vector v = new Vector(n);
                     for (int i = 0; i < n; i++)
                         for (int j = i + 1; j < n; j++)
-                            v[i] += a[i][j] * x[j];
+                            v[j] += a[i][j] * x[i];
                     return v;
                 }
 
