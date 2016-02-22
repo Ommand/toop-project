@@ -101,6 +101,21 @@ namespace toop_project.src.Vector_
                 throw new Exception("Несовпадение длин у операндов при сложении");
         }
 
+        public static Vector operator -(Vector v1, Vector v2)
+        {
+            if (v1.Size == v2.Size)
+            {
+                Vector vector = new Vector(v1.Size);
+                for (int index = 0; index < v1.Size; index++)
+                {
+                    vector[index] = v1[index] - v2[index];
+                }
+                return vector;
+            }
+            else
+                throw new Exception("Несовпадение длин у операндов при вычитании");
+        }
+
         #endregion Vector
     }
 }
