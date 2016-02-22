@@ -18,33 +18,38 @@ namespace toop_project.src.Solver
             Vector x, r, diagonal;
             int size, k;
             double relativeResidual, w;
-            Vector DUx, DFx, Db;
+            Vector DUx, DLx, Db, Dx, Lx, Ux;
 
             size = initialSolution.Size;
             x = new Vector(size);
             r = new Vector(size);
             diagonal = new Vector(size);
 
-            k = 0;
             x = initialSolution;
             w = optionalRelaxationParameter;
             diagonal = matrix.Diagonal;
-            r = matrix.Multiply(x) + rightPart * (-1);
+
+            Dx = diagonalMult(diagonal, x);
+            Lx = matrix.LMult(x, false);
+            Ux = matrix.UMult(x, false);
+            r = Lx + Dx + Ux - rightPart;
             relativeResidual = r.Norm() / rightPart.Norm();
+
             Db = diagonalSolve(diagonal, rightPart);
 
-            logger.AddIterationInfo(k, relativeResidual);
+            logger.AddIterationInfo(0, relativeResidual);
 
-            while (k <= maxIterations && relativeResidual > epsilon)
+            for(k = 1; k <= maxIterations && relativeResidual > epsilon; k++)
             {
-                k++;
+                DUx = diagonalSolve(diagonal, Ux);
+                DLx = diagonalSolve(diagonal, Lx);
 
-                DUx = diagonalSolve(diagonal, matrix.UMult(x, false));
-                DFx = diagonalSolve(diagonal, matrix.LMult(x, false));
+                x = (Db - DUx - DLx) * w + x * (1 - w);
 
-                x = (DUx + DFx + Db) * w + x * (1 - w);
-
-                r = matrix.Multiply(x) + rightPart * (-1);
+                Dx = diagonalMult(diagonal, x);
+                Lx = matrix.LMult(x, false);
+                Ux = matrix.UMult(x, false);
+                r = Lx + Dx + Ux - rightPart;
                 relativeResidual = r.Norm() / rightPart.Norm();
 
                 logger.AddIterationInfo(k, relativeResidual);
@@ -68,6 +73,16 @@ namespace toop_project.src.Solver
 
             for (int i = 0; i < size; i++)
                 result[i] = vector[i] / diagonal[i];
+
+            return result;
+        }
+        Vector diagonalMult(Vector diagonal, Vector vector)
+        {
+            int size = diagonal.Size;
+            Vector result = new Vector(size);
+
+            for (int i = 0; i < size; i++)
+                result[i] = vector[i] * diagonal[i];
 
             return result;
         }
