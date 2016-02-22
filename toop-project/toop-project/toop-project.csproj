@@ -67,6 +67,7 @@
     <Compile Include="src\IO\InputOutput.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Solver\ISolverParametrs.cs" />
     <Compile Include="src\Vector_\Vector.cs" />
     <EmbeddedResource Include="src\GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
