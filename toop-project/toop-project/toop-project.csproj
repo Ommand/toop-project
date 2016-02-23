@@ -60,6 +60,7 @@
     <Compile Include="src\GUI\SinkButton.Designer.cs">
       <DependentUpon>SinkButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Logger\Logger.cs" />
     <Compile Include="src\Logging\ILogger.cs" />
     <Compile Include="src\Logging\ISolverLogger.cs" />
     <Compile Include="src\Matrix\BandMatrix.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="src\Matrix\ProfileMatrix.cs" />
     <Compile Include="src\Matrix\SparseMatrix.cs" />
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
+    <Compile Include="src\Slae\Slae.cs" />
     <Compile Include="src\Solver\ISolver.cs" />
     <Compile Include="src\IO\InputOutput.cs" />
     <Compile Include="src\Program.cs" />
