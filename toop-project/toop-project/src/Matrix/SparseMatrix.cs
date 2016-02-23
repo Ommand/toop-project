@@ -336,7 +336,7 @@ namespace toop_project.src.Matrix
         #region Preconditioner
         public BaseMatrix LU()
         {
-            var matrixILU = new SparseMatrix (ia, ja, al, au, di);
+            var matrixILU = new SparseMatrix (ia, ja, al.Clone() as double[], au.Clone() as double[], di.Clone() as double[]);
             for (int i = 0; i < matrixILU.Size; i++)
             {
                 int i0 = matrixILU.ia[i];
@@ -367,6 +367,8 @@ namespace toop_project.src.Matrix
                         }
                     }
                     matrixILU.au[k] = (matrixILU.au[k] - Su);
+                    if (matrixILU.di[j] == 0)
+                        throw new Exception(String.Concat("Предобусловливание LU : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixILU.al[k] = (matrixILU.al[k] - Sl) / matrixILU.di[j];
                     S += matrixILU.au[k] * matrixILU.al[k]; // диагональ в U!!!!!
                 }
@@ -376,7 +378,7 @@ namespace toop_project.src.Matrix
         }
         public BaseMatrix LUsq()
         {
-            var matrixILU = new SparseMatrix(ia, ja, al, au, di);
+            var matrixILU = new SparseMatrix(ia, ja, al.Clone() as double[], au.Clone() as double[], di.Clone() as double[]);
             for (int i = 0; i < matrixILU.Size; i++)
             {
                 int i0 = matrixILU.ia[i];
@@ -406,17 +408,22 @@ namespace toop_project.src.Matrix
                             jind++;
                         }
                     }
+                    if (matrixILU.di[j] == 0)
+                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixILU.au[k] = (matrixILU.au[k] - Su) / matrixILU.di[j];
                     matrixILU.al[k] = (matrixILU.al[k] - Sl) / matrixILU.di[j];
                     S += matrixILU.au[k] * matrixILU.al[k]; // диагональ в U!!!!!
                 }
                 matrixILU.di[i] = Math.Sqrt(matrixILU.di[i] - S);
+                if (!(matrixILU.di[i] == matrixILU.di[i]))
+                    throw new Exception(String.Concat("Предобусловливание LUsq : NaN для элемента диагонали №", i));
             }
             return matrixILU;
         }
         public BaseMatrix LLt()
         {
-            var matrixLLt = new SparseMatrix(ia, ja, al, au, di);
+            var new_al = al.Clone() as double[];
+            var matrixLLt = new SparseMatrix(ia, ja, new_al, new_al, di.Clone() as double[]);
             for (int i = 0; i < matrixLLt.Size; i++)
             {
                 int i0 = matrixLLt.ia[i];
@@ -445,10 +452,14 @@ namespace toop_project.src.Matrix
                             jind++;
                         }
                     }
+                    if (matrixLLt.di[j] == 0)
+                        throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixLLt.al[k] = (matrixLLt.al[k] - Sl) / matrixLLt.di[j];
                     S += matrixLLt.al[k] * matrixLLt.al[k];
                 }
                 matrixLLt.di[i] = Math.Sqrt(matrixLLt.di[i] - S);
+                if (!(matrixLLt.di[i] == matrixLLt.di[i]))
+                    throw new Exception(String.Concat("Предобусловливание LLt : NaN для элемента диагонали №", i));
             }
             return matrixLLt;
         }
