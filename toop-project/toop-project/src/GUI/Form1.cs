@@ -16,5 +16,16 @@ namespace toop_project
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e) {
+            pnlFile.DataBindings.Add(new Binding("Visible", sbtnF, "Sink"));
+            pnlMatrixFormat.DataBindings.Add(new Binding("Visible", sbtnMF, "Sink"));
+            pnlSolver.DataBindings.Add(new Binding("Visible", sbtnS, "Sink"));
+            pnlPrecond.DataBindings.Add(new Binding("Visible", sbtnP, "Sink"));
+        }
+
+        private void panel12_Paint(object sender, PaintEventArgs e) {
+
+        }
     }
 }
