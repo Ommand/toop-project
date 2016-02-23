@@ -31,6 +31,7 @@
             this.mnu = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRightPart = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,8 +56,6 @@
             this.lblMatixFileName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.sbtnS = new toop_project.src.GUI.SinkButton();
-            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvMatrix = new System.Windows.Forms.DataGridView();
@@ -64,8 +63,13 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.mnuRightPart = new System.Windows.Forms.ToolStripMenuItem();
+            this.pbarSolver = new System.Windows.Forms.ProgressBar();
+            this.lblIter = new System.Windows.Forms.Label();
+            this.lblResidual = new System.Windows.Forms.Label();
+            this.sbtnS = new toop_project.src.GUI.SinkButton();
+            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.mnu.SuspendLayout();
+            this.pnlBot.SuspendLayout();
             this.pnlLeft.SuspendLayout();
             this.pnlSolver.SuspendLayout();
             this.pnlFile.SuspendLayout();
@@ -108,6 +112,13 @@
             this.mnuFileOpen.Text = "Open matrix...";
             this.mnuFileOpen.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
+            // mnuRightPart
+            // 
+            this.mnuRightPart.Name = "mnuRightPart";
+            this.mnuRightPart.Size = new System.Drawing.Size(164, 22);
+            this.mnuRightPart.Text = "Open right part...";
+            this.mnuRightPart.Click += new System.EventHandler(this.btnOpenRPFile_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -143,10 +154,14 @@
             // pnlBot
             // 
             this.pnlBot.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.pnlBot.Controls.Add(this.lblResidual);
+            this.pnlBot.Controls.Add(this.lblIter);
+            this.pnlBot.Controls.Add(this.pbarSolver);
             this.pnlBot.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBot.Location = new System.Drawing.Point(0, 430);
             this.pnlBot.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlBot.Name = "pnlBot";
+            this.pnlBot.Padding = new System.Windows.Forms.Padding(2);
             this.pnlBot.Size = new System.Drawing.Size(643, 24);
             this.pnlBot.TabIndex = 1;
             // 
@@ -369,28 +384,6 @@
             this.pnlTop.Size = new System.Drawing.Size(643, 30);
             this.pnlTop.TabIndex = 4;
             // 
-            // sbtnS
-            // 
-            this.sbtnS.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.sbtnS.Location = new System.Drawing.Point(29, 2);
-            this.sbtnS.Name = "sbtnS";
-            this.sbtnS.Sink = true;
-            this.sbtnS.Size = new System.Drawing.Size(26, 26);
-            this.sbtnS.TabIndex = 1;
-            this.sbtnS.Text = "S";
-            this.sbtnS.UseVisualStyleBackColor = false;
-            // 
-            // sbtnF
-            // 
-            this.sbtnF.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.sbtnF.Location = new System.Drawing.Point(2, 2);
-            this.sbtnF.Name = "sbtnF";
-            this.sbtnF.Sink = true;
-            this.sbtnF.Size = new System.Drawing.Size(26, 26);
-            this.sbtnF.TabIndex = 0;
-            this.sbtnF.Text = "F";
-            this.sbtnF.UseVisualStyleBackColor = false;
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -472,16 +465,63 @@
             this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbLog.Location = new System.Drawing.Point(4, 4);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(399, 337);
+            this.rtbLog.Size = new System.Drawing.Size(399, 342);
             this.rtbLog.TabIndex = 0;
             this.rtbLog.Text = "";
             // 
-            // mnuRightPart
+            // pbarSolver
             // 
-            this.mnuRightPart.Name = "mnuRightPart";
-            this.mnuRightPart.Size = new System.Drawing.Size(164, 22);
-            this.mnuRightPart.Text = "Open right part...";
-            this.mnuRightPart.Click += new System.EventHandler(this.btnOpenRPFile_Click);
+            this.pbarSolver.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pbarSolver.Location = new System.Drawing.Point(497, 2);
+            this.pbarSolver.Name = "pbarSolver";
+            this.pbarSolver.Size = new System.Drawing.Size(144, 20);
+            this.pbarSolver.Step = 1;
+            this.pbarSolver.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pbarSolver.TabIndex = 0;
+            // 
+            // lblIter
+            // 
+            this.lblIter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblIter.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblIter.Location = new System.Drawing.Point(374, 2);
+            this.lblIter.Name = "lblIter";
+            this.lblIter.Size = new System.Drawing.Size(123, 20);
+            this.lblIter.TabIndex = 1;
+            this.lblIter.Text = "Iteration:";
+            this.lblIter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblResidual
+            // 
+            this.lblResidual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblResidual.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblResidual.Location = new System.Drawing.Point(190, 2);
+            this.lblResidual.Name = "lblResidual";
+            this.lblResidual.Size = new System.Drawing.Size(184, 20);
+            this.lblResidual.TabIndex = 2;
+            this.lblResidual.Text = "Residual:";
+            this.lblResidual.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // sbtnS
+            // 
+            this.sbtnS.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnS.Location = new System.Drawing.Point(29, 2);
+            this.sbtnS.Name = "sbtnS";
+            this.sbtnS.Sink = true;
+            this.sbtnS.Size = new System.Drawing.Size(26, 26);
+            this.sbtnS.TabIndex = 1;
+            this.sbtnS.Text = "S";
+            this.sbtnS.UseVisualStyleBackColor = false;
+            // 
+            // sbtnF
+            // 
+            this.sbtnF.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnF.Location = new System.Drawing.Point(2, 2);
+            this.sbtnF.Name = "sbtnF";
+            this.sbtnF.Sink = true;
+            this.sbtnF.Size = new System.Drawing.Size(26, 26);
+            this.sbtnF.TabIndex = 0;
+            this.sbtnF.Text = "F";
+            this.sbtnF.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -498,8 +538,10 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Text = "=== Project Sun ===";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.mnu.ResumeLayout(false);
             this.mnu.PerformLayout();
+            this.pnlBot.ResumeLayout(false);
             this.pnlLeft.ResumeLayout(false);
             this.pnlSolver.ResumeLayout(false);
             this.pnlSolver.PerformLayout();
@@ -555,6 +597,9 @@
         private System.Windows.Forms.Label lblRPFileName;
         private System.Windows.Forms.DataGridView dgvRightPart;
         private System.Windows.Forms.ToolStripMenuItem mnuRightPart;
+        private System.Windows.Forms.ProgressBar pbarSolver;
+        private System.Windows.Forms.Label lblIter;
+        private System.Windows.Forms.Label lblResidual;
     }
 }
 

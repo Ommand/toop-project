@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
-namespace toop_project
-{
-    public partial class Form1 : Form {
-        src.Slae.SLAE slae = new src.Slae.SLAE();
+namespace toop_project {
+    public partial class Form1 : Form, src.GUI.IGUI {
+        Thread solverThread = null;
+        src.Slae.SLAE slae;
 
         const String MatrixFileExtension = "mtx";
         const String RightPartFileExtension = "rtx";
@@ -19,12 +20,60 @@ namespace toop_project
 
         OpenFileDialog ofdMatrix = new OpenFileDialog();
         OpenFileDialog ofdRightPart = new OpenFileDialog();
+        
+        delegate void UpdateResidualCallback(double residual);
+        private void UpdateResidual(double residual) {
+            if (this.lblResidual.InvokeRequired)
+                this.Invoke(new UpdateResidualCallback(UpdateResidual), new object[] { residual });
+            else
+                this.lblResidual.Text = "Residual: " + residual.ToString();
+        }
+        delegate void UpdateIterCallback(int iteration);
+        private void UpdateIter(int iteration) {
+            if (this.lblIter.InvokeRequired)
+                this.Invoke(new UpdateIterCallback(UpdateIter), new object[] { iteration });
+            else
+                this.lblIter.Text = "Iteration: " + iteration.ToString() + "/" + slae.MaxIter.ToString();
+        }
+        delegate void UpdateProgressBarCallback(int iteration);
+        private void UpdateProgressBar(int iteration) {
+            if (this.pbarSolver.InvokeRequired) 
+                this.Invoke(new UpdateProgressBarCallback(UpdateProgressBar), new object[] { iteration });
+            else 
+                this.pbarSolver.Value = iteration;
+        }
+        delegate void AddTextCallback(string text);
+        private void AddLog(string text) {
+            if (this.rtbLog.InvokeRequired) 
+                this.Invoke(new AddTextCallback(AddLog), new object[] { text });
+            else 
+                this.rtbLog.Text += text;
+        }
+
+        public void UpdateLog(String message) {
+            AddLog(message + Environment.NewLine);
+        }
+
+        public void UpdateIterationLog(int num, double residual) {
+            UpdateProgressBar(num);
+            UpdateIter(num);
+            UpdateResidual(residual);
+        }
+
+        public void FinishSolve() {
+            UpdateProgressBar(slae.MaxIter);
+            String result = "Result:" + Environment.NewLine;
+            for (int i = 0; i < slae.Result.Size; i++) 
+                result += slae.Result[i].ToString() + Environment.NewLine;
+            AddLog(result);
+        }
 
         public Form1() {
             InitializeComponent();
             setFileDialogs();
             setComboboxes();
             setDataBindings();
+            src.Logging.Logger.Instance.IGui = this;
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e) {
@@ -69,7 +118,7 @@ namespace toop_project
             
             for(var i=0; i < matrix.Size; i++)
                 dgvMatrix.Columns.Add("","");
-
+            // TODO: update matrix by run
             for(var i=0; i < matrix.Size; i++){
                 //for (var j = 0; j < matrix.Size; j++) {
                 String[] strs = new String[matrix.Size];
@@ -115,7 +164,13 @@ namespace toop_project
                 MessageBox.Show("Can't compute this slae","Error");
                 return;
             }
-            slae.Solve();
+            // TODO: need this for thread safe?
+            //if (solverThread != null) return;
+            pbarSolver.Value = 0;
+            pbarSolver.Maximum = slae.MaxIter;
+
+            solverThread = new Thread(slae.Solve);
+            solverThread.Start();
         }
 
         private void cmbSolver_SelectedIndexChanged(object sender, EventArgs e) {
@@ -137,6 +192,10 @@ namespace toop_project
             ofdRightPart.Filter = RightPartFileExtension + " files (*." + RightPartFileExtension + ")|*." + RightPartFileExtension + "";
             ofdRightPart.RestoreDirectory = true;
             ofdRightPart.Multiselect = false;
+        }
+
+        private void Form1_Load(object sender, EventArgs e) {
+            slae = new src.Slae.SLAE(this);
         }
     }
 }
