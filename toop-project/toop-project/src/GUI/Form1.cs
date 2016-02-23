@@ -36,7 +36,7 @@ namespace toop_project
                         toop_project.InputOutput.InputMatrix(ofdMatrix.FileName, out matrix, out log);
                         updateDgvMatrix(matrix);
                         slae.Matrix = matrix;
-                        lblMatixFileName.Text = ofdMatrix.FileName;
+                        lblMatixFileName.Text = ofdMatrix.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\')+1);
                     }
                 }
                 catch (Exception ex) {
@@ -103,7 +103,7 @@ namespace toop_project
                         toop_project.InputOutput.InputRightPart(ofdRightPart.FileName, out vector, out log);
                         updateDgvRightPart(vector);
                         slae.Right = vector;
-                        lblRPFileName.Text = ofdRightPart.FileName;
+                        lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\') + 1);
                     }
                 }
                 catch (Exception ex) {
