@@ -26,5 +26,8 @@ namespace toop_project.src.Matrix
 
         public abstract Vector Diagonal { get; }
         public abstract int Size { get; }
+        
+        //Функция, выполняющая обход ненулевых элементов матрицы и выполняющая над ними операцию fun
+        public abstract void Run(Action<int,int,double> fun);
     }
 }

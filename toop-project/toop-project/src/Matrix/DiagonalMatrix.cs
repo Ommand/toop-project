@@ -61,7 +61,6 @@ namespace toop_project.src.Matrix
             }
         }
 
-
         #region Matrix
 
         public DiagonalMatrix(double[] di, double[][] al, double[][] au, int[] shift_l, int[] shift_u)
@@ -305,8 +304,25 @@ namespace toop_project.src.Matrix
         {
             throw new NotImplementedException();
         }
-        #endregion
 
+        public override void Run(Action<int, int, double> fun)
+        {
+            // Нижний треугольник
+            for (int j = 0; j < shift_l.Length; j++)
+                for (int i = shift_l[j]; i < di.Length; i++)
+                    fun(i - shift_l[j], i, al[j][i]);
+
+            // Диагональ
+            for (int i = 0; i < di.Length; i++)
+                fun(i, i, di[i]);
+
+            //Верхний треугольник
+            for (int j = 0; j < shift_u.Length; j++)
+                for (int i = shift_u[j]; i < di.Length; i++)
+                    fun(i - shift_u[j], i, au[j][i]);
+        }
+
+        #endregion
 
         #region Preconditioner
         public BaseMatrix LLt()

@@ -46,9 +46,7 @@ namespace toop_project.src.Matrix
             {
                return _count;
             }
-        }
-
-       
+        }       
 
         public override Vector LMult(Vector x, bool UseDiagonal)
         {
@@ -135,15 +133,11 @@ namespace toop_project.src.Matrix
         {
             throw new NotImplementedException();
         }
-
-      
-
+             
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
             throw new NotImplementedException();
         }
-
-      
 
         public override Vector Multiply(Vector x)
         {
@@ -154,20 +148,32 @@ namespace toop_project.src.Matrix
         {
             throw new NotImplementedException();
         }
-
-      
-
+        
         public override Vector USolve(Vector x, bool UseDiagonal)
         {
             throw new NotImplementedException();
         }
-
         
-
         public override Vector UtSolve(Vector x, bool UseDiagonal)
         {
             throw new NotImplementedException();
         }
+
+        public override void Run(Action<int, int, double> fun)
+        {
+
+            for (int row = 0; row < _count; row++)
+            {
+                int index = _ig[row];
+                for (int column = row - (_ig[row + 1] - index); column < row; column++, index++)
+                {
+                    fun(row, column, _al[index]);
+                    fun(column, row, _au[index]);
+                }
+                fun(row, row, _di[row]);
+            }
+        }
+
         #endregion Matrix
 
         #region Preconditioner
