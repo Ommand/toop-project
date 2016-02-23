@@ -60,7 +60,6 @@
     <Compile Include="src\GUI\SinkButton.Designer.cs">
       <DependentUpon>SinkButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Logger\Logger.cs" />
     <Compile Include="src\Logging\ILogger.cs" />
     <Compile Include="src\Logging\ISolverLogger.cs" />
     <Compile Include="src\Matrix\BandMatrix.cs" />

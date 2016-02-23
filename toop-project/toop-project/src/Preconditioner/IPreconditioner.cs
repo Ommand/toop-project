@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 using toop_project.src.Matrix;
     namespace toop_project.src.Preconditioner
     {
-        interface IPreconditioner
+        enum Type {
+            LU,
+            LLT,
+            LUsq
+        }
+        public interface IPreconditioner
         {
         BaseMatrix LU();
         BaseMatrix LLt(); // Только для симметричной матрицы, все элементы хранятся в al

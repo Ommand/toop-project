@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace toop_project.src.Logging
 {
-    interface ISolverLogger
+    public interface ISolverLogger
     {
         void AddIterationInfo(int num,double residual);
     }

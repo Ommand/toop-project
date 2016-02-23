@@ -11,8 +11,7 @@ namespace toop_project.src.Solver
 {
     public class Jacobi : ISolver
     {
-
-        Vector ISolver.Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
+        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
                                      ILogger logger,  ISolverLogger solverLogger, ISolverParametrs solverParametrs )
         {
             if (solverParametrs is JacobiParametrs)
@@ -30,7 +29,7 @@ namespace toop_project.src.Solver
                 diagonal = new Vector(size);
 
                 x = initialSolution;
-                w = JacParametrs.optionalRelaxationParameter;
+                w = JacParametrs.Relaxation;
                 diagonal = matrix.Diagonal;
 
                 Dx = diagonalMult(diagonal, x);
@@ -43,7 +42,7 @@ namespace toop_project.src.Solver
 
                 solverLogger.AddIterationInfo(0, relativeResidual);
 
-                for (k = 1; k <= solverParametrs.maxIterations && relativeResidual > solverParametrs.epsilon; k++)
+                for (k = 1; k <= solverParametrs.MaxIterations && relativeResidual > solverParametrs.Epsilon; k++)
                 {
                     DUx = diagonalSolve(diagonal, Ux);
                     DLx = diagonalSolve(diagonal, Lx);

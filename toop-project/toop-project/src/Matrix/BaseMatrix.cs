@@ -7,6 +7,13 @@ using  toop_project.src.Vector_;
 
 namespace toop_project.src.Matrix
 {
+    public enum Type {
+        Diagonal,
+        Sparse,
+        Dense,
+        Profile,
+        Band
+    }
     public abstract class BaseMatrix
     {
         public abstract Vector Multiply(Vector x);//A*x       
