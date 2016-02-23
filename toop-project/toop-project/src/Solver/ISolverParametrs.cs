@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace toop_project.src.Solver
 {
-    interface ISolverParametrs
+    public interface ISolverParametrs
     {
-        double epsilon { get; }
-        int maxIterations { get; }
+        double Epsilon { get; }
+        int MaxIterations { get; }
     }
 }

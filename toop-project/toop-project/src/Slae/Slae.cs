@@ -9,6 +9,7 @@ namespace toop_project.src.Slae {
         public bool CanBeComputed() {
             if (Matrix == null) return false;
             if (Right == null) return false;
+            // TODO: uncomment if need precond
             //if (Precond == null) return false;
             if (Solver == null) return false;
 
@@ -17,7 +18,8 @@ namespace toop_project.src.Slae {
             return true;
         }
         public void Solve() {
-            Result = Solver.Solve(Matrix, Right, new src.Vector_.Vector(6), src.Logger.Logger.getInstance(), Eps, MaxIter);
+            Result = Solver.Solve(Matrix, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
+                new src.Solver.JacobiParametrs(Eps, MaxIter));
         }
         public src.Matrix.BaseMatrix Matrix = null;
         public src.Vector_.Vector Right = null;
