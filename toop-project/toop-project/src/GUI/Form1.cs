@@ -32,8 +32,7 @@ namespace toop_project
                 try {
                     if (ofdMatrix.FileName != null) {
                         src.Matrix.BaseMatrix matrix;
-                        List<String> log;
-                        toop_project.InputOutput.InputMatrix(ofdMatrix.FileName, out matrix, out log);
+                        matrix = toop_project.InputOutput.InputMatrix(ofdMatrix.FileName);
                         updateDgvMatrix(matrix);
                         slae.Matrix = matrix;
                         lblMatixFileName.Text = ofdMatrix.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\')+1);
@@ -99,8 +98,7 @@ namespace toop_project
                 try {
                     if (ofdRightPart.FileName != null) {
                         src.Vector_.Vector vector;
-                        List<String> log;
-                        toop_project.InputOutput.InputRightPart(ofdRightPart.FileName, out vector, out log);
+                        vector = toop_project.InputOutput.InputRightPart(ofdRightPart.FileName);
                         updateDgvRightPart(vector);
                         slae.Right = vector;
                         lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\') + 1);
