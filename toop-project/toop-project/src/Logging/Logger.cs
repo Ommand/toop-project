@@ -17,6 +17,8 @@ namespace toop_project.src.Logging
             SOLVER
         };
 
+        public src.GUI.IGUI IGui { private get { return iGui; } set { iGui = value; } }
+        private src.GUI.IGUI iGui = null;
         private string defaultLogFile = "../../log/log.txt";
         private System.IO.StreamWriter fileStream;
         private List<string> log = new List<string>();
@@ -39,10 +41,12 @@ namespace toop_project.src.Logging
         {
             string message = String.Format("[{0}][{1}] {2}", type, DateTime.Now, line);
             log.Add(message);
-            if (fileStream != null)
-            {
+            if (fileStream != null) {
                 fileStream.WriteLine(message);
                 fileStream.Flush();
+            }
+            if (iGui != null) {
+                iGui.UpdateLog(message);
             }
         }
         public static Logger Instance
@@ -81,6 +85,9 @@ namespace toop_project.src.Logging
         public void AddIterationInfo(int num, double residual)
         {
             AddLine(MessageType.SOLVER, String.Format("Solving: iteration number {0}, residual is {1}", num, residual));
+            if (iGui != null) {
+                iGui.UpdateIterationLog(num, residual);
+            }
         }
 
         #endregion

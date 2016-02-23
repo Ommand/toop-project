@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace toop_project.src.GUI
 {
-    interface IGUI
-    {
+    public interface IGUI {
+        void UpdateLog(String message);
+        void UpdateIterationLog(int iter, double residual);
+        void FinishSolve();
     }
 }
