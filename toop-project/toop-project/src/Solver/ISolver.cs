@@ -11,7 +11,7 @@ namespace toop_project.src.Solver
 {
     public enum Type {
         Jacobi,
-        GZ,
+        GaussSeidel,
         LOS,
         MSG,
         BSG,
@@ -26,7 +26,7 @@ namespace toop_project.src.Solver
                     return new src.Solver.Jacobi();
                 case Type.MSG:
                     return new src.Solver.MSG();
-                case Type.GZ:
+                case Type.GaussSeidel:
                     return new src.Solver.GZ();
 
             }
