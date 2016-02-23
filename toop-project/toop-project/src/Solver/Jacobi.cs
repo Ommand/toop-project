@@ -62,8 +62,9 @@ namespace toop_project.src.Solver
                 return x;
             }
             else {
-                logger.Debug("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
-                return null;
+                logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
+                throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
+             
             }
         }
 
