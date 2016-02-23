@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace toop_project.src.Logging
 {
-    interface ILogger
+    public interface ILogger
     {
         void SetFile(string filename);
         void Info(string message);

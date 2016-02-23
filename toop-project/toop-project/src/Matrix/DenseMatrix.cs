@@ -8,7 +8,7 @@ using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Matrix
 {
-    class DenseMatrix : BaseMatrix,IPreconditioner
+    class DenseMatrix : BaseMatrix, IPreconditioner
     {
         private double[][] a;
         private int n;
@@ -44,7 +44,7 @@ namespace toop_project.src.Matrix
                 throw new Exception("Несовпадение длин у операндов LMult");
             else
             {
-                if(UseDiagonal == true)
+                if (UseDiagonal == true)
                 {
                     Vector v = new Vector(n);
                     for (int i = 0; i < n; i++)
@@ -60,7 +60,7 @@ namespace toop_project.src.Matrix
                             v[i] += a[i][j] * x[j];
                     return v;
                 }
-                
+
             }
         }
 
@@ -80,7 +80,7 @@ namespace toop_project.src.Matrix
                         for (int j = 0; j < i; j++)
                             result += a[i][j] * v[j];
                         v[i] = (x[i] - result) / a[i][i];
-                    }                        
+                    }
                     return v;
                 }
                 else
@@ -136,7 +136,7 @@ namespace toop_project.src.Matrix
                     v = (Vector)x.Clone();// в смысле копирование элементов
                     for (int i = n - 1; i >= 0; i--)
                     {
-                       
+
                         for (int j = i + 1; j < n; j++)
                             v[i] -= a[j][i] * v[j];
                         v[i] /= a[i][i];
@@ -164,9 +164,9 @@ namespace toop_project.src.Matrix
                 Vector v = new Vector(n);
                 for (int i = 0; i < n; i++)
                     for (int j = 0; j < n; j++)
-                        v[i] += a[i][j] *x[j];
+                        v[i] += a[i][j] * x[j];
                 return v;
-            }           
+            }
         }
 
         public override Vector TMultiply(Vector x)
@@ -220,18 +220,18 @@ namespace toop_project.src.Matrix
                     v = (Vector)x.Clone();// в смысле копирование элементов
                     for (int i = n - 1; i >= 0; i--)
                     {
-                        
+
                         for (int j = i + 1; j < n; j++)
                             v[i] -= a[i][j] * v[j];
                         v[i] /= a[i][i];
-                    }                        
+                    }
                     return v;
                 }
                 else
                 {
                     Vector v;
                     v = (Vector)x.Clone();// в смысле копирование элементов
-                    for (int i = n - 1; i >= 0; i--)                                          
+                    for (int i = n - 1; i >= 0; i--)
                         for (int j = i + 1; j < n; j++)
                             v[i] -= a[i][j] * v[j];
                     return v;
@@ -298,8 +298,16 @@ namespace toop_project.src.Matrix
                 }
             }
         }
+
+        public override void Run(Action<int, int, double> fun)
+        {
+            for (int i = 0; i < Size; i++)
+                for (int j = 0; j < Size; j++)
+                    fun(i, j, a[i][j]);
+        }
         #endregion Matrix
-            #region Preconditioner 
+
+        #region Preconditioner 
         public BaseMatrix LU()
         {
             double[][] aPrecond = new double[n][];
@@ -362,7 +370,7 @@ namespace toop_project.src.Matrix
             }
             return new DenseMatrix(aPrecond);
         }
-        public BaseMatrix LLt() 
+        public BaseMatrix LLt()
         {
             double[][] aPrecond = new double[n][];
             for (int i = 0; i < n; i++)
@@ -391,6 +399,6 @@ namespace toop_project.src.Matrix
             return new DenseMatrix(aPrecond);
         }
 
-#endregion Preconditioner
+        #endregion Preconditioner
     }
 }

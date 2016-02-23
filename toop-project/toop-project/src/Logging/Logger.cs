@@ -54,7 +54,10 @@ namespace toop_project.src.Logging
         {
             if (fileStream != null)
                 fileStream.Close();
-            fileStream = System.IO.File.AppendText(filename);
+            var dirName = filename.Substring(0, filename.LastIndexOf('/'));
+            if (!System.IO.Directory.Exists(dirName))
+                System.IO.Directory.CreateDirectory(dirName);
+            fileStream = new System.IO.StreamWriter(filename);
             Info("Logger started to work");
         }
 

@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>toop_project</RootNamespace>
     <AssemblyName>toop-project</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,6 +54,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="src\GUI\IGUI.cs" />
+    <Compile Include="src\GUI\SinkButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\GUI\SinkButton.Designer.cs">
+      <DependentUpon>SinkButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Logging\ILogger.cs" />
     <Compile Include="src\Logging\ISolverLogger.cs" />
     <Compile Include="src\Matrix\BandMatrix.cs" />
@@ -63,10 +70,14 @@
     <Compile Include="src\Matrix\ProfileMatrix.cs" />
     <Compile Include="src\Matrix\SparseMatrix.cs" />
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
+    <Compile Include="src\Slae\Slae.cs" />
     <Compile Include="src\Solver\ISolver.cs" />
     <Compile Include="src\IO\InputOutput.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Solver\ISolverParametrs.cs" />
+    <Compile Include="src\Solver\Jacobi.cs" />
+    <Compile Include="src\Solver\JacobiParametrs.cs" />
     <Compile Include="src\Vector_\Vector.cs" />
     <EmbeddedResource Include="src\GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -79,7 +90,12 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="src\GUI\SinkButton.resx">
+      <DependentUpon>SinkButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -92,6 +108,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

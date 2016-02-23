@@ -9,10 +9,23 @@ using toop_project.src.Logging;
 
 namespace toop_project.src.Solver
 {
-    interface ISolver
-    {
-   Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                        Logger logger, double epsilon, int maxIterations, double optionalRelaxationParameter = 1);
-        string Name { get; }
+    public enum Type {
+        Jacobi,
+        Seidel,
+        LOS,
+        MSG,
+        BSG,
+        GMRES
+    }
+    abstract public class ISolver {
+        public abstract Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
+                        ILogger logger,ISolverLogger solverLogger, ISolverParametrs solverParametrs);
+        public static ISolver getSolver(Type type) {
+            switch (type) {
+                case Type.Jacobi:
+                    return new src.Solver.Jacobi();
+            }
+            return null;
+        }
     }
 }
