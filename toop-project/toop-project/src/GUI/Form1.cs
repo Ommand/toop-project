@@ -21,8 +21,6 @@ namespace toop_project {
         OpenFileDialog ofdMatrix = new OpenFileDialog();
         OpenFileDialog ofdRightPart = new OpenFileDialog();
         
-        // Residual:
-        // lblResidual
         delegate void UpdateResidualCallback(double residual);
         private void UpdateResidual(double residual) {
             if (this.lblResidual.InvokeRequired)
@@ -64,6 +62,10 @@ namespace toop_project {
 
         public void FinishSolve() {
             UpdateProgressBar(slae.MaxIter);
+            String result = "Result:" + Environment.NewLine;
+            for (int i = 0; i < slae.Result.Size; i++) 
+                result += slae.Result[i].ToString() + Environment.NewLine;
+            AddLog(result);
         }
 
         public Form1() {
@@ -116,7 +118,7 @@ namespace toop_project {
             
             for(var i=0; i < matrix.Size; i++)
                 dgvMatrix.Columns.Add("","");
-
+            // TODO: update matrix by run
             for(var i=0; i < matrix.Size; i++){
                 //for (var j = 0; j < matrix.Size; j++) {
                 String[] strs = new String[matrix.Size];
@@ -162,6 +164,7 @@ namespace toop_project {
                 MessageBox.Show("Can't compute this slae","Error");
                 return;
             }
+            // TODO: need this for thread safe?
             //if (solverThread != null) return;
             pbarSolver.Value = 0;
             pbarSolver.Maximum = slae.MaxIter;
