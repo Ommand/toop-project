@@ -13,38 +13,25 @@ namespace toop_project.src.Solver
     {
 
         Vector ISolver.Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                                     Logger logger, double epsilon, int maxIterations, double optionalRelaxationParameter)
+                                     ILogger logger,  ISolverLogger solverLogger, ISolverParametrs solverParametrs )
         {
-            Vector x, r, diagonal;
-            int size, k;
-            double relativeResidual, w;
-            Vector DUx, DLx, Db, Dx, Lx, Ux;
-
-            size = initialSolution.Size;
-            x = new Vector(size);
-            r = new Vector(size);
-            diagonal = new Vector(size);
-
-            x = initialSolution;
-            w = optionalRelaxationParameter;
-            diagonal = matrix.Diagonal;
-
-            Dx = diagonalMult(diagonal, x);
-            Lx = matrix.LMult(x, false);
-            Ux = matrix.UMult(x, false);
-            r = Lx + Dx + Ux - rightPart;
-            relativeResidual = r.Norm() / rightPart.Norm();
-
-            Db = diagonalSolve(diagonal, rightPart);
-
-            logger.AddIterationInfo(0, relativeResidual);
-
-            for(k = 1; k <= maxIterations && relativeResidual > epsilon; k++)
+            if (solverParametrs is JacobiParametrs)
             {
-                DUx = diagonalSolve(diagonal, Ux);
-                DLx = diagonalSolve(diagonal, Lx);
+                JacobiParametrs JacParametrs = solverParametrs as JacobiParametrs;
 
-                x = (Db - DUx - DLx) * w + x * (1 - w);
+                Vector x, r, diagonal;
+                int size, k;
+                double relativeResidual, w;
+                Vector DUx, DLx, Db, Dx, Lx, Ux;
+
+                size = initialSolution.Size;
+                x = new Vector(size);
+                r = new Vector(size);
+                diagonal = new Vector(size);
+
+                x = initialSolution;
+                w = JacParametrs.optionalRelaxationParameter;
+                diagonal = matrix.Diagonal;
 
                 Dx = diagonalMult(diagonal, x);
                 Lx = matrix.LMult(x, false);
@@ -52,10 +39,33 @@ namespace toop_project.src.Solver
                 r = Lx + Dx + Ux - rightPart;
                 relativeResidual = r.Norm() / rightPart.Norm();
 
-                logger.AddIterationInfo(k, relativeResidual);
-            }
+                Db = diagonalSolve(diagonal, rightPart);
 
-            return x;
+                solverLogger.AddIterationInfo(0, relativeResidual);
+
+                for (k = 1; k <= solverParametrs.maxIterations && relativeResidual > solverParametrs.epsilon; k++)
+                {
+                    DUx = diagonalSolve(diagonal, Ux);
+                    DLx = diagonalSolve(diagonal, Lx);
+
+                    x = (Db - DUx - DLx) * w + x * (1 - w);
+
+                    Dx = diagonalMult(diagonal, x);
+                    Lx = matrix.LMult(x, false);
+                    Ux = matrix.UMult(x, false);
+                    r = Lx + Dx + Ux - rightPart;
+                    relativeResidual = r.Norm() / rightPart.Norm();
+
+                    solverLogger.AddIterationInfo(k, relativeResidual);
+                }
+
+                return x;
+            }
+            else {
+                logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
+                throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
+             
+            }
         }
 
         public string Name
