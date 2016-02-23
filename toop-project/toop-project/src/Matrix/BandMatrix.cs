@@ -455,8 +455,30 @@ namespace toop_project.src.Matrix
             throw new Exception("Ленточный формат: Несовпадение размерностей матрицы и вектора при умножении(T)");
         }
 
-        #endregion
+        public override void Run(Action<int, int, double> fun)
+        {
+            // Нижний треугольник
+            // Обработка части al, где есть 0
+            for (int i = 1; i < bandWidth; i++)// обрабатываем i строку
+                for (int j = bandWidth - i; j < bandWidth; j++)
+                    fun(i, j + i - bandWidth, al[i][j]);
 
+            //Обработка без 0
+            for (int i = bandWidth; i < n; i++)
+                for (int j = i - bandWidth; j < i; j++)
+                    fun(i, j, al[i][j - i + bandWidth]);
+
+            //Диагональ
+            for (int i = 0; i < n; i++)
+                fun(i, i, di[i]);
+
+            //Верхний треугольник
+            for (int j = 0; j < bandWidth; j++)
+                for (int i = bandWidth - j; i < n; i++)
+                    fun(i - bandWidth + j, i, au[i][j]);
+        }
+
+        #endregion
 
         #region Preconditioner
         public BaseMatrix LU()
@@ -560,10 +582,6 @@ namespace toop_project.src.Matrix
             return new BandMatrix(bandWidth, diPrecond, alPrecond, alPrecond);
         }
         #endregion Preconditioner
-
     }
-
-
-
 }
 
