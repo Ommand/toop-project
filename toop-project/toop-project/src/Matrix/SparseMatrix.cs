@@ -15,6 +15,8 @@ namespace toop_project.src.Matrix
         private double[] au;
         private double[] di;
         private int n;
+
+        #region Matrix
         public SparseMatrix(int[] ia, int[] ja, double[] al, double[] au, double[] di)
         {
             this.ia = ia;
@@ -24,7 +26,6 @@ namespace toop_project.src.Matrix
             this.di = di;
             n = di.Count();
         }
-        #region Matrix
 
         public override Vector Diagonal
         {
@@ -331,6 +332,20 @@ namespace toop_project.src.Matrix
                 return v;
             }
         }
+
+        public override void Run(Action<int, int, double> fun)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                fun(i, i, di[i]);
+                for (int j = ia[i]; j < ia[i + 1]; j++)
+                {
+                    fun(i, ja[j], al[j]);
+                    fun(ja[j], i, au[j]);
+                }
+            }
+        }
+
         #endregion Matrix
 
         #region Preconditioner
@@ -452,6 +467,7 @@ namespace toop_project.src.Matrix
             }
             return matrixLLt;
         }
+
         #endregion Preconditioner
     }
 }
