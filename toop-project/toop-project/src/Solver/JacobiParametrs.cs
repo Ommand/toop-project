@@ -13,11 +13,11 @@ namespace toop_project.src.Solver
             this.Relaxation = relax;
         }
 
-        public double Epsilon { get { return epsilon; } protected set { epsilon = value; } }
+        public double Epsilon { get;}
         private double epsilon;
-        public int MaxIterations { get { return maxIterations; } protected set { maxIterations = value; } }
+        public int MaxIterations { get; }
         private int maxIterations;
-        public double Relaxation { get { return relaxation; } protected set { relaxation = value; } }
+        public double Relaxation { get; }
         private double relaxation;
     }
 }
