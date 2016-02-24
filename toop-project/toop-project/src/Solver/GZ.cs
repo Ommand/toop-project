@@ -34,27 +34,28 @@ namespace toop_project.src.Solver
                 di = matrix.Diagonal;
 
                 Dx = diagonalMult(di, x);
-                Fx = matrix.LMult(x, false)*(-1);
-                Ex = matrix.UMult(x, false)*(-1);
-                r = Fx + Dx + Ex - rightPart;
-                Residual = r.Norm() / rightPart.Norm();
+                Fx = matrix.LMult(x, false);
+                Ex = matrix.UMult(x, false);
+                r = Dx+Fx+ Ex - rightPart;
+                var rpnorm = rightPart.Norm();
+                Residual = r.Norm() / rpnorm;
 
                 DEb = diagonalSolve(di, rightPart);
 
                 solverLogger.AddIterationInfo(0, Residual);
-
                 for (k = 1; k <= solverParametrs.MaxIterations && Residual > solverParametrs.Epsilon; k++)
                 {
-                    DEx = diagonalSolve(di, Ex);
-                    DFx = diagonalSolve(di, Fx);
 
-                    xnext = (DEb - DEx - DFx) * w + x * (1 - w);
+                    DEx = diagonalSolve(di, Ex+Fx);
+
+                    xnext = (DEb + DEx) * w + x * (1 - w);
 
                     Dx = diagonalMult(di, xnext);
-                    Fx = matrix.LMult(xnext, false)*(-1);
-                    Ex = matrix.UMult(x, false) * (-1);
-                    r = Fx + Dx + Ex - rightPart;
-                    Residual = r.Norm() / rightPart.Norm();
+                    Ex = matrix.UMult(x, false) ;
+                    r = Dx+Fx + Ex - rightPart;
+                    Fx = matrix.LMult(xnext, false);
+
+                    Residual = r.Norm() / rpnorm;
 
                     solverLogger.AddIterationInfo(k, Residual);
 
