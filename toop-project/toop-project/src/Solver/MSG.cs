@@ -27,9 +27,7 @@ namespace toop_project.src.Solver
                 rOld = rightPart - matrix.Multiply(x);
                 z = rOld;
 
-                /////////////
-                //Start
-                ///////////
+              
                 do
                 {
 
@@ -57,12 +55,9 @@ namespace toop_project.src.Solver
             }
         }
 
-        public string Name
+        new Type GetType()
         {
-            get
-            {
-                return "MSG";
-            }
+            return Type.MSG;
         }
     }
 }
