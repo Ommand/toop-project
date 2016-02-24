@@ -24,6 +24,8 @@ namespace toop_project.src.Solver
             switch (type) {
                 case Type.Jacobi:
                     return new src.Solver.Jacobi();
+                case Type.Seidel:
+                    return new src.Solver.GZ();
             }
             return null;
         }

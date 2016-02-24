@@ -64,8 +64,8 @@ namespace toop_project.src.Solver
                 return xnext;
             }
             else {
-                logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in GaussZeidel");
-                throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in GaussZeidel");
+                logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in GaussSeidel");
+                throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in GaussSeidel");
 
             }
         }
@@ -74,7 +74,7 @@ namespace toop_project.src.Solver
         {
             get
             {
-                return "GZ";
+                return "GS";
             }
         }
 
