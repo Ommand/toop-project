@@ -78,6 +78,12 @@ namespace toop_project.src.Solver
             }
         }
 
+        new Type GetType()
+        {
+
+            return Type.Seidel;
+        }
+
         Vector diagonalSolve(Vector diagonal, Vector vector)
         {
             int size = diagonal.Size;
