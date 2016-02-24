@@ -6,7 +6,7 @@ namespace toop_project.src.Solver
 {
     public enum Type {
         Jacobi,
-        GaussSeidel,
+        Seidel,
         LOS,
         MSG,
         BSG,
@@ -15,13 +15,14 @@ namespace toop_project.src.Solver
     abstract public class ISolver {
         public abstract Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
                         ILogger logger,ISolverLogger solverLogger, ISolverParametrs solverParametrs);
-
         public static ISolver getSolver(Type type) {
             switch (type) {
                 case Type.Jacobi:
                     return new src.Solver.Jacobi();
                 case Type.MSG:
                     return new src.Solver.MSG();
+                case Type.Seidel:
+                    return new src.Solver.GZ();
             }
             return null;
         }
