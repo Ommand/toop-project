@@ -1,1 +1,1 @@
-[INFO][24.02.2016 15:51:11] Logger started to work
+
