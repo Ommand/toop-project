@@ -169,7 +169,34 @@ namespace toop_project.src.Matrix
 
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (di.Length == x.Size)
+            {
+                Vector result = (Vector)x.Clone();
+
+                if (UseDiagonal)
+                {
+                    int n = di.Length - shift_l[shift_l.Length - 1];
+
+                    result[di.Length - 1] /= di[di.Length - 1];
+                    for (int i = di.Length - 2; i >= n; i--)
+                    {
+                        for (int j = 0; j < shift_l.Length; j++)
+                            result[i - shift_u[j]] -= al[i + 1][shift_u[j]] * result[i + 1];
+                        result[i] /= di[i];
+                    }
+                }
+                else
+                {
+                    int n = di.Length - shift_l[shift_l.Length - 1];
+
+                    for (int i = di.Length - 2; i >= n; i--)
+                        for (int j = 0; j < shift_l.Length; j++)
+                            result[i - shift_l[j]] -= au[i + 1][shift_l[j]] * result[i + 1];
+                }
+                return result;
+            }
+            else
+                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в прямом (T) ходе");
         }
 
         public override Vector Multiply(Vector x)
@@ -276,7 +303,7 @@ namespace toop_project.src.Matrix
                 return result;
             }
             else
-                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в умножении нижнего треугольника");
+                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в обратном ходе");
         }
 
         public override Vector UtMult(Vector x, bool UseDiagonal)
@@ -302,7 +329,54 @@ namespace toop_project.src.Matrix
 
         public override Vector UtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (di.Length == x.Size)
+            {
+                Vector result = (Vector)x.Clone();
+
+                if (UseDiagonal)
+                {
+                    result[0] /= di[0];
+                    int i;
+                    // Спускаемся, пока не дойдем до последней диагонали
+                    for (i = 1; i < shift_u[0]; i++)
+                        result[i] /= di[i];
+                    for (int k = 0; k < shift_u.Length; k++)
+                    {
+                        for (; i < shift_u[k + 1]; i++)
+                        {
+                            for (int j = k; j >= 0; j--)
+                                result[i] -= au[i][j] * result[i - shift_u[j]];
+                            result[i] /= di[i];
+                        }
+                    }
+                    //Спустились до последней диагонали, обрабатываем все вместе
+                    for (; i < di.Length; i++)
+                    {
+                        for (int j = 0; j < shift_u.Length; j++)
+                            result[i] -= au[i][j] * result[i - shift_u[j]];
+                        result[i] /= di[i];
+                    }
+                }
+                else
+                {
+                    int i = 1;
+                    // Спускаемся, пока не дойдем до последней диагонали
+
+                    for (int k = 0; k < shift_u.Length; k++)
+                        for (; i < shift_u[k + 1]; i++)
+                            for (int j = k; j >= 0; j--)
+                                result[i] -= au[i][j] * result[i - shift_u[j]];
+
+                    //Спустились до последней диагонали, обрабатываем все вместе
+                    for (; i < di.Length; i++)
+                        for (int j = 0; j < shift_u.Length; j++)
+                            result[i] -= au[i][j] * result[i - shift_u[j]];
+                }
+
+                return result;
+            }
+            else
+                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в прямом ходе");
         }
 
         public override void Run(Action<int, int, double> fun)
