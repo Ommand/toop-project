@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,13 +21,13 @@ namespace toop_project.src.Solver
 
                 //prestart
                 int oIter = 0;
-                double alpha, beta, oNev;
+                double alpha, beta, oNev,bNorm=rightPart.Norm			();
                 Vector x = initialSolution, rNew, rOld, z;
 
                 rOld = rightPart - matrix.Multiply(x);
                 z = rOld;
-
-              
+			
+              	
                 do
                 {
 
@@ -38,7 +38,7 @@ namespace toop_project.src.Solver
                     z = rNew + z * beta;
 
                     oIter++;
-                    oNev = rNew.Norm() / rightPart.Norm();
+                    oNev = rNew.Norm() / bNorm;
 
                     solverLogger.AddIterationInfo(oIter, oNev);//logger
 
