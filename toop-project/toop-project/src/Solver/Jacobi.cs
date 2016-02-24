@@ -20,8 +20,8 @@ namespace toop_project.src.Solver
 
                 Vector x, r, diagonal;
                 int size, k;
-                double relativeResidual, w;
-                Vector DUx, DLx, Db, Dx, Lx, Ux;
+                double relativeResidual, w, rightPartNorm;
+                Vector Db, Dx, Lx, Ux, DULx;
 
                 size = initialSolution.Size;
                 x = new Vector(size);
@@ -31,12 +31,13 @@ namespace toop_project.src.Solver
                 x = initialSolution;
                 w = JacParametrs.Relaxation;
                 diagonal = matrix.Diagonal;
+                rightPartNorm = rightPart.Norm();
 
                 Dx = diagonalMult(diagonal, x);
                 Lx = matrix.LMult(x, false);
                 Ux = matrix.UMult(x, false);
                 r = Lx + Dx + Ux - rightPart;
-                relativeResidual = r.Norm() / rightPart.Norm();
+                relativeResidual = r.Norm() / rightPartNorm;
 
                 Db = diagonalSolve(diagonal, rightPart);
 
@@ -44,16 +45,15 @@ namespace toop_project.src.Solver
 
                 for (k = 1; k <= solverParametrs.MaxIterations && relativeResidual > solverParametrs.Epsilon; k++)
                 {
-                    DUx = diagonalSolve(diagonal, Ux);
-                    DLx = diagonalSolve(diagonal, Lx);
+                    DULx = diagonalSolve(diagonal, Ux + Lx);
 
-                    x = (Db - DUx - DLx) * w + x * (1 - w);
+                    x = (Db - DULx) * w + x * (1 - w);
 
                     Dx = diagonalMult(diagonal, x);
                     Lx = matrix.LMult(x, false);
                     Ux = matrix.UMult(x, false);
                     r = Lx + Dx + Ux - rightPart;
-                    relativeResidual = r.Norm() / rightPart.Norm();
+                    relativeResidual = r.Norm() / rightPartNorm;
 
                     solverLogger.AddIterationInfo(k, relativeResidual);
                 }
@@ -67,7 +67,6 @@ namespace toop_project.src.Solver
             }
         }
 
- 
 
         Vector diagonalSolve(Vector diagonal, Vector vector)
         {
