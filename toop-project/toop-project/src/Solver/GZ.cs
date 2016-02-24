@@ -70,14 +70,6 @@ namespace toop_project.src.Solver
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return "GS";
-            }
-        }
-
         new Type GetType()
         {
 
