@@ -70,11 +70,7 @@ namespace toop_project.src.Solver
             }
         }
 
-        new Type GetType()
-        {
-
-            return Type.Seidel;
-        }
+       public Type Type { get { return Type.Seidel; } private set { } }
 
         Vector diagonalSolve(Vector diagonal, Vector vector)
         {
