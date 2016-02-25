@@ -29,5 +29,7 @@ namespace toop_project.src.Solver
             }
             return null;
         }
+
+       public abstract Type Type { get; }
     }
 }

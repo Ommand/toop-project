@@ -67,13 +67,7 @@ namespace toop_project.src.Solver
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return "Jacobi";
-            }
-        }
+ 
 
         Vector diagonalSolve(Vector diagonal, Vector vector)
         {
@@ -95,5 +89,7 @@ namespace toop_project.src.Solver
 
             return result;
         }
+
+        public override Type Type { get { return Type.Jacobi; } }
     }
 }
