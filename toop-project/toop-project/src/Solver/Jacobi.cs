@@ -90,6 +90,6 @@ namespace toop_project.src.Solver
             return result;
         }
 
-        public Type Type { get { return Type.Jacobi; } private set { } }
+        public override Type Type { get { return Type.Jacobi; } }
     }
 }

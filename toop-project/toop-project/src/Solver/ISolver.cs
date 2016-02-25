@@ -30,6 +30,6 @@ namespace toop_project.src.Solver
             return null;
         }
 
-        Type Type { get; }
+       public abstract Type Type { get; }
     }
 }
