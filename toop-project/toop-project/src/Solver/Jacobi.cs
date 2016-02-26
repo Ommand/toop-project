@@ -12,7 +12,7 @@ namespace toop_project.src.Solver
     public class Jacobi : ISolver
     {
         public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                                     ILogger logger,  ISolverLogger solverLogger, ISolverParametrs solverParametrs )
+                                     ILogger logger,  ISolverLogger solverLogger, ISolverParametrs solverParametrs,  BaseMatrix predMatrix)
         {
             if (solverParametrs is JacobiParametrs)
             {
