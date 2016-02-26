@@ -24,7 +24,7 @@ namespace toop_project.src.Slae {
         }
         public void Solve() {
             Result = Solver.Solve(Matrix, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
-                new src.Solver.JacobiParametrs(Eps, MaxIter));
+                new src.Solver.JacobiParametrs(Eps, MaxIter),null);//null-затычку, нужно будет убрать, это чтоб компилилось
             iGui.FinishSolve();
         }
         public src.Matrix.BaseMatrix Matrix = null;

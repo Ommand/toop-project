@@ -19,7 +19,7 @@ namespace toop_project.src.Solver
     }
     abstract public class ISolver {
         public abstract Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                        ILogger logger,ISolverLogger solverLogger, ISolverParametrs solverParametrs);
+                        ILogger logger,ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix);
         public static ISolver getSolver(Type type) {
             switch (type) {
                 case Type.Jacobi:
