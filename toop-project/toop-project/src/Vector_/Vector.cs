@@ -70,7 +70,7 @@ namespace toop_project.src.Vector_
                 _vector[index] = 0;
             }
         }
-        public Vector Mult(Vector v1, Vector v2)
+        public static Vector Mult(Vector v1, Vector v2)
         {
             if (v1.Size == v2.Size)
             {
@@ -85,7 +85,7 @@ namespace toop_project.src.Vector_
                 throw new Exception("Несовпадение длин у операндов при умножении векторов");
         }
 
-        public Vector Division(Vector v1, Vector v2)
+        public static Vector Division(Vector v1, Vector v2)
         {
             if (v1.Size == v2.Size)
             {
