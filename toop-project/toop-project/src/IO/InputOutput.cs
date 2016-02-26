@@ -90,6 +90,69 @@ namespace toop_project
 			return matrix;
 		}
 
+		//метод для чтения правой части из файла
+		public static Vector InputRightPart(string fileName)
+		{
+			Logger log = Logger.Instance;
+			CultureInfo cultureInfo = new CultureInfo("en-US");
+			Vector rightPart;
+
+			string[] fileContent;
+
+			try
+			{
+				using (StreamReader streamReader = new StreamReader(fileName))
+				{
+					log.Info("Чтение информации о правой части из файла " + fileName + ".");
+					fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+				}
+
+				//чтение n
+				int n;
+				log.Info("Ввод размерности правой части...");
+				if (!int.TryParse(fileContent[0], out n))
+				{
+					throw new Exception("Некорректно введена размерность матрицы (Должна представлять собой целое число).");
+				}
+				if (n < 1)
+				{
+					throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
+				}
+				log.Info("Ввод размерности правой части завершен.");
+
+				double bi;
+
+				//чтение правой части
+				rightPart = new Vector(n);
+				log.Info("Ввод элементов правой части...");
+				for (int i = 0; i < n; i++)
+				{
+					if (!double.TryParse(fileContent[1 + i], NumberStyles.Any, cultureInfo, out bi))
+					{
+						throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент правой части (Должен представлять собой число).");
+					}
+					rightPart[i] = bi;
+				}
+				log.Info("Ввод элементов правой части завершен.");
+
+				log.Info("Успешное завершение ввода правой части.");
+			}
+			catch (IndexOutOfRangeException e)
+			{
+				log.Error("Выхождение индекса за пределы массива с данными (Не хватает данных для корректного ввода).");
+				log.Error("Аварийное завершение ввода правой части.");
+				rightPart = null;
+			}
+			catch (Exception e)
+			{
+				log.Error(e.Message);
+				log.Error("Аварийное завершение ввода правой части.");
+				rightPart = null;
+			}
+
+			return rightPart;
+		}
+
 		public static void OutputVector(string fileName, Vector vector)
 		{
 			Logger log = Logger.Instance;
