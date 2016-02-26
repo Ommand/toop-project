@@ -80,6 +80,8 @@
     <Compile Include="src\Solver\ISolverParametrs.cs" />
     <Compile Include="src\Solver\Jacobi.cs" />
     <Compile Include="src\Solver\JacobiParametrs.cs" />
+    <Compile Include="src\Solver\MSG.cs" />
+    <Compile Include="src\Solver\MSGParametrs.cs" />
     <Compile Include="src\Vector_\Vector.cs" />
     <EmbeddedResource Include="src\GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
