@@ -13,7 +13,7 @@ namespace toop_project.src.Solver
     public class MSG : ISolver
     {
 
-        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution, ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs)
+        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution, ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix)
         {
             MSGParametrs ConGradParametrs = solverParametrs as MSGParametrs;
 
