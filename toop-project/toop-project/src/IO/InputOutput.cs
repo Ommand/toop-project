@@ -27,10 +27,10 @@ namespace toop_project
 				//открываем файл для чтения и переносим всю информацию оттуда в массив строк
 				using (StreamReader streamReader = new StreamReader(fileName))
 				{
-					log.Info("Чтение информации о матрице из файла " + fileName + "...");
+					log.Info("Чтение информации о матрице из файла " + fileName + ".");
 					fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 				}
-				log.Info("Чтение информации о матрице из файла завершено.");
+				log.Info("Чтение информации из файла завершено.");
 
 				matrixFormat = fileContent[0];
 
@@ -43,11 +43,12 @@ namespace toop_project
 						break;
 					}
 					//профильный формат
+					/*
 					case "SKYLINE":
 					{
-						matrix = InputSkylineMatrix(fileContent);
+						InputSkylineMatrix(fileContent, out matrix, log);
 						break;
-					}
+					}*/
 					//разреженный строчно-столбцовый формат
 					case "SPARSE":
 					{
@@ -153,29 +154,6 @@ namespace toop_project
 			return rightPart;
 		}
 
-		public static void OutputVector(string fileName, Vector vector)
-		{
-			Logger log = Logger.Instance;
-
-			try
-			{
-				using (StreamWriter streamWriter = new StreamWriter(fileName))
-				{
-					log.Info("Вывод результата в файл " + fileName + "...");
-					for (int i = 0; i < vector.Size; i++)
-					{
-						streamWriter.WriteLine(vector[i]);
-					}
-					log.Info("Вывод результата в файл завершен.");
-				}
-			}
-			catch (Exception e)
-			{
-				log.Error(e.Message);
-				log.Error("Аварийное завершение вывода результата.");
-			}
-		}
-
 		//ввод матрицы в плотном формате
 		private static BaseMatrix InputDenseMatrix(string[] fileContent)
 		{
@@ -220,17 +198,14 @@ namespace toop_project
 		}
 
 		//ввод матрицы в профильном формате
-		private static BaseMatrix InputSkylineMatrix(string[] fileContent)
+		/*private static void InputSkylineMatrix(string[] fileContent, out BaseMatrix matrix, List<string> log)
 		{
-			Logger log = Logger.Instance;
-			CultureInfo cultureInfo = new CultureInfo("en-US");
 			int pos = 2;
-
-			log.Info("Выбранный формат матрицы - профильный.");
+			CultureInfo cultureInfo = new CultureInfo("en-US");
 
 			//чтение n
 			int n;
-			log.Info("Ввод размерности матрицы...");
+			log.Add("Ввод размерности матрицы...");
 			if (!int.TryParse(fileContent[1], out n))
 			{
 				throw new Exception("Некорректно введена размерность матрицы (Должна представлять собой целое число).");
@@ -239,62 +214,51 @@ namespace toop_project
 			{
 				throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
 			}
-			log.Info("Ввод размерности матрицы завершен.");
+			log.Add("Ввод размерности матрицы завершен.");
 
 			//чтение ia
 			int[] ia = new int[n];
-			log.Info("Ввод ia...");
-			for (int i = 0; i < n; i++, pos++)
+			for (int i = 0; i < n; i++)
 			{
-				if (!int.TryParse(fileContent[pos], out ia[i]))
-				{
-					throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент ia (Должен представлять собой целое число).");
-				}
+				int.TryParse(fileContent[pos + i], out ia[i]);
 			}
-			log.Info("Ввод ia завершен.");
+			pos += n;
 
 			int m = ia[n - 1];
 
 			//чтение di
 			double[] di = new double[n];
-			log.Info("Ввод di...");
-			for (int i = 0; i < n; i++, pos++)
+			for (int i = 0; i < n; i++)
 			{
-				if (!double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out di[i]))
-				{
-					throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент di (Должен представлять собой число).");
-				}
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out di[i]);
 			}
-			log.Info("Ввод di завершен.");
+			pos += n;
 
 			//чтение al
 			double[] al = new double[m];
-			log.Info("Ввод al...");
-			for (int i = 0; i < m; i++, pos++)
+			for (int i = 0; i < m; i++)
 			{
-				if (!double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out al[i]))
-				{
-					throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент al (Должен представлять собой число).");
-				}
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out al[i]);
 			}
-			log.Info("Ввод al завершен.");
+			pos += m;
 
 			//чтение au
 			double[] au = new double[m];
-			log.Info("Ввод au...");
-			for (int i = 0; i < m; i++, pos++)
+			for (int i = 0; i < m; i++)
 			{
-				if (!double.TryParse(fileContent[pos], NumberStyles.Any, cultureInfo, out au[i]))
-				{
-					throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент au (Должен представлять собой число).");
-				}
+				double.TryParse(fileContent[pos + i], NumberStyles.Any, cultureInfo, out au[i]);
 			}
-			log.Info("Ввод au завершен.");
 
-			//формирование новой профильной матрицы
-			log.Info("Успешное завершение ввода матрицы.");
-			return new ProfileMatrix(ia, al, au, di);
-		}
+			//формирование образа матрицы на вывод
+			matrixView = new object[6];
+
+			matrixView[0] = 2;
+			matrixView[1] = n;
+			matrixView[2] = ia;
+			matrixView[3] = di;
+			matrixView[4] = al;
+			matrixView[5] = au;
+		}*/
 
 		//ввод матрицы в разреженном строчно-столбцовом формате
 		private static BaseMatrix InputSparseMatrix(string[] fileContent)
@@ -603,6 +567,6 @@ namespace toop_project
 			log.Info("Успешное завершение ввода матрицы.");
 			return new BandMatrix(bandWidth, di, al, au);
 		}
-		
+
 	}
 }
