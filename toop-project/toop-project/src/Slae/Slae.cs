@@ -17,24 +17,23 @@ namespace toop_project.src.Slae {
             // TODO: uncomment if need precond
             //if (Precond == null) return false;
             if (Solver == null) return false;
-
-            // TODO: check sizes of rp & matrix?
-
+            
             return true;
         }
         public void Solve() {
-            Result = Solver.Solve(Matrix, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
-                new src.Solver.JacobiParametrs(Eps, MaxIter),null);//null-затычку, нужно будет убрать, это чтоб компилилось
-            iGui.FinishSolve();
+            try {
+                Result = Solver.Solve(Matrix, Right);
+                iGui.FinishSolve();
+            }
+            catch (Exception ex) {
+                iGui.ShowError(ex.Message);
+            }
         }
         public src.Matrix.BaseMatrix Matrix = null;
         public src.Vector_.Vector Right = null;
         public src.Vector_.Vector Result = null;
         public src.Preconditioner.IPreconditioner Precond = null;
         public src.Solver.ISolver Solver = null;
-
-        public double Eps = 1e-10;
-        public int MaxIter = 1000;
     }
 
 }

@@ -7,29 +7,32 @@ using toop_project.src.Matrix;
 using toop_project.src.Vector_;
 using toop_project.src.Logging;
 
-namespace toop_project.src.Solver
-{
-    public enum Type {
-        Jacobi,
-        Seidel,
-        LOS,
-        MSG,
-        BSG,
-        GMRES
-    }
-    abstract public class ISolver {
-        public abstract Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                        ILogger logger,ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix);
-        public static ISolver getSolver(Type type) {
-            switch (type) {
-                case Type.Jacobi:
-                    return new src.Solver.Jacobi();
-                case Type.Seidel:
-                    return new src.Solver.GZ();
-            }
-            return null;
-        }
+namespace toop_project.src.Solver {
+  public enum Type {
+    Jacobi,
+    Seidel,
+    LOS,
+    MSG,
+    BSG,
+    GMRES
+  }
+  abstract public class ISolver {
+    public abstract Type Type { get; }
+    protected src.Logging.ILogger logger = src.Logging.Logger.Instance;
+    protected src.Logging.ISolverLogger solverLogger = src.Logging.Logger.Instance;
+    public ISolverParameters Parameters { get { return parameters; } }
+    protected ISolverParameters parameters;
 
-       public abstract Type Type { get; }
+    public abstract Vector Solve(BaseMatrix matrix, Vector rightPart);
+
+    public static ISolver getSolver(Type type) {
+      switch (type) {
+        case Type.Jacobi:
+          return new JacobiSolver();
+        case Type.Seidel:
+          return new GaussSeidelSolver();
+      }
+      return null;
     }
+  }
 }
