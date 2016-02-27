@@ -74,7 +74,7 @@ namespace toop_project
 					}
 				}
 			}
-			catch (IndexOutOfRangeException e)
+			catch (IndexOutOfRangeException)
 			{
 				log.Error("Выхождение индекса за пределы массива с данными (Не хватает данных для корректного ввода).");
 				log.Error("Аварийное завершение ввода матрицы.");
@@ -137,7 +137,7 @@ namespace toop_project
 
 				log.Info("Успешное завершение ввода правой части.");
 			}
-			catch (IndexOutOfRangeException e)
+			catch (IndexOutOfRangeException)
 			{
 				log.Error("Выхождение индекса за пределы массива с данными (Не хватает данных для корректного ввода).");
 				log.Error("Аварийное завершение ввода правой части.");

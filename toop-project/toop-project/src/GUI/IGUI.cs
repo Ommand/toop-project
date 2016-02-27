@@ -10,5 +10,6 @@ namespace toop_project.src.GUI
         void UpdateLog(String message);
         void UpdateIterationLog(int iter, double residual);
         void FinishSolve();
+        void ShowError(String message);
     }
 }
