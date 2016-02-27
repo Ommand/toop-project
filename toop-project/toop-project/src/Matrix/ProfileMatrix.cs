@@ -80,7 +80,7 @@ namespace toop_project.src.Matrix
             {
                 int index = _ig[column];
                 for (int row = column - (_ig[column + 1] - index); row < column; row++, index++)
-                    vector[row] += _al[index] * x[column];
+                    vector[row] += _au[index] * x[column];
             }
 
             if (UseDiagonal)
@@ -120,7 +120,7 @@ namespace toop_project.src.Matrix
             {
                 int index = _ig[column];
                 for (int row = column - (_ig[column + 1] - index); row < column; row++, index++)
-                    vector[column] += _al[index] * x[row];
+                    vector[column] += _au[index] * x[row];
             }
 
             if (UseDiagonal)
@@ -131,32 +131,170 @@ namespace toop_project.src.Matrix
 
         public override Vector LSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов LSolve");
+
+            Vector vector = new Vector(_count);
+            if (UseDiagonal)
+            {
+                for (int row = 0; row < _count; row++)
+                {
+                    double sumRow = 0;
+                    int index = row - (_ig[row + 1] - _ig[row]);
+                    for (int column =  _ig[row]; index < row; column++, index++)
+                        sumRow += _al[column] * vector[index];
+                    vector[row] = (x[row] - sumRow) / _di[row];
+                }
+            }
+
+            else
+            {
+                for (int row = 0; row < _count; row++)
+                {
+                    double sumRow = 0;
+                    int index = row - (_ig[row + 1] - _ig[row]);
+                    for (int column = _ig[row]; index < row; column++, index++)
+                        sumRow += _al[column] * vector[index];
+                    vector[row] = x[row] - sumRow;
+                }
+            }
+
+            return vector;
         }
              
         public override Vector LtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов LtSolve");
+
+            Vector vector = (Vector)x.Clone();
+            if (UseDiagonal)
+            {
+                for (int row = _count - 1; row >= 0; row--)
+                {
+                    vector[row] /= _di[row];
+                    int start = row - (_ig[row + 1] - _ig[row]);
+                    for (int column = _ig[row + 1] - 1, index = row - 1; index >= start; column--, index--)
+                        vector[index] -= _al[column] * vector[row];
+                }
+            }
+
+            else
+            {
+                for (int row = _count - 1; row >= 0; row--)
+                {
+                    int start = row - (_ig[row + 1] - _ig[row]);
+                    for (int column = _ig[row + 1] - 1, index = row - 1; index >= start; column--, index--)
+                        vector[index] -= _al[column] * vector[row];
+                }
+            }
+
+            return vector;
         }
 
         public override Vector Multiply(Vector x)
         {
-            throw new NotImplementedException();
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов Multiply");
+
+            Vector vector = new Vector(_count);
+
+            for (int row = 0; row < _count; row++)
+            {
+                int index = _ig[row];
+                for (int column = row - (_ig[row + 1] - index); column < row; column++, index++)
+                {
+                    vector[row] += _al[index] * x[column];
+                    vector[column] += _au[index] * x[row];
+                }
+                vector[row] += _di[row] * x[row];
+            }
+
+            return vector;
         }
 
         public override Vector TMultiply(Vector x)
         {
-            throw new NotImplementedException();
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов TMultiply");
+
+            Vector vector = new Vector(_count);
+
+            for (int row = 0; row < _count; row++)
+            {
+                int index = _ig[row];
+                for (int column = row - (_ig[row + 1] - index); column < row; column++, index++)
+                {
+                    vector[row] += _au[index] * x[column];
+                    vector[column] += _al[index] * x[row];
+                }
+                vector[row] += _di[row] * x[row];
+            }
+
+            return vector;
         }
         
         public override Vector USolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов USolve");
+
+            Vector vector = (Vector)x.Clone();
+            if (UseDiagonal)
+            {
+                for (int row = _count - 1; row >= 0; row--)
+                {
+                    vector[row] /= _di[row];
+                    int start = row - (_ig[row + 1] - _ig[row]);
+                    for (int column = _ig[row + 1] - 1, index = row - 1; index >= start; column--, index--)
+                        vector[index] -= _au[column] * vector[row];
+                }
+            }
+
+            else
+            {
+                for (int row = _count - 1; row >= 0; row--)
+                {
+                    int start = row - (_ig[row + 1] - _ig[row]);
+                    for (int column = _ig[row + 1] - 1, index = row - 1; index >= start; column--, index--)
+                        vector[index] -= _au[column] * vector[row];
+                }
+            }
+
+            return vector;
         }
         
         public override Vector UtSolve(Vector x, bool UseDiagonal)
         {
-            throw new NotImplementedException();
+            if (x.Size != _count)
+                throw new Exception("Несовпадение длин у операндов UtSolve");
+
+            Vector vector = new Vector(_count);
+            if (UseDiagonal)
+            {
+                for (int row = 0; row < _count; row++)
+                {
+                    double sumRow = 0;
+                    int index = row - (_ig[row + 1] - _ig[row]);
+                    for (int column = _ig[row]; index < row; column++, index++)
+                        sumRow += _au[column] * vector[index];
+                    vector[row] = (x[row] - sumRow) / _di[row];
+                }
+            }
+
+            else
+            {
+                for (int row = 0; row < _count; row++)
+                {
+                    double sumRow = 0;
+                    int index = row - (_ig[row + 1] - _ig[row]);
+                    for (int column = _ig[row]; index < row; column++, index++)
+                        sumRow += _au[column] * vector[index];
+                    vector[row] = x[row] - sumRow;
+                }
+            }
+
+            return vector;
         }
 
         public override void Run(Action<int, int, double> fun)
