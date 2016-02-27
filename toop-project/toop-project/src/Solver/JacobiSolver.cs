@@ -18,29 +18,26 @@ namespace toop_project.src.Solver {
     private double w { get { return (parameters as JacobiParameters).Relaxation; } set { } }
 
     public override Vector Solve(BaseMatrix matrix, Vector rightPart) {
-      int size = rightPart.Size;
-      Vector x = new Vector(size);
-      Vector r = new Vector(size);
-      Vector diagonal = new Vector(size);
-
+      Vector x = new Vector(rightPart.Size);
       if (parameters.initialSolution != null)
         x = parameters.initialSolution;
 
-      diagonal = matrix.Diagonal;
-      double rightPartNorm = rightPart.Norm();
+      Vector diagonal = matrix.Diagonal;
 
       Vector Dx = Vector.Mult(diagonal, x);
       Vector Lx = matrix.LMult(x, false);
       Vector Ux = matrix.UMult(x, false);
-      r = Lx + Dx + Ux - rightPart;
+      Vector r = Lx + Dx + Ux - rightPart;
+
+      double rightPartNorm = rightPart.Norm();
       double relativeResidual = r.Norm() / rightPartNorm;
 
       Vector Db = Vector.Division(rightPart, diagonal);
 
       solverLogger.AddIterationInfo(0, relativeResidual);
-      Vector DULx;
+
       for (int k = 1; k <= parameters.MaxIterations && relativeResidual > parameters.Epsilon; k++) {
-        DULx = Vector.Division(Ux + Lx, diagonal);
+        Vector DULx = Vector.Division(Ux + Lx, diagonal);
 
         x = (Db - DULx) * w + x * (1 - w);
 

@@ -1,17 +1,38 @@
-[INFO][27.02.2016 18:54:01] Logger started to work
-[INFO][27.02.2016 18:54:01] Чтение информации о матрице из файла C:\Prog\toop-project\toop-project\toop-project\res\testFile.mtx...
-[INFO][27.02.2016 18:54:01] Чтение информации о матрице из файла завершено.
-[INFO][27.02.2016 18:54:01] Выбранный формат матрицы - плотный.
-[INFO][27.02.2016 18:54:01] Ввод размерности матрицы...
-[INFO][27.02.2016 18:54:01] Ввод размерности матрицы завершен.
-[INFO][27.02.2016 18:54:01] Ввод элементов матрицы...
-[INFO][27.02.2016 18:54:01] Ввод элементов матрицы завершен.
-[INFO][27.02.2016 18:54:01] Успешное завершение ввода матрицы.
-[INFO][27.02.2016 18:54:01] Чтение информации о правой части из файла C:\Prog\toop-project\toop-project\toop-project\res\testRP.rtx.
-[INFO][27.02.2016 18:54:01] Ввод размерности правой части...
-[INFO][27.02.2016 18:54:01] Ввод размерности правой части завершен.
-[INFO][27.02.2016 18:54:01] Ввод элементов правой части...
-[INFO][27.02.2016 18:54:01] Ввод элементов правой части завершен.
-[INFO][27.02.2016 18:54:01] Успешное завершение ввода правой части.
-[SOLVER][27.02.2016 18:54:09] Solving: iteration number 0, residual is 1
-[SOLVER][27.02.2016 18:54:11] Solving: iteration number 1, residual is 1
+[INFO][27.02.2016 19:08:23] Logger started to work
+[INFO][27.02.2016 19:08:26] Чтение информации о матрице из файла C:\Prog\toop-project\toop-project\toop-project\res\testFile.mtx...
+[INFO][27.02.2016 19:08:26] Чтение информации о матрице из файла завершено.
+[INFO][27.02.2016 19:08:26] Выбранный формат матрицы - плотный.
+[INFO][27.02.2016 19:08:26] Ввод размерности матрицы...
+[INFO][27.02.2016 19:08:26] Ввод размерности матрицы завершен.
+[INFO][27.02.2016 19:08:26] Ввод элементов матрицы...
+[INFO][27.02.2016 19:08:26] Ввод элементов матрицы завершен.
+[INFO][27.02.2016 19:08:26] Успешное завершение ввода матрицы.
+[INFO][27.02.2016 19:08:27] Чтение информации о правой части из файла C:\Prog\toop-project\toop-project\toop-project\res\testRP.rtx.
+[INFO][27.02.2016 19:08:27] Ввод размерности правой части...
+[INFO][27.02.2016 19:08:27] Ввод размерности правой части завершен.
+[INFO][27.02.2016 19:08:27] Ввод элементов правой части...
+[INFO][27.02.2016 19:08:27] Ввод элементов правой части завершен.
+[INFO][27.02.2016 19:08:27] Успешное завершение ввода правой части.
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 0, residual is 1
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 1, residual is 0,595726106471024
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 2, residual is 0,370110118759415
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 3, residual is 0,19708663329252
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 4, residual is 0,11940894167043
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 5, residual is 0,0727180948086923
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 6, residual is 0,0381909298136016
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 7, residual is 0,023025466446261
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 8, residual is 0,0135954477737842
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 9, residual is 0,00727659114556782
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 10, residual is 0,0042995022358546
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 11, residual is 0,00253079208408593
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 12, residual is 0,00136194224982929
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 13, residual is 0,000801189398159905
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 14, residual is 0,0004679679519563
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 15, residual is 0,00025455115300122
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 16, residual is 0,000148659292495852
+[SOLVER][27.02.2016 19:08:29] Solving: iteration number 17, residual is 8,66040658835967E-05
+[SOLVER][27.02.2016 19:08:32] Solving: iteration number 0, residual is 1
+[SOLVER][27.02.2016 19:08:32] Solving: iteration number 1, residual is 0
+[SOLVER][27.02.2016 19:08:43] Solving: iteration number 0, residual is 1
+[SOLVER][27.02.2016 19:08:43] Solving: iteration number 1, residual is 0
+[SOLVER][27.02.2016 19:10:12] Solving: iteration number 0, residual is 1

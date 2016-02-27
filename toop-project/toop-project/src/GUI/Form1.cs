@@ -207,25 +207,7 @@ namespace toop_project {
 
     private void Form1_Load(object sender, EventArgs e) {
       slae = new src.Slae.SLAE(this);
-      test1();
     }
 
-    private void test1() {
-      src.Matrix.BaseMatrix matrix;
-      matrix = toop_project.InputOutput.InputMatrix(resPath + "testFile.mtx");
-      updateDgvMatrix(matrix);
-      slae.Matrix = matrix;
-      lblMatixFileName.Text = "testFile.mtx";
-
-      src.Vector_.Vector vector;
-      vector = toop_project.InputOutput.InputRightPart(resPath + "testRP.rtx");
-      updateDgvRightPart(vector);
-      slae.Right = vector;
-      lblRPFileName.Text = "testRP.rtx";
-
-      cmbSolver.SelectedIndex = 0;
-
-      btnSolve_Click(null, null);
-    }
   }
 }

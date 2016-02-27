@@ -18,39 +18,36 @@ namespace toop_project.src.Solver {
     private double w { get { return (parameters as GaussSeidelParameters).Relaxation; } set { } }
 
     public override Vector Solve(BaseMatrix matrix, Vector rightPart) {
-      int size = rightPart.Size;
-      Vector x = new Vector(size);
-      Vector xnext = new Vector(size);
-      Vector r = new Vector(size);
-      Vector di = new Vector(size);
-
-      if(parameters.initialSolution != null)
+      Vector x = new Vector(rightPart.Size);
+      if (parameters.initialSolution != null)
         x = parameters.initialSolution;
-      di = matrix.Diagonal;
+      Vector xnext = new Vector(rightPart.Size);
 
-      Vector Dx = diagonalMult(di, x);
+      Vector diagonal = matrix.Diagonal;
+      Vector Dx = diagonalMult(diagonal, x);
       Vector Fx = matrix.LMult(x, false);
       Vector Ex = matrix.UMult(x, false);
-      r = Dx + Fx + Ex - rightPart;
-      var rpnorm = rightPart.Norm();
-      double Residual = r.Norm() / rpnorm;
+      Vector r = Dx + Fx + Ex - rightPart;
 
-      Vector DEb = diagonalSolve(di, rightPart);
+      var rightPartNorm = rightPart.Norm();
+      double relativeResidual = r.Norm() / rightPartNorm;
 
-      solverLogger.AddIterationInfo(0, Residual);
+      Vector DEb = diagonalSolve(diagonal, rightPart);
 
-      for (int k = 1; k <= parameters.MaxIterations && Residual > parameters.Epsilon; k++) {
-        Vector DEx = diagonalSolve(di, Ex + Fx);
+      solverLogger.AddIterationInfo(0, relativeResidual);
+
+      for (int k = 1; k <= parameters.MaxIterations && relativeResidual > parameters.Epsilon; k++) {
+        Vector DEx = diagonalSolve(diagonal, Ex + Fx);
         xnext = (DEb + DEx) * w + x * (1 - w);
 
-        Dx = diagonalMult(di, xnext);
+        Dx = diagonalMult(diagonal, xnext);
         Ex = matrix.UMult(x, false);
         r = Dx + Fx + Ex - rightPart;
         Fx = matrix.LMult(xnext, false);
 
-        Residual = r.Norm() / rpnorm;
+        relativeResidual = r.Norm() / rightPartNorm;
 
-        solverLogger.AddIterationInfo(k, Residual);
+        solverLogger.AddIterationInfo(k, relativeResidual);
 
         x = xnext;
       }

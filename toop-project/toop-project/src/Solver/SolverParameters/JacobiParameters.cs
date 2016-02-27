@@ -9,7 +9,7 @@ namespace toop_project.src.Solver {
     protected const double defaultRelaxation = 1.0;
 
     public double Relaxation { get { return relaxation; } protected set { relaxation = value; } }
-    private double relaxation;
+    private double relaxation = defaultRelaxation;
 
     public JacobiParameters() { }
 
