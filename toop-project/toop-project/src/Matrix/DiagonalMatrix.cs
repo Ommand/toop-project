@@ -452,7 +452,7 @@ namespace toop_project.src.Matrix
             {
                 var matrixLU = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
                 if (di[0] < 0)
-                    throw new Exception("Предобусловливание LU :  на диагонали матрицы элемент №0 отрицательный (sqrt(-1))"");
+                    throw new Exception("Предобусловливание LU :  на диагонали матрицы элемент №0 отрицательный (sqrt(-1))");
                 di[0] = Math.Sqrt(di[0]);
                 for (int i = 1; i < di.Length; i++)
                 {
