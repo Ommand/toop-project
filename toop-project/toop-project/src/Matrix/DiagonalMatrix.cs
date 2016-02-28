@@ -408,26 +408,78 @@ namespace toop_project.src.Matrix
 
         public BaseMatrix LU()
         {
-            
-            if (shift_l.Length == 1 && shift_l[0] == 1 && shift_u.Length == 1 && shift_u[0] == 1)
+            var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au, shift_l, shift_u);
+            if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0])
             {
-                var matrixLU = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au, shift_l, shift_u);
                 for (int i = 1; i < di.Length; i++)
                 {
-                    al[i][0] /= di[i - 1];
-                    di[i] -= au[i][0] * al[i][0];
+                    matrPrec.al[i][0] /= matrPrec.di[i - 1];
+                    matrPrec.di[i] -= matrPrec.au[i][0] * matrPrec.al[i][0];
                 }
-                return matrixLU;
             }
-            throw new NotImplementedException();
+            else
+            {
+                var shift_max = shift_l;
+                var shift_min = shift_u;
+                if (shift_l.Length < shift_u.Length)
+                {
+                    shift_max = shift_u;
+                    shift_min = shift_l;
+                }
+                List<int> shift = new List<int>(shift_min); // одинаковые смещения
+                foreach (int i in shift_max)
+                    if (!shift.Contains(i))
+                        shift.Remove(i);
+                if (shift.Count == 0)
+                    throw new Exception("Предобусловливание LU : нет совпадений в портретах верхнего и нижнего треугольников матрицы, разложения не существует");
+                
+                for (int i = 0; i < matrPrec.Size; i++)
+                {
+                    double S = 0;
+                    foreach(int k in shift)
+                    {
+                        int iind = i0;
+                        int j = matrPrec.ja[k];
+                        int j0 = matrPrec.ia[j];
+                        int j1 = matrPrec.ia[j + 1];
+                        int jind = j0;
+                        double Sl = 0, Su = 0;
+                        while (iind < k)
+                        {
+                            if (matrPrec.ja[jind] > matrPrec.ja[iind])
+                                iind++;
+                            else
+                                if (matrPrec.ja[jind] < matrPrec.ja[iind])
+                                jind++;
+                            else
+                            {
+                                Sl += matrPrec.al[iind] * matrPrec.au[jind];
+                                Su += matrPrec.au[iind] * matrPrec.al[jind];
+                                iind++;
+                                jind++;
+                            }
+                        }
+                        matrPrec.au[k] = (matrPrec.au[k] - Su);
+                        if (matrPrec.di[j] == 0)
+                            throw new Exception(String.Concat("Предобусловливание LU : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
+                        matrPrec.al[k] = (matrPrec.al[k] - Sl) / matrPrec.di[j];
+                        S += matrPrec.au[k] * matrPrec.al[k]; // диагональ в U!!!!!
+                    }
+                    matrPrec.di[i] = matrPrec.di[i] - S;
+                }
+            }
+
+                    
+                
+            return matrPrec;
         }
 
         public BaseMatrix LLt()
         {
-            if (shift_l.Length == 1 && shift_l[0] == 1 && shift_u.Length == 1 && shift_u[0] == 1)
+            var newal = al.Clone() as double[][];
+            var matrixLU = new DiagonalMatrix(di.Clone() as double[], newal, newal, shift_l, shift_u);
+            if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0])
             {
-                var newal = al.Clone() as double[][];
-                var matrixLU = new DiagonalMatrix(di.Clone() as double[], newal, newal, shift_l, shift_u);
                 if (di[0] < 0)
                     throw new Exception("Предобусловливание LLt : на диагонали матрицы элемент №0 отрицательный (sqrt(-1))");
                 di[0] = Math.Sqrt(di[0]);
@@ -441,16 +493,15 @@ namespace toop_project.src.Matrix
                         throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", i, " равен 0 (деление на 0)"));
                     di[i] = Math.Sqrt(newdi);
                 }
-                return matrixLU;
-            }
-            throw new NotImplementedException();
+               }
+            return matrixLU;
         }
 
         public BaseMatrix LUsq()
         {
-            if (shift_l.Length == 1 && shift_l[0] == 1 && shift_u.Length == 1 && shift_u[0] == 1)
+            var matrixLU = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
+            if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0])
             {
-                var matrixLU = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
                 if (di[0] < 0)
                     throw new Exception("Предобусловливание LU :  на диагонали матрицы элемент №0 отрицательный (sqrt(-1))");
                 di[0] = Math.Sqrt(di[0]);
@@ -465,9 +516,9 @@ namespace toop_project.src.Matrix
                         throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", i, " равен 0 (деление на 0)"));
                     di[i] = Math.Sqrt(newdi);
                 }
-                return matrixLU;
+                
             }
-            throw new NotImplementedException();
+            return matrixLU;
         }
         #endregion
     }
