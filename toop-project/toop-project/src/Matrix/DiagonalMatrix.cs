@@ -49,7 +49,10 @@ namespace toop_project.src.Matrix
         {
             get
             {
-                throw new NotImplementedException();
+                Vector d = new Vector(di.Length);
+                for (int i = 0; i < di.Length; i++)
+                    d[i] = di[i];
+                return d;
             }
         }
 
@@ -57,7 +60,7 @@ namespace toop_project.src.Matrix
         {
             get
             {
-                throw new NotImplementedException();
+                return di.Length;
             }
         }
 
@@ -81,7 +84,7 @@ namespace toop_project.src.Matrix
 
                 for (int j = 0; j < shift_l.Length; j++)
                     for (int i = shift_l[j]; i < di.Length; i++)
-                        result[i - shift_l[j]] += al[j][i] * x[i];
+                        result[i] += al[i][j] * x[i];
 
                 if (UseDiagonal)
                     for (int i = 0; i < di.Length; i++)
@@ -107,7 +110,7 @@ namespace toop_project.src.Matrix
                     // Спускаемся, пока не дойдем до последней диагонали
                     for (i = 1; i < shift_l[0]; i++)
                         result[i] /= di[i];
-                    for (int k = 0; k < shift_l.Length; k++)
+                    for (int k = 0; k < shift_l.Length - 1; k++)
                     {
                         for (; i < shift_l[k + 1]; i++)
                         {
@@ -155,7 +158,7 @@ namespace toop_project.src.Matrix
 
                 for (int j = 0; j < shift_l.Length; j++)
                     for (int i = shift_l[j]; i < di.Length; i++)
-                        result[i] += al[j][i] * x[i];
+                        result[i - shift_l[j]] += al[i][j] * x[i];
 
                 if (UseDiagonal)
                     for (int i = 0; i < di.Length; i++)
@@ -178,10 +181,10 @@ namespace toop_project.src.Matrix
                     int n = di.Length - shift_l[shift_l.Length - 1];
 
                     result[di.Length - 1] /= di[di.Length - 1];
-                    for (int i = di.Length - 2; i >= n; i--)
+                    for (int i = di.Length - 1; i >= n; i--)
                     {
                         for (int j = 0; j < shift_l.Length; j++)
-                            result[i - shift_u[j]] -= al[i + 1][shift_u[j]] * result[i + 1];
+                            result[i - shift_u[j]] -= al[i][j] * result[i];
                         result[i] /= di[i];
                     }
                 }
@@ -189,9 +192,9 @@ namespace toop_project.src.Matrix
                 {
                     int n = di.Length - shift_l[shift_l.Length - 1];
 
-                    for (int i = di.Length - 2; i >= n; i--)
+                    for (int i = di.Length - 1; i >= n; i--)
                         for (int j = 0; j < shift_l.Length; j++)
-                            result[i - shift_l[j]] -= au[i + 1][shift_l[j]] * result[i + 1];
+                            result[i - shift_l[j]] -= au[i][j] * result[i];
                 }
                 return result;
             }
@@ -209,7 +212,7 @@ namespace toop_project.src.Matrix
                 // Нижний треугольник
                 for (int j = 0; j < shift_l.Length; j++)
                     for (int i = shift_l[j]; i < di.Length; i++)
-                        result[i - shift_l[j]] += al[j][i] * x[i];
+                        result[i] += al[i][j] * x[i];
 
                // Диагональ
                 for (int i = 0; i < di.Length; i++)
@@ -218,7 +221,7 @@ namespace toop_project.src.Matrix
                 //Верхний треугольник
                 for (int j = 0; j < shift_u.Length; j++)
                     for (int i = shift_u[j]; i < di.Length; i++)
-                        result[i] += au[j][i] * x[i];
+                        result[i - shift_u[j]] += au[i][j] * x[i];
 
                 return result;
             }
@@ -236,7 +239,7 @@ namespace toop_project.src.Matrix
                 // Верхний треугольник
                 for (int j = 0; j < shift_u.Length; j++)
                     for (int i = shift_u[j]; i < di.Length; i++)
-                        result[i - shift_u[j]] += au[j][i] * x[i];
+                        result[i] += au[i][j] * x[i];
 
                 // Диагональ
                 for (int i = 0; i < di.Length; i++)
@@ -245,7 +248,7 @@ namespace toop_project.src.Matrix
                 // Нижний треугольник
                 for (int j = 0; j < shift_l.Length; j++)
                     for (int i = shift_l[j]; i < di.Length; i++)
-                        result[i] += al[j][i] * x[i];
+                        result[i - shift_l[j]] += al[j][i] * x[i];
 
                 return result;
             }
@@ -262,7 +265,7 @@ namespace toop_project.src.Matrix
 
                 for (int j = 0; j < shift_u.Length; j++)
                     for (int i = shift_u[j]; i < di.Length; i++)
-                        result[i] += au[j][i] * x[i];
+                        result[i - shift_u[j]] += au[i][j] * x[i];
 
                 if (UseDiagonal)
                     for (int i = 0; i < di.Length; i++)
@@ -285,10 +288,10 @@ namespace toop_project.src.Matrix
                     int n = di.Length - shift_u[shift_u.Length - 1];
 
                     result[di.Length - 1] /= di[di.Length - 1];
-                    for (int i = di.Length - 2; i >= n; i--)
+                    for (int i = di.Length - 1; i >= n; i--)
                     {
                         for (int j = 0; j < shift_u.Length; j++)
-                            result[i-shift_u[j]] -= au[i+1][shift_u[j]] * result[i + 1];
+                            result[i - shift_u[j]] -= au[i][j] * result[i];
                         result[i] /= di[i];
                     }
                 }
@@ -296,9 +299,9 @@ namespace toop_project.src.Matrix
                 {
                     int n = di.Length - shift_u[shift_u.Length - 1];
 
-                    for (int i = di.Length - 2; i >= n; i--)                    
+                    for (int i = di.Length - 1; i >= n; i--)                    
                         for (int j = 0; j < shift_u.Length; j++)
-                            result[i - shift_u[j]] -= au[i + 1][shift_u[j]] * result[i + 1];
+                            result[i - shift_u[j]] -= au[i][j] * result[i];
                 }
                 return result;
             }
@@ -315,7 +318,7 @@ namespace toop_project.src.Matrix
 
                 for (int j = 0; j < shift_u.Length; j++)
                     for (int i = shift_u[j]; i < di.Length; i++)
-                        result[i - shift_u[j]] += au[j][i] * x[i];
+                        result[i] += au[i][j] * x[i];
 
                 if (UseDiagonal)
                     for (int i = 0; i < di.Length; i++)
@@ -324,7 +327,7 @@ namespace toop_project.src.Matrix
                 return result;
             }
             else
-                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в умножении верхнего (T) треугольника");
+                throw new Exception("Диагональный формат: Несовпадение размерностей матрицы и вектора в умножении верхнего(T) треугольника");
         }
 
         public override Vector UtSolve(Vector x, bool UseDiagonal)
@@ -340,7 +343,7 @@ namespace toop_project.src.Matrix
                     // Спускаемся, пока не дойдем до последней диагонали
                     for (i = 1; i < shift_u[0]; i++)
                         result[i] /= di[i];
-                    for (int k = 0; k < shift_u.Length; k++)
+                    for (int k = 0; k < shift_u.Length - 1; k++)
                     {
                         for (; i < shift_u[k + 1]; i++)
                         {
