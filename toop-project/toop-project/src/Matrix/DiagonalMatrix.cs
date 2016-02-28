@@ -399,18 +399,74 @@ namespace toop_project.src.Matrix
         #endregion
 
         #region Preconditioner
-        public BaseMatrix LLt()
-        {
-            throw new NotImplementedException();
-        }
+
+        // !
+        // Есть очень простые формулы для LU-разложения
+        // для случия, если shift_l = {1} и shift_u = {1}
+        // введу для них частный случай, в котором сложность n
+        // см. "Методы решения СЛАУ большой размерности" М.Ю.Баландин Э.П.Шурина 1 августа 2000 г.
 
         public BaseMatrix LU()
         {
+            
+            if (shift_l.Length == 1 && shift_l[0] == 1 && shift_u.Length == 1 && shift_u[0] == 1)
+            {
+                var matrixLU = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au, shift_l, shift_u);
+                for (int i = 1; i < di.Length; i++)
+                {
+                    al[i][0] /= di[i - 1];
+                    di[i] -= au[i][0] * al[i][0];
+                }
+                return matrixLU;
+            }
+            throw new NotImplementedException();
+        }
+
+        public BaseMatrix LLt()
+        {
+            if (shift_l.Length == 1 && shift_l[0] == 1 && shift_u.Length == 1 && shift_u[0] == 1)
+            {
+                var newal = al.Clone() as double[][];
+                var matrixLU = new DiagonalMatrix(di.Clone() as double[], newal, newal, shift_l, shift_u);
+                if (di[0] < 0)
+                    throw new Exception("Предобусловливание LLt : на диагонали матрицы элемент №0 отрицательный (sqrt(-1))");
+                di[0] = Math.Sqrt(di[0]);
+                for (int i = 1; i < di.Length; i++)
+                {
+                    if (di[i - 1] < 0)
+                        throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", i-1, "отрицательный (sqrt(-1))"));
+                    al[i][0] /= di[i - 1];
+                    double newdi = di[i] - al[i][0] * al[i][0];
+                    if (newdi < 0)
+                        throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", i, " равен 0 (деление на 0)"));
+                    di[i] = Math.Sqrt(newdi);
+                }
+                return matrixLU;
+            }
             throw new NotImplementedException();
         }
 
         public BaseMatrix LUsq()
         {
+            if (shift_l.Length == 1 && shift_l[0] == 1 && shift_u.Length == 1 && shift_u[0] == 1)
+            {
+                var matrixLU = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
+                if (di[0] < 0)
+                    throw new Exception("Предобусловливание LU :  на диагонали матрицы элемент №0 отрицательный (sqrt(-1))"");
+                di[0] = Math.Sqrt(di[0]);
+                for (int i = 1; i < di.Length; i++)
+                {
+                    if (di[i - 1] < 0)
+                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", i - 1, "отрицательный (sqrt(-1))"));
+                    au[i][0] /= di[i - 1];
+                    al[i][0] /= di[i - 1];
+                    double newdi = di[i] - au[i][0] * al[i][0];
+                    if (newdi < 0)
+                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", i, " равен 0 (деление на 0)"));
+                    di[i] = Math.Sqrt(newdi);
+                }
+                return matrixLU;
+            }
             throw new NotImplementedException();
         }
         #endregion
