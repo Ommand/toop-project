@@ -22,6 +22,8 @@ namespace toop_project.src.Matrix
         public abstract Vector LMult(Vector x, bool UseDiagonal);//L*x , Если false, то диагональ нулевая
         public abstract Vector UMult(Vector x, bool UseDiagonal);//U*x, Если false, то диагональ нулевая
 
+        public abstract BaseMatrix CreateLU();
+
         public abstract Vector LtMult(Vector x, bool UseDiagonal);//Lt*x , Если false, то диагональ нулевая
         public abstract Vector UtMult(Vector x, bool UseDiagonal);//Ut*x, Если false, то диагональ нулевая
 

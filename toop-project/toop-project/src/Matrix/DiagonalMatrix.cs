@@ -439,10 +439,11 @@ namespace toop_project.src.Matrix
                     shift_max = shift_u;
                     shift_min = shift_l;
                 }
-                List<int> shift = new List<int>(shift_min); // одинаковые смещения
-                foreach (int i in shift_max)
-                    if (!shift.Contains(i))
-                        shift.Remove(i);
+                HashSet<int> shift = new HashSet<int>(shift_min); // одинаковые смещения
+                shift.IntersectWith(shift_max);
+                //foreach (int i in shift_max)
+                //    if (!shift.Contains(i))
+                //        shift.Remove(i);
                 
                 for (int i = 1; i < di.Length; i++)
                 {
