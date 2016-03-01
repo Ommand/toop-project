@@ -242,9 +242,9 @@ namespace toop_project
 			log.Info("Ввод размерности матрицы завершен.");
 
 			//чтение ia
-			int[] ia = new int[n];
+			int[] ia = new int[n + 1];
 			log.Info("Ввод ia...");
-			for (int i = 0; i < n; i++, pos++)
+			for (int i = 0; i < n + 1; i++, pos++)
 			{
 				if (!int.TryParse(fileContent[pos], out ia[i]))
 				{
@@ -253,7 +253,7 @@ namespace toop_project
 			}
 			log.Info("Ввод ia завершен.");
 
-			int m = ia[n - 1];
+			int m = ia[n];
 
 			//чтение di
 			double[] di = new double[n];
@@ -319,9 +319,9 @@ namespace toop_project
 			log.Info("Ввод размерности матрицы завершен.");
 
 			//чтение ia
-			int[] ia = new int[n];
+			int[] ia = new int[n + 1];
 			log.Info("Ввод ia...");
-			for (int i = 0; i < n; i++, pos++)
+			for (int i = 0; i < n + 1; i++, pos++)
 			{
 				if (!int.TryParse(fileContent[pos], out ia[i]))
 				{
@@ -330,7 +330,7 @@ namespace toop_project
 			}
 			log.Info("Ввод ia завершен.");
 
-			int m = ia[n - 1];
+			int m = ia[n];
 
 			//чтение ja
 			int[] ja = new int[m];
