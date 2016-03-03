@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace toop_project.src.Solver
 {
-    class JacobiParametrs : ISolverParametrs {
+    public class JacobiParametrs : ISolverParametrs {
         public JacobiParametrs(double epsilon, int maxIterations, double relax = 1.0) {
             this.Epsilon = epsilon;
             this.MaxIterations = maxIterations;
