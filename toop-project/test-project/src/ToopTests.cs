@@ -28,8 +28,31 @@ namespace test_project {
 			Vector answer = solver.Solve(matrix, rightPart, new Vector(dim), Logger.Instance, Logger.Instance, new JacobiParametrs(eps, maxIter), null);
 
 			Console.Write("Generate complete...\n");
-			for (int i = 0; i < dim; i++) 
+			for (int i = 0; i < dim; i++) {
+				Console.Write(expectedAnswer[i].ToString() + "\t" + answer[i].ToString() + "\n"); 
 				Assert.AreEqual(expectedAnswer[i], answer[i], 0.001, "Not equal!");
+			}
+		}
+
+		[TestMethod]
+		public void TestFailed() {
+			int predCoeff = 0;
+
+			Vector expectedAnswer = new Vector(dim);
+			for (int i = 0; i < dim; i++)
+				expectedAnswer[i] = i + 1;
+
+			var matrix = generateProfileMatrix(predCoeff);
+			var rightPart = generateRightPart(matrix, expectedAnswer);
+
+			Jacobi solver = new Jacobi();
+			Vector answer = solver.Solve(matrix, rightPart, new Vector(dim), Logger.Instance, Logger.Instance, new JacobiParametrs(eps, maxIter), null);
+
+			Console.Write("Generate complete...\n");
+			for (int i = 0; i < dim; i++) {
+				Console.Write(expectedAnswer[i].ToString() + "\t" + answer[i].ToString() + "\n");
+				Assert.AreEqual(expectedAnswer[i], answer[i], 0.000000001, "Not equal!");
+			}
 		}
 
 		private ProfileMatrix generateProfileMatrix(int predCoeff) {
