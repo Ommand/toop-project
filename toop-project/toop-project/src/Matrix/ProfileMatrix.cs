@@ -8,7 +8,7 @@ using toop_project.src.Vector_;
 
 namespace toop_project.src.Matrix
 {
-    class ProfileMatrix : BaseMatrix, IPreconditioner
+    public class ProfileMatrix : BaseMatrix, IPreconditioner
     {
         private int[] _ig;
         private double[] _al;
