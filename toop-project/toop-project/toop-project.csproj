@@ -70,6 +70,7 @@
     <Compile Include="src\Matrix\ProfileMatrix.cs" />
     <Compile Include="src\Matrix\SparseMatrix.cs" />
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
+    <Compile Include="src\Preconditioner\LUPreconditioner.cs" />
     <Compile Include="src\Slae\Slae.cs" />
     <Compile Include="src\Solver\GZ.cs" />
     <Compile Include="src\Solver\GZParametrs.cs" />

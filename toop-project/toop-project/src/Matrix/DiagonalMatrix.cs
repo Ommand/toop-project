@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using toop_project.src.Vector_;
-using toop_project.src.Preconditioner;
 
 /*
     Реализация диагонального формата.
@@ -37,7 +36,7 @@ using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Matrix
 {
-    class DiagonalMatrix : BaseMatrix, IPreconditioner
+    class DiagonalMatrix : BaseMatrix
     {
         private double[] di;
         private double[][] au;// верхняя половина
@@ -410,7 +409,7 @@ namespace toop_project.src.Matrix
         // см. "Методы решения СЛАУ большой размерности" М.Ю.Баландин Э.П.Шурина 1 августа 2000 г.
 
         // Подробные комментарии только для LU разложения
-        public BaseMatrix LU()
+        public override BaseMatrix LU()
         {
             var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au, shift_l, shift_u);
             if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0]) // частный случай LU разложения для 3-диагоналей
@@ -455,7 +454,7 @@ namespace toop_project.src.Matrix
             return matrPrec;
         }
 
-        public BaseMatrix LLt()
+        public override BaseMatrix LLt()
         {
             var newal = al.Clone() as double[][];
             var matrPrec = new DiagonalMatrix(di.Clone() as double[], newal, newal, shift_l, shift_u);
@@ -490,7 +489,7 @@ namespace toop_project.src.Matrix
             return matrPrec;
         }
 
-        public BaseMatrix LUsq()
+        public override BaseMatrix LUsq()
         {
             var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
             if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0])

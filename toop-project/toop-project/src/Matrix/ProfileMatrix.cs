@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using toop_project.src.Preconditioner;
 using toop_project.src.Vector_;
 
 namespace toop_project.src.Matrix
 {
-    class ProfileMatrix : BaseMatrix, IPreconditioner
+    class ProfileMatrix : BaseMatrix
     {
         private int[] _ig;
         private double[] _al;
@@ -315,7 +314,7 @@ namespace toop_project.src.Matrix
         #endregion Matrix
 
         #region Preconditioner
-        public BaseMatrix LU()
+        public override BaseMatrix LU()
         {
             int[] igPrecond = new int[_count + 1];
             for (int i = 0; i < _count + 1; i++)
@@ -352,7 +351,7 @@ namespace toop_project.src.Matrix
             }
             return new ProfileMatrix(igPrecond, alPrecond, auPrecond, diPrecond);
         }
-        public BaseMatrix LLt()
+        public override BaseMatrix LLt()
         {
             int[] igPrecond = new int[_count + 1];
             for (int i = 0; i < _count + 1; i++)
@@ -385,7 +384,7 @@ namespace toop_project.src.Matrix
             }
             return new ProfileMatrix(igPrecond, alPrecond, alPrecond, diPrecond);
         }
-        public BaseMatrix LUsq()
+        public override BaseMatrix LUsq()
         {
             int[] igPrecond = new int[_count + 1];
             for (int i = 0; i < _count + 1; i++)

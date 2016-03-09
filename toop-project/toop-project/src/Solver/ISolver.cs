@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using toop_project.src.Matrix;
 using toop_project.src.Vector_;
 using toop_project.src.Logging;
+using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Solver
 {
@@ -18,8 +19,8 @@ namespace toop_project.src.Solver
         GMRES
     }
     abstract public class ISolver {
-        public abstract Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                        ILogger logger,ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix);
+        public abstract Vector Solve(IPreconditioner matrix, Vector rightPart, Vector initialSolution,
+                        ILogger logger,ISolverLogger solverLogger, ISolverParametrs solverParametrs);
         public static ISolver getSolver(Type type) {
             switch (type) {
                 case Type.Jacobi:

@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using toop_project.src.Matrix;
 using toop_project.src.Vector_;
 using toop_project.src.Logging;
+using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Solver
 {
     class GZ: ISolver
     {
-        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                                    ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix)
+        public override Vector Solve(IPreconditioner matrix, Vector rightPart, Vector initialSolution,
+                                    ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs)
         {
             if (solverParametrs is GZParametrs)
             {
@@ -31,11 +32,11 @@ namespace toop_project.src.Solver
 
                 x = initialSolution;
                 w = GZParametrs.Relaxation;
-                di = matrix.Diagonal;
+                di = matrix.SourceMatrix.Diagonal;
 
                 Dx = diagonalMult(di, x);
-                Fx = matrix.LMult(x, false);
-                Ex = matrix.UMult(x, false);
+                Fx = matrix.SourceMatrix.LMult(x, false);
+                Ex = matrix.SourceMatrix.UMult(x, false);
                 r = Dx+Fx+ Ex - rightPart;
                 var rpnorm = rightPart.Norm();
                 Residual = r.Norm() / rpnorm;
@@ -51,9 +52,9 @@ namespace toop_project.src.Solver
                     xnext = (DEb + DEx) * w + x * (1 - w);
 
                     Dx = diagonalMult(di, xnext);
-                    Ex = matrix.UMult(x, false) ;
+                    Ex = matrix.SourceMatrix.UMult(x, false) ;
                     r = Dx+Fx + Ex - rightPart;
-                    Fx = matrix.LMult(xnext, false);
+                    Fx = matrix.SourceMatrix.LMult(xnext, false);
 
                     Residual = r.Norm() / rpnorm;
 
