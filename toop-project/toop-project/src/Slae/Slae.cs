@@ -24,8 +24,8 @@ namespace toop_project.src.Slae {
         }
         public void Solve() {
             //затычка, довести до запускаемой проги
-            Preconditioner = 
-            Result = Solver.Solve(Matrix, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
+            Preconditioner = src.Preconditioner.LUPreconditioner.Create(Matrix);
+            Result = Solver.Solve(Preconditioner, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
                 new src.Solver.JacobiParametrs(Eps, MaxIter));
             iGui.FinishSolve();
         }
