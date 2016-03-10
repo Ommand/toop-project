@@ -10,7 +10,7 @@ namespace toop_project.src.Preconditioner
 {
     public class LUPreconditioner : IPreconditioner
     {
-         BaseMatrix lUmatrix;
+        BaseMatrix lUmatrix;
         BaseMatrix sourceMatrix;
 
         public BaseMatrix LUmatrix
@@ -25,7 +25,6 @@ namespace toop_project.src.Preconditioner
                 lUmatrix = value;
             }
         }
-
         public BaseMatrix SourceMatrix
         {
             get
@@ -33,7 +32,6 @@ namespace toop_project.src.Preconditioner
                 return sourceMatrix;
             }
         }
-
         public Type Type
         {
             get
@@ -45,25 +43,25 @@ namespace toop_project.src.Preconditioner
         private LUPreconditioner() { }
 
         public static LUPreconditioner Create(BaseMatrix source)
-         {
-             return new LUPreconditioner()
-             {
-                 sourceMatrix = source,
-                 LUmatrix = source.LU()
-             };
-         }
+        {
+            return new LUPreconditioner()
+            {
+                sourceMatrix = source,
+                LUmatrix = source.LU()
+            };
+        }
 
         public Vector QMultiply(Vector x)
         {
             throw new NotImplementedException();
         }
 
-        public  Vector QSolve(Vector x)
+        public Vector QSolve(Vector x)
         {
             throw new NotImplementedException();
         }
 
-        public  Vector SMultiply(Vector x)
+        public Vector SMultiply(Vector x)
         {
             throw new NotImplementedException();
         }
