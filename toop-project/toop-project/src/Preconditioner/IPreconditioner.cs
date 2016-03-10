@@ -8,19 +8,21 @@ using toop_project.src.Vector_;
 
     namespace toop_project.src.Preconditioner
     {
-        enum Type {
+        public enum Type {
             LU,
             LLT,
             LUsq
         }
-        public abstract class IPreconditioner
+         public interface IPreconditioner
         {
-            public BaseMatrix SourceMatrix;
-         //SAQ-общий случай
-           public abstract Vector SMultiply(Vector x);
-           public abstract Vector QMultiply(Vector x);
-           public abstract Vector SSolve(Vector x);
-           public abstract Vector QSolve(Vector x);
-    }
+       
+           BaseMatrix SourceMatrix { get; }
+           Type Type { get; }
+        //SAQ-общий случай
+        Vector SMultiply(Vector x);
+           Vector QMultiply(Vector x);
+           Vector SSolve(Vector x);
+           Vector QSolve(Vector x);
+         }
     }
 

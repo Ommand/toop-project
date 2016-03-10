@@ -10,33 +10,65 @@ namespace toop_project.src.Preconditioner
 {
     public class LUPreconditioner : IPreconditioner
     {
-         BaseMatrix LUmatrix;
+         BaseMatrix lUmatrix;
+        BaseMatrix sourceMatrix;
+
+        public BaseMatrix LUmatrix
+        {
+            get
+            {
+                return lUmatrix;
+            }
+
+            private set
+            {
+                lUmatrix = value;
+            }
+        }
+
+        public BaseMatrix SourceMatrix
+        {
+            get
+            {
+                return sourceMatrix;
+            }
+        }
+
+        public Type Type
+        {
+            get
+            {
+                return Type.LU;
+            }
+        }
+
+        private LUPreconditioner() { }
 
         public static LUPreconditioner Create(BaseMatrix source)
          {
              return new LUPreconditioner()
              {
-                 SourceMatrix = source,
+                 sourceMatrix = source,
                  LUmatrix = source.LU()
              };
          }
 
-        public override Vector QMultiply(Vector x)
+        public Vector QMultiply(Vector x)
         {
             throw new NotImplementedException();
         }
 
-        public override Vector QSolve(Vector x)
+        public  Vector QSolve(Vector x)
         {
             throw new NotImplementedException();
         }
 
-        public override Vector SMultiply(Vector x)
+        public  Vector SMultiply(Vector x)
         {
             throw new NotImplementedException();
         }
 
-        public override Vector SSolve(Vector x)
+        public Vector SSolve(Vector x)
         {
             throw new NotImplementedException();
         }
