@@ -36,5 +36,9 @@ namespace toop_project.src.Matrix
         
         //Функция, выполняющая обход ненулевых элементов матрицы и выполняющая над ними операцию fun
         public abstract void Run(Action<int,int,double> fun);
+
+        public abstract BaseMatrix LU();
+        public abstract BaseMatrix LLt(); // Только для симметричной матрицы, все элементы хранятся в al
+        public abstract BaseMatrix LUsq();
     }
 }

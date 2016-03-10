@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using toop_project.src.Preconditioner;
 using toop_project.src.Vector_;
 namespace toop_project.src.Matrix
 {
-    public class SparseMatrix : BaseMatrix , IPreconditioner 
+    public class SparseMatrix : BaseMatrix 
     {
         private int[] ia;
         private int[] ja;
@@ -349,7 +348,7 @@ namespace toop_project.src.Matrix
         #endregion Matrix
 
         #region Preconditioner
-        public BaseMatrix LU()
+        public override BaseMatrix LU()
         {
             var matrixILU = new SparseMatrix (ia, ja, al.Clone() as double[], au.Clone() as double[], di.Clone() as double[]);
             for (int i = 0; i < matrixILU.Size; i++)
@@ -391,7 +390,7 @@ namespace toop_project.src.Matrix
             }
             return matrixILU;
         }
-        public BaseMatrix LUsq()
+        public override BaseMatrix LUsq()
         {
             var matrixILU = new SparseMatrix(ia, ja, al.Clone() as double[], au.Clone() as double[], di.Clone() as double[]);
             for (int i = 0; i < matrixILU.Size; i++)
@@ -435,7 +434,7 @@ namespace toop_project.src.Matrix
             }
             return matrixILU;
         }
-        public BaseMatrix LLt()
+        public override BaseMatrix LLt()
         {
             var new_al = al.Clone() as double[];
             var matrixLLt = new SparseMatrix(ia, ja, new_al, new_al, di.Clone() as double[]);

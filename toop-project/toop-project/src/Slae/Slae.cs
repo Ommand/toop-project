@@ -23,8 +23,10 @@ namespace toop_project.src.Slae {
             return true;
         }
         public void Solve() {
-            Result = Solver.Solve(Matrix, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
-                new src.Solver.JacobiParametrs(Eps, MaxIter),null);//null-затычку, нужно будет убрать, это чтоб компилилось
+            //затычка, довести до запускаемой проги
+            Preconditioner = src.Preconditioner.LUPreconditioner.Create(Matrix);
+            Result = Solver.Solve(Preconditioner, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
+                new src.Solver.JacobiParametrs(Eps, MaxIter));
             iGui.FinishSolve();
         }
         public src.Matrix.BaseMatrix Matrix = null;
@@ -32,6 +34,7 @@ namespace toop_project.src.Slae {
         public src.Vector_.Vector Result = null;
         public src.Preconditioner.IPreconditioner Precond = null;
         public src.Solver.ISolver Solver = null;
+        public src.Preconditioner.IPreconditioner Preconditioner = null;
 
         public double Eps = 1e-10;
         public int MaxIter = 1000;
