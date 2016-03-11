@@ -27,22 +27,23 @@ namespace toop_project.src.Solver
                 int oIter = 0;
                 double alpha, beta, oNev, bNev, scalRO,scaleRN;
                 Vector x = initialSolution, rNew, rOld, z, az;
-                rOld = rightPart - matrix.SourceMatrix.Multiply(x);
+                rOld = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
                 z = rOld;
-                az = matrix.SourceMatrix.Multiply(z);
+                az = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(z)));
                 bNev = rightPart.Norm();
                 scalRO = rOld * rOld;
+                x = matrix.QMultiply(x);
                 do
                 {
 
-                    alpha = scalRO/(az * z);
+                    alpha = scalRO / (az * z);
                     x = x + z * alpha;
                     rNew = rOld - az * alpha;
                     scaleRN = rNew * rNew;
                     beta = scaleRN / scalRO;
                     scalRO = scaleRN;
                     z = rNew + z * beta;
-                    az = matrix.SourceMatrix.Multiply(z);
+                    az = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(z)));
                     rOld = rNew;
                     oIter++;
                     oNev = rNew.Norm() / bNev;
@@ -53,9 +54,9 @@ namespace toop_project.src.Solver
                 while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon);
 
 
-                return x;
+                return matrix.QSolve(x);
             }
-         
+
         }
 
         public override Type Type { get { return Type.MSG; } }
