@@ -73,6 +73,8 @@
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
     <Compile Include="src\Preconditioner\LUPreconditioner.cs" />
     <Compile Include="src\Slae\Slae.cs" />
+    <Compile Include="src\Solver\BSGStab.cs" />
+    <Compile Include="src\Solver\BSGStabParametrs.cs" />
     <Compile Include="src\Solver\GMRES.cs" />
     <Compile Include="src\Solver\GMRESParameters.cs" />
     <Compile Include="src\Solver\GZ.cs" />
