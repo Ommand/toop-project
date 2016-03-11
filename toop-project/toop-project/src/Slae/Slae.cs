@@ -41,7 +41,7 @@ namespace toop_project.src.Slae {
         public double Relaxation = 1;
         public int MGMRES = 5;
 
-        src.Solver.ISolverParametrs GenerateParameters(src.Solver.Type type, int maxIter, double eps, double relaxation = 1,int mGMRES = 1)
+        src.Solver.ISolverParametrs GenerateParameters(src.Solver.Type type, int maxIter, double eps, double relaxation = 1,int mGMRES = 5)
         {
             switch(type)
             {
@@ -51,9 +51,10 @@ namespace toop_project.src.Slae {
                     return new Solver.JacobiParametrs(eps, maxIter, relaxation);
                 case src.Solver.Type.Seidel:
                     return new Solver.GZParametrs(eps, maxIter, relaxation);
+                case src.Solver.Type.MSG:
+                    return new Solver.MSGParametrs(eps, maxIter);
             }
             throw new NotImplementedException();
-            return null;
         }
     }
 

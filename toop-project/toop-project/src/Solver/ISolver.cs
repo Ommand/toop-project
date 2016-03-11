@@ -29,6 +29,8 @@ namespace toop_project.src.Solver
                     return new src.Solver.GZ();
                 case Type.GMRES:
                     return new src.Solver.GMRES();
+                case Type.MSG:
+                    return new src.Solver.MSG();
             }
             return null;
         }

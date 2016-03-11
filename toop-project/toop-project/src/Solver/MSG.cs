@@ -12,8 +12,7 @@ namespace toop_project.src.Solver
 {
     public class MSG : ISolver
     {
-
-        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution, ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix)
+        public override Vector Solve(IPreconditioner matrix, Vector rightPart, Vector initialSolution, ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs)
         {
             MSGParametrs ConGradParametrs = solverParametrs as MSGParametrs;
 
@@ -28,9 +27,9 @@ namespace toop_project.src.Solver
                 int oIter = 0;
                 double alpha, beta, oNev, bNev, scalRO,scaleRN;
                 Vector x = initialSolution, rNew, rOld, z, az;
-                rOld = rightPart - matrix.Multiply(x);
+                rOld = rightPart - matrix.SourceMatrix.Multiply(x);
                 z = rOld;
-                az = matrix.Multiply(z);
+                az = matrix.SourceMatrix.Multiply(z);
                 bNev = rightPart.Norm();
                 scalRO = rOld * rOld;
                 do
@@ -43,7 +42,7 @@ namespace toop_project.src.Solver
                     beta = scaleRN / scalRO;
                     scalRO = scaleRN;
                     z = rNew + z * beta;
-                    az = matrix.Multiply(z);
+                    az = matrix.SourceMatrix.Multiply(z);
                     rOld = rNew;
                     oIter++;
                     oNev = rNew.Norm() / bNev;

@@ -8,7 +8,7 @@ namespace toop_project.src.Solver
 {
     class MSGParametrs : ISolverParametrs
     {
-        MSGParametrs(double epsilon, int maxIterations)
+        public MSGParametrs(double epsilon, int maxIterations)
         {
             this.Epsilon = epsilon;
             this.MaxIterations = maxIterations;
