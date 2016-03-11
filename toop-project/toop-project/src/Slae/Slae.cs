@@ -24,20 +24,37 @@ namespace toop_project.src.Slae {
         }
         public void Solve() {
             //затычка, довести до запускаемой проги
-            Preconditioner = src.Preconditioner.LUPreconditioner.Create(Matrix);
+            Preconditioner = src.Preconditioner.EmptyPreconditioner.Create(Matrix);
+
             Result = Solver.Solve(Preconditioner, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
-                new src.Solver.JacobiParametrs(Eps, MaxIter));
+                GenerateParameters(Solver.Type,MaxIter,Eps,Relaxation, MGMRES));
             iGui.FinishSolve();
         }
         public src.Matrix.BaseMatrix Matrix = null;
         public src.Vector_.Vector Right = null;
         public src.Vector_.Vector Result = null;
-        public src.Preconditioner.IPreconditioner Precond = null;
         public src.Solver.ISolver Solver = null;
         public src.Preconditioner.IPreconditioner Preconditioner = null;
 
         public double Eps = 1e-10;
         public int MaxIter = 1000;
+        public double Relaxation = 1;
+        public int MGMRES = 5;
+
+        src.Solver.ISolverParametrs GenerateParameters(src.Solver.Type type, int maxIter, double eps, double relaxation = 1,int mGMRES = 1)
+        {
+            switch(type)
+            {
+                case src.Solver.Type.GMRES:
+                    return new Solver.GMRESParameters(eps, maxIter, mGMRES);
+                case src.Solver.Type.Jacobi:
+                    return new Solver.JacobiParametrs(eps, maxIter, relaxation);
+                case src.Solver.Type.Seidel:
+                    return new Solver.GZParametrs(eps, maxIter, relaxation);
+            }
+            throw new NotImplementedException();
+            return null;
+        }
     }
 
 }

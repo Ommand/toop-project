@@ -27,6 +27,8 @@ namespace toop_project.src.Solver
                     return new src.Solver.Jacobi();
                 case Type.Seidel:
                     return new src.Solver.GZ();
+                case Type.GMRES:
+                    return new src.Solver.GMRES();
             }
             return null;
         }
