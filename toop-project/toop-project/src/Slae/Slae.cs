@@ -39,7 +39,7 @@ namespace toop_project.src.Slae {
         public double Eps = 1e-10;
         public int MaxIter = 1000;
         public double Relaxation = 1;
-        public int MGMRES = 5;
+        public int MGMRES = 30;
 
         src.Solver.ISolverParametrs GenerateParameters(src.Solver.Type type, int maxIter, double eps, double relaxation = 1,int mGMRES = 5)
         {
