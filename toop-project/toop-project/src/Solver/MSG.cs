@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using toop_project.src.Matrix;
+using toop_project.src.Preconditioner;
+using toop_project.src.Vector_;
+using toop_project.src.Logging;
+
+namespace toop_project.src.Solver
+{
+    public class MSG : ISolver
+    {
+
+        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution, ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix)
+        {
+            MSGParametrs ConGradParametrs = solverParametrs as MSGParametrs;
+
+            if (ConGradParametrs==null)
+            {
+                logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in MSG");
+                throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in MSG");
+            }
+            else
+            {
+                //prestart
+                int oIter = 0;
+                double alpha, beta, oNev, bNev, scalRO,scaleRN;
+                Vector x = initialSolution, rNew, rOld, z, az;
+                rOld = rightPart - matrix.Multiply(x);
+                z = rOld;
+                az = matrix.Multiply(z);
+                bNev = rightPart.Norm();
+                scalRO = rOld * rOld;
+                do
+                {
+
+                    alpha = scalRO/(az * z);
+                    x = x + z * alpha;
+                    rNew = rOld - az * alpha;
+                    scaleRN = rNew * rNew;
+                    beta = scaleRN / scalRO;
+                    scalRO = scaleRN;
+                    z = rNew + z * beta;
+                    az = matrix.Multiply(z);
+                    rOld = rNew;
+                    oIter++;
+                    oNev = rNew.Norm() / bNev;
+
+                    solverLogger.AddIterationInfo(oIter, oNev);//logger
+
+                }
+                while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon);
+
+
+                return x;
+            }
+         
+        }
+
+        public override Type Type { get { return Type.MSG; } }
+    }
+}
