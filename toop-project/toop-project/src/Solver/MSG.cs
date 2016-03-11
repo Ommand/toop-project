@@ -30,14 +30,20 @@ namespace toop_project.src.Solver
                 rOld = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
                 z = rOld;
                 az = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(z)));
-                bNev = rightPart.Norm();
+                bNev =matrix.SMultiply(rightPart).Norm();
+                oNev = rOld.Norm() / bNev;
                 scalRO = rOld * rOld;
                 x = matrix.QMultiply(x);
-                do
+                solverLogger.AddIterationInfo(oIter, oNev);//logger
+
+                while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon) 
                 {
 
                     alpha = scalRO / (az * z);
                     x = x + z * alpha;
+                    if (oIter % 100 == 0)
+                    rNew = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
+                    else
                     rNew = rOld - az * alpha;
                     scaleRN = rNew * rNew;
                     beta = scaleRN / scalRO;
@@ -46,12 +52,14 @@ namespace toop_project.src.Solver
                     az = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(z)));
                     rOld = rNew;
                     oIter++;
+
+                  
                     oNev = rNew.Norm() / bNev;
 
                     solverLogger.AddIterationInfo(oIter, oNev);//logger
 
                 }
-                while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon);
+                
 
 
                 return matrix.QSolve(x);
