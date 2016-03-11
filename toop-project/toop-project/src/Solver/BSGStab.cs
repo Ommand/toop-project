@@ -33,9 +33,9 @@ namespace toop_project.src.Solver
                 v.Nullify();
                 p.Nullify();
                 x = initialSolution;
-                r = rightPart - matrix.SourceMatrix.Multiply(x);
+                r = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
                 rTab = r;
-                bNev = rightPart.Norm();
+                bNev =matrix.SMultiply(rightPart).Norm();
                 oNev = r.Norm() / bNev;
                 solverLogger.AddIterationInfo(oIter, oNev);//logger
 
@@ -44,11 +44,11 @@ namespace toop_project.src.Solver
                     nPi = rTab * r;
                     betta = (nPi / oPi) * (alpha/w);
                     p = r + (p - v * w) * betta;
-                    v = matrix.SourceMatrix.Multiply(p);
+                    v = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(p)));
                     alpha = nPi / (rTab * v);
                     x = x + p * alpha;//УТОЧНИТЬ!!!!!!!!!!!!!!!
                     s = r - v * alpha;
-                    t = matrix.SourceMatrix.Multiply(s);
+                    t = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(s)));
                     w = (s * t) / (t * t);
                     x = x + s * w;//УТОЧНИТЬ!!!!!!!!!!!!!!!!!!!
                     r = s - t * w; 
@@ -59,7 +59,7 @@ namespace toop_project.src.Solver
                     solverLogger.AddIterationInfo(oIter, oNev);//logger
                 }
 
-                return x;
+                return matrix.QSolve(x);
 
             }
         }
