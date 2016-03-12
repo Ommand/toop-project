@@ -8,21 +8,21 @@ using toop_project.src.Matrix;
 
 namespace toop_project.src.Preconditioner
 {
-    public class LUPreconditioner : IPreconditioner
+    class LUsqPreconditioner : IPreconditioner
     {
-        BaseMatrix lUmatrix;
+        BaseMatrix lUsqMatrix;
         BaseMatrix sourceMatrix;
 
-        public BaseMatrix LUmatrix
+        public BaseMatrix LUsqMatrix
         {
             get
             {
-                return lUmatrix;
+                return lUsqMatrix;
             }
 
             private set
             {
-                lUmatrix = value;
+                lUsqMatrix = value;
             }
         }
         public BaseMatrix SourceMatrix
@@ -36,39 +36,39 @@ namespace toop_project.src.Preconditioner
         {
             get
             {
-                return Type.LU;
+                return Type.LUsq;
             }
         }
 
-        private LUPreconditioner() { }
+        private LUsqPreconditioner() { }
 
-        public static LUPreconditioner Create(BaseMatrix source)
+        public static LUsqPreconditioner Create(BaseMatrix source)
         {
-            return new LUPreconditioner()
+            return new LUsqPreconditioner()
             {
                 sourceMatrix = source,
-                LUmatrix = source.LU()
+                LUsqMatrix = source.LUsq()
             };
         }
 
         public Vector QMultiply(Vector x)
         {
-            return lUmatrix.UMult(x,false);
+            return lUsqMatrix.UMult(x, true);
         }
 
         public Vector QSolve(Vector x)
         {
-            return lUmatrix.USolve(x,false);
+            return lUsqMatrix.USolve(x, true);
         }
 
         public Vector SMultiply(Vector x)
         {
-            return lUmatrix.LMult(x, true);
+            return lUsqMatrix.LMult(x, true);
         }
 
         public Vector SSolve(Vector x)
         {
-            return lUmatrix.LSolve(x, true);
+            return lUsqMatrix.LSolve(x, true);
         }
     }
 }
