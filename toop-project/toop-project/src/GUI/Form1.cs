@@ -89,6 +89,7 @@ namespace toop_project {
                         updateDgvMatrix(matrix);
                         slae.Matrix = matrix;
                         lblMatixFileName.Text = ofdMatrix.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\')+1);
+                        cmbMatrixFormat.Text = matrix.Type.ToString();
                     }
                 }
                 catch (Exception ex) {
@@ -178,6 +179,11 @@ namespace toop_project {
         }
 
         private void btnSolve_Click(object sender, EventArgs e) {
+            if (cmbSolver.SelectedIndex < 0)
+                cmbSolver.SelectedIndex = 0;
+            if (cmbPrecond.SelectedIndex < 0)
+                cmbPrecond.SelectedIndex = 0;
+
             if (!slae.CanBeComputed()) {
                 MessageBox.Show("Can't compute this slae","Error");
                 return;
@@ -214,6 +220,14 @@ namespace toop_project {
 
         private void Form1_Load(object sender, EventArgs e) {
             slae = new src.Slae.SLAE(this);
+        }
+
+        private void cmbPrecond_SelectedIndexChanged(object sender, EventArgs e) {
+            if (cmbPrecond.SelectedIndex < 0) {
+                slae.PreconditionerType = src.Preconditioner.Type.NoPrecond;
+                return;
+            }
+            slae.PreconditionerType = (src.Preconditioner.Type)Enum.ToObject(typeof(src.Preconditioner.Type), cmbPrecond.SelectedIndex);
         }
     }
 }

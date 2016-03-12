@@ -45,7 +45,15 @@ namespace toop_project.src.Matrix
             {
                return _count;
             }
-        }       
+        }
+
+        public override Type Type
+        {
+            get
+            {
+                return Type.Profile;
+            }
+        }
 
         public override Vector LMult(Vector x, bool UseDiagonal)
         {
@@ -65,7 +73,6 @@ namespace toop_project.src.Matrix
                 for (int index = 0; index < _count; index++)
                     vector[index] += _di[index] * x[index];
             return vector;
-
         }
 
         public override Vector UMult(Vector x, bool UseDiagonal)
@@ -298,7 +305,6 @@ namespace toop_project.src.Matrix
 
         public override void Run(Action<int, int, double> fun)
         {
-
             for (int row = 0; row < _count; row++)
             {
                 int index = _ig[row];

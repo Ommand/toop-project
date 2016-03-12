@@ -45,6 +45,14 @@ namespace toop_project.src.Matrix
             }
         }
 
+        public override Type Type
+        {
+            get
+            {
+                return Type.Sparse;
+            }
+        }
+
         public override Vector LMult(Vector x, bool UseDiagonal)
         {
             if (x.Size != n)

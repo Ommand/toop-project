@@ -59,6 +59,8 @@
             this.lblMatixFileName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.sbtnS = new toop_project.src.GUI.SinkButton();
+            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvMatrix = new System.Windows.Forms.DataGridView();
@@ -67,8 +69,6 @@
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dgvResult = new System.Windows.Forms.DataGridView();
-            this.sbtnS = new toop_project.src.GUI.SinkButton();
-            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.mnu.SuspendLayout();
             this.pnlBot.SuspendLayout();
             this.pnlLeft.SuspendLayout();
@@ -292,7 +292,6 @@
             this.cmbPrecond.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbPrecond.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPrecond.Enabled = false;
             this.cmbPrecond.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbPrecond.Font = new System.Drawing.Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbPrecond.FormattingEnabled = true;
@@ -300,6 +299,7 @@
             this.cmbPrecond.Name = "cmbPrecond";
             this.cmbPrecond.Size = new System.Drawing.Size(101, 24);
             this.cmbPrecond.TabIndex = 3;
+            this.cmbPrecond.SelectedIndexChanged += new System.EventHandler(this.cmbPrecond_SelectedIndexChanged);
             // 
             // cmbMatrixFormat
             // 
@@ -419,6 +419,28 @@
             this.pnlTop.Size = new System.Drawing.Size(602, 30);
             this.pnlTop.TabIndex = 4;
             // 
+            // sbtnS
+            // 
+            this.sbtnS.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnS.Location = new System.Drawing.Point(29, 2);
+            this.sbtnS.Name = "sbtnS";
+            this.sbtnS.Sink = true;
+            this.sbtnS.Size = new System.Drawing.Size(26, 26);
+            this.sbtnS.TabIndex = 1;
+            this.sbtnS.Text = "S";
+            this.sbtnS.UseVisualStyleBackColor = false;
+            // 
+            // sbtnF
+            // 
+            this.sbtnF.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnF.Location = new System.Drawing.Point(2, 2);
+            this.sbtnF.Name = "sbtnF";
+            this.sbtnF.Sink = true;
+            this.sbtnF.Size = new System.Drawing.Size(26, 26);
+            this.sbtnF.TabIndex = 0;
+            this.sbtnF.Text = "F";
+            this.sbtnF.UseVisualStyleBackColor = false;
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -490,7 +512,7 @@
             this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbLog.Location = new System.Drawing.Point(4, 4);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(358, 342);
+            this.rtbLog.Size = new System.Drawing.Size(358, 337);
             this.rtbLog.TabIndex = 0;
             this.rtbLog.Text = "";
             // 
@@ -519,28 +541,6 @@
             this.dgvResult.RowHeadersVisible = false;
             this.dgvResult.Size = new System.Drawing.Size(132, 339);
             this.dgvResult.TabIndex = 1;
-            // 
-            // sbtnS
-            // 
-            this.sbtnS.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.sbtnS.Location = new System.Drawing.Point(29, 2);
-            this.sbtnS.Name = "sbtnS";
-            this.sbtnS.Sink = true;
-            this.sbtnS.Size = new System.Drawing.Size(26, 26);
-            this.sbtnS.TabIndex = 1;
-            this.sbtnS.Text = "S";
-            this.sbtnS.UseVisualStyleBackColor = false;
-            // 
-            // sbtnF
-            // 
-            this.sbtnF.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.sbtnF.Location = new System.Drawing.Point(2, 2);
-            this.sbtnF.Name = "sbtnF";
-            this.sbtnF.Sink = true;
-            this.sbtnF.Size = new System.Drawing.Size(26, 26);
-            this.sbtnF.TabIndex = 0;
-            this.sbtnF.Text = "F";
-            this.sbtnF.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 

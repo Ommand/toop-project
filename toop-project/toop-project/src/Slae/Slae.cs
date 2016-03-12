@@ -24,7 +24,7 @@ namespace toop_project.src.Slae {
         }
         public void Solve() {
             //затычка, довести до запускаемой проги
-            Preconditioner = src.Preconditioner.EmptyPreconditioner.Create(Matrix);
+            var Preconditioner = GeneratePreconditioner(PreconditionerType, Matrix);
 
             Result = Solver.Solve(Preconditioner, Right, new src.Vector_.Vector(6), src.Logging.Logger.Instance, src.Logging.Logger.Instance,
                 GenerateParameters(Solver.Type,MaxIter,Eps,Relaxation, MGMRES));
@@ -34,17 +34,15 @@ namespace toop_project.src.Slae {
         public src.Vector_.Vector Right = null;
         public src.Vector_.Vector Result = null;
         public src.Solver.ISolver Solver = null;
-        public src.Preconditioner.IPreconditioner Preconditioner = null;
+        public src.Preconditioner.Type PreconditionerType = src.Preconditioner.Type.NoPrecond;
 
         public double Eps = 1e-10;
         public int MaxIter = 1000;
         public double Relaxation = 1;
         public int MGMRES = 30;
 
-        src.Solver.ISolverParametrs GenerateParameters(src.Solver.Type type, int maxIter, double eps, double relaxation = 1,int mGMRES = 5)
-        {
-            switch(type)
-            {
+        src.Solver.ISolverParametrs GenerateParameters(src.Solver.Type type, int maxIter, double eps, double relaxation = 1,int mGMRES = 5) {
+            switch(type) {
                 case src.Solver.Type.GMRES:
                     return new Solver.GMRESParameters(eps, maxIter, mGMRES);
                 case src.Solver.Type.Jacobi:
@@ -56,8 +54,23 @@ namespace toop_project.src.Slae {
                 case src.Solver.Type.BSGStab:
                     return new Solver.BSGStabParametrs(eps, MaxIter);
             }
-            throw new NotImplementedException();
+            return null;
         }
+
+        src.Preconditioner.IPreconditioner GeneratePreconditioner(src.Preconditioner.Type type, Matrix.BaseMatrix matrix) {
+            switch (type) {
+                case src.Preconditioner.Type.NoPrecond:
+                    return src.Preconditioner.EmptyPreconditioner.Create(matrix);
+                case src.Preconditioner.Type.LLT:
+                    return src.Preconditioner.LLTPreconditioner.Create(matrix);
+                case src.Preconditioner.Type.LU:
+                    return src.Preconditioner.LUPreconditioner.Create(matrix);
+                case src.Preconditioner.Type.LUsq:
+                    return src.Preconditioner.LUsqPreconditioner.Create(matrix);
+            }
+            return null;
+        }
+
     }
 
 }
