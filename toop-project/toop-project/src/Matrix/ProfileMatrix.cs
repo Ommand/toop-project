@@ -7,7 +7,7 @@ using toop_project.src.Vector_;
 
 namespace toop_project.src.Matrix
 {
-    class ProfileMatrix : BaseMatrix
+    public class ProfileMatrix : BaseMatrix
     {
         private int[] _ig;
         private double[] _al;

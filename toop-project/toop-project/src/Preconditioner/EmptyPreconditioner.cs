@@ -8,7 +8,7 @@ using toop_project.src.Vector_;
 
 namespace toop_project.src.Preconditioner
 {
-    class EmptyPreconditioner : IPreconditioner
+    public class EmptyPreconditioner : IPreconditioner
     {
         BaseMatrix sourceMatrix;
         private EmptyPreconditioner() { }
