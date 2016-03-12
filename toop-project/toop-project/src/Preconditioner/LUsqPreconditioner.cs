@@ -54,7 +54,6 @@ namespace toop_project.src.Preconditioner
         public Vector QMultiply(Vector x)
         {
             return lUsqMatrix.UMult(x, true);
-            //throw new NotImplementedException();
         }
 
         public Vector QSolve(Vector x)
@@ -65,7 +64,6 @@ namespace toop_project.src.Preconditioner
         public Vector SMultiply(Vector x)
         {
             return lUsqMatrix.LMult(x, true);
-            throw new NotImplementedException();
         }
 
         public Vector SSolve(Vector x)

@@ -53,8 +53,7 @@ namespace toop_project.src.Preconditioner
 
         public Vector QMultiply(Vector x)
         {
-            return lUmatrix.UMult(x,true);
-            //throw new NotImplementedException();
+            return lUmatrix.UMult(x,false);
         }
 
         public Vector QSolve(Vector x)
@@ -65,12 +64,11 @@ namespace toop_project.src.Preconditioner
         public Vector SMultiply(Vector x)
         {
             return lUmatrix.LMult(x, true);
-            throw new NotImplementedException();
         }
 
         public Vector SSolve(Vector x)
         {
-            return lUmatrix.LSolve(x, false);
+            return lUmatrix.LSolve(x, true);
         }
     }
 }
