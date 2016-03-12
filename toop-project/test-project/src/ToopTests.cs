@@ -5,6 +5,7 @@ using toop_project.src.Solver;
 using toop_project.src.Vector_;
 using toop_project.src.Logging;
 using System.Collections.Generic;
+using toop_project.src.Preconditioner;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace test_project {
@@ -25,7 +26,8 @@ namespace test_project {
 			var rightPart = generateRightPart(matrix, expectedAnswer);
 
 			Jacobi solver = new Jacobi();
-			Vector answer = solver.Solve(matrix, rightPart, new Vector(dim), Logger.Instance, Logger.Instance, new JacobiParametrs(eps, maxIter), null);
+            EmptyPreconditioner precond = EmptyPreconditioner.Create(matrix);
+			Vector answer = solver.Solve(precond, rightPart, new Vector(dim), Logger.Instance, Logger.Instance, new JacobiParametrs(eps, maxIter));
 
 			Console.Write("Generate complete...\n");
 			for (int i = 0; i < dim; i++) {
@@ -46,7 +48,8 @@ namespace test_project {
 			var rightPart = generateRightPart(matrix, expectedAnswer);
 
 			Jacobi solver = new Jacobi();
-			Vector answer = solver.Solve(matrix, rightPart, new Vector(dim), Logger.Instance, Logger.Instance, new JacobiParametrs(eps, maxIter), null);
+            EmptyPreconditioner precond = EmptyPreconditioner.Create(matrix);
+            Vector answer = solver.Solve(precond, rightPart, new Vector(dim), Logger.Instance, Logger.Instance, new JacobiParametrs(eps, maxIter));
 
 			Console.Write("Generate complete...\n");
 			for (int i = 0; i < dim; i++) {
