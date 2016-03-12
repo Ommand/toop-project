@@ -71,7 +71,9 @@
     <Compile Include="src\Matrix\SparseMatrix.cs" />
     <Compile Include="src\Preconditioner\EmptyPreconditioner.cs" />
     <Compile Include="src\Preconditioner\IPreconditioner.cs" />
+    <Compile Include="src\Preconditioner\LLTPreconditioner.cs" />
     <Compile Include="src\Preconditioner\LUPreconditioner.cs" />
+    <Compile Include="src\Preconditioner\LUsqPreconditioner.cs" />
     <Compile Include="src\Slae\Slae.cs" />
     <Compile Include="src\Solver\BSGStab.cs" />
     <Compile Include="src\Solver\BSGStabParametrs.cs" />
