@@ -49,6 +49,13 @@ namespace toop_project {
             else 
                 this.rtbLog.Text += text;
         }
+        delegate void UpdateDgvResultCallback(src.Vector_.Vector vec);
+        private void UpdateDgvResult(src.Vector_.Vector vec) {
+            if (this.dgvRightPart.InvokeRequired)
+                this.Invoke(new UpdateDgvResultCallback(UpdateDgvResult), new object[] { vec });
+            else
+                updateDgvResult(vec);
+        }
 
         public void UpdateLog(String message) {
             AddLog(message + Environment.NewLine);
@@ -62,10 +69,7 @@ namespace toop_project {
 
         public void FinishSolve() {
             UpdateProgressBar(slae.MaxIter);
-            String result = "Result:" + Environment.NewLine;
-            for (int i = 0; i < slae.Result.Size; i++) 
-                result += slae.Result[i].ToString() + Environment.NewLine;
-            AddLog(result);
+            UpdateDgvResult(slae.Result);
         }
 
         public Form1() {
@@ -113,23 +117,26 @@ namespace toop_project {
         }
 
         private void updateDgvMatrix(src.Matrix.BaseMatrix matrix) {
+            tabControl1.SelectedIndex = 0;
+
             dgvMatrix.Rows.Clear();
             dgvMatrix.Columns.Clear();
             
             for(var i=0; i < matrix.Size; i++)
                 dgvMatrix.Columns.Add("","");
-            // TODO: update matrix by run
-            for(var i=0; i < matrix.Size; i++){
-                //for (var j = 0; j < matrix.Size; j++) {
-                String[] strs = new String[matrix.Size];
-                strs[i] = matrix.Diagonal[i].ToString();
 
-                dgvMatrix.Rows.Add(strs);
-                //}
-             }
+            string[][] strs = new string[matrix.Size][];
+            for(int i=0;i < matrix.Size;i++)
+                strs[i] = new string[matrix.Size];
+            matrix.Run((i, j, u) => strs[i][j] = u.ToString());
+
+            for (int i = 0; i < matrix.Size; i++)
+                dgvMatrix.Rows.Add(strs[i]);
         }
 
         private void updateDgvRightPart(src.Vector_.Vector vec) {
+            tabControl1.SelectedIndex = 0;
+
             dgvRightPart.Rows.Clear();
             dgvRightPart.Columns.Clear();
             dgvRightPart.Columns.Add("", "");
@@ -140,6 +147,17 @@ namespace toop_project {
 
                 dgvRightPart.Rows.Add(strs);
             }
+        }
+
+        private void updateDgvResult(src.Vector_.Vector vec) {
+            tabControl1.SelectedIndex = 2;
+
+            dgvResult.Rows.Clear();
+            dgvResult.Columns.Clear();
+            dgvResult.Columns.Add("", "");
+
+            for (var i = 0; i < vec.Size; i++)
+                dgvResult.Rows.Add(vec[i].ToString());
         }
 
         private void btnOpenRPFile_Click(object sender, EventArgs e) {
