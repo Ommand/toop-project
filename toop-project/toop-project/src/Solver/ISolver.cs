@@ -15,7 +15,7 @@ namespace toop_project.src.Solver
         Seidel,
         LOS,
         MSG,
-        BSG,
+        BSGStab,
         GMRES
     }
     abstract public class ISolver {
@@ -27,6 +27,12 @@ namespace toop_project.src.Solver
                     return new src.Solver.Jacobi();
                 case Type.Seidel:
                     return new src.Solver.GZ();
+                case Type.GMRES:
+                    return new src.Solver.GMRES();
+                case Type.MSG:
+                    return new src.Solver.MSG();
+                case Type.BSGStab:
+                    return new src.Solver.BSGStab();
             }
             return null;
         }

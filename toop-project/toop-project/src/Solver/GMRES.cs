@@ -42,7 +42,7 @@ namespace toop_project.src.Solver
 
                 d = new Vector(m + 1);
                 d.Nullify();
-     
+
                 for (int k = 1; k <= maxIterations && residualNorm > epsilon; k++)
                 {
                     V[0] = residual * (1.0 / residualNorm);
@@ -92,9 +92,9 @@ namespace toop_project.src.Solver
         public override Type Type { get { return Type.GMRES; } }
 
         Vector solveMinSqrProblem(Vector d, Vector[] H, int m)
-        {
-            Vector result = new Vector(m);
+        {            
             int m2 = H.Length;
+            Vector result = new Vector(m2);
             Vector[] H_previous, H2;
             Vector d1, d2;
             double ci, si, tmp;
@@ -104,13 +104,13 @@ namespace toop_project.src.Solver
             tmp2 = new double[m];
             double tmp11, tmp22;
 
-            H_previous = new Vector[m];
+            H_previous = new Vector[m2];
             for (int i = 0; i < m2; i++)
                 H_previous[i] = H[i];
 
             H2 = new Vector[m];
             for (int i = 0; i < m; i++)
-                H2[i] = new Vector(m + 1);
+                H2[i] = new Vector(m);
 
             d1 = d;//размер m2+1
             d2 = new Vector(m);
