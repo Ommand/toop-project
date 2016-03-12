@@ -36,28 +36,6 @@ namespace test_project {
 			}
 		}
 
-		[TestMethod]
-		public void TestFailed() {
-			int predCoeff = 0;
-
-			Vector expectedAnswer = new Vector(dim);
-			for (int i = 0; i < dim; i++)
-				expectedAnswer[i] = i + 1;
-
-			var matrix = generateProfileMatrix(predCoeff);
-			var rightPart = generateRightPart(matrix, expectedAnswer);
-
-			Jacobi solver = new Jacobi();
-            EmptyPreconditioner precond = EmptyPreconditioner.Create(matrix);
-            Vector answer = solver.Solve(precond, rightPart, new Vector(dim), Logger.Instance, Logger.Instance, new JacobiParametrs(eps, maxIter));
-
-			Console.Write("Generate complete...\n");
-			for (int i = 0; i < dim; i++) {
-				Console.Write(expectedAnswer[i].ToString() + "\t" + answer[i].ToString() + "\n");
-				Assert.AreEqual(expectedAnswer[i], answer[i], 0.000000001, "Not equal!");
-			}
-		}
-
 		private ProfileMatrix generateProfileMatrix(int predCoeff) {
 			Random rnd = new Random();
 
