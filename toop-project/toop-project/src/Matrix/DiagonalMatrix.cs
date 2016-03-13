@@ -420,44 +420,22 @@ namespace toop_project.src.Matrix
         public override BaseMatrix LU()
         {
             var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au, shift_l, shift_u);
-            if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0]) // частный случай LU разложения для 3-диагоналей
-            {
-                for (int i = 1; i < di.Length; i++)
-                {
-                    matrPrec.al[i][shift_l[0]] /= matrPrec.di[i - 1];
-                    matrPrec.di[i] -= matrPrec.au[i][shift_l[0]] * matrPrec.al[i][shift_l[0]];
-                }
-            }
-                 // Общий случай
-            else // Неполное LU разложение
-            {
-                // Деление всего нижнего треугольника на элементы главной диагонали, причём
-                // элементы j-го столбца деляться на di[j] 
-                for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
-                    for (int j = 0, indl = shift_l[l_diags]; indl < al[l_diags].Length; j++, indl++)
-                        matrPrec.al[l_diags][indl] /= matrPrec.di[j];
+            // Деление всего нижнего треугольника на элементы главной диагонали, причём
+            // элементы j-го столбца деляться на di[j] 
+            for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
+                for (int j = 0, indl = shift_l[l_diags]; indl < al[l_diags].Length; j++, indl++)
+                    matrPrec.al[l_diags][indl] /= matrPrec.di[j];
 
-                // Для расчёта новых di, необходимы произведения симметричных элементов
-                // для этого нахожим одинаковые смещения
-                var shift_max = shift_l;
-                var shift_min = shift_u;
-                if (shift_l.Length < shift_u.Length)
-                {
-                    shift_max = shift_u;
-                    shift_min = shift_l;
-                }
-                List<int> shift = new List<int>(shift_min); // одинаковые смещения
-                foreach (int i in shift_max)
-                    if (!shift.Contains(i))
-                        shift.Remove(i);
-                
-                for (int i = 1; i < di.Length; i++)
-                {
-                    double sum = 0;
-                    foreach (int k in shift)
-                        sum += matrPrec.al[i][k] * matrPrec.au[i][k];
-                    matrPrec.di[i] -= sum;
-                }
+            // Для расчёта новых di, необходимы произведения симметричных элементов
+            // для этого нахожим одинаковые смещения
+            List<int> shift = new List<int>(shift_l); // одинаковые смещения
+            shift.Intersect<int>(shift_u);
+            for (int i = 1; i < di.Length; i++)
+            {
+                double sum = 0;
+                foreach (int k in shift)
+                    sum += matrPrec.al[i][k] * matrPrec.au[i][k];
+                matrPrec.di[i] -= sum;
             }
             return matrPrec;
         }
@@ -466,33 +444,18 @@ namespace toop_project.src.Matrix
         {
             var newal = al.Clone() as double[][];
             var matrPrec = new DiagonalMatrix(di.Clone() as double[], newal, newal, shift_l, shift_u);
-            if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0])
+            for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
+                for (int inddi = 0, indl = shift_l[l_diags]; indl < al[l_diags].Length; inddi++, indl++)
+                    matrPrec.al[l_diags][indl] /= matrPrec.di[inddi];
+            for (int i = 1; i < di.Length; i++)
             {
-                di[0] = Math.Sqrt(di[0]);
-                for (int i = 1; i < di.Length; i++)
-                {
-                    matrPrec.al[i][0] /= matrPrec.di[i - 1];
-                    double newdi = matrPrec.di[i] - matrPrec.al[i][0] * matrPrec.al[i][0];
-                    if (newdi < 0)
-                        throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", i, " равен 0 (деление на 0)"));
-                    matrPrec.di[i] = Math.Sqrt(newdi);
-                }
-              }
-            else // Неполное разложение
-            {
-                for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
-                    for (int inddi = 0, indl = shift_l[l_diags]; indl < al[l_diags].Length; inddi++, indl++)
-                        matrPrec.al[l_diags][indl] /= matrPrec.di[inddi];
-                for (int i = 1; i < di.Length; i++)
-                {
-                    double sum = 0;
-                    foreach (int k in shift_l)
-                        sum += matrPrec.al[i][k] * matrPrec.al[i][k];
-                    double newdi = matrPrec.di[i] - sum;
-                    if (newdi < 0)
-                        throw new Exception("Предобусловливание LLt : sqrt(отрицательно число)");
-                    matrPrec.di[i] = Math.Sqrt(newdi);
-                }
+                double sum = 0;
+                foreach (int k in shift_l)
+                    sum += matrPrec.al[i][k] * matrPrec.al[i][k];
+                double newdi = matrPrec.di[i] - sum;
+                if (newdi < 0)
+                    throw new Exception("Предобусловливание LLt : sqrt(отрицательно число)");
+                matrPrec.di[i] = Math.Sqrt(newdi);
             }
             return matrPrec;
         }
@@ -500,57 +463,25 @@ namespace toop_project.src.Matrix
         public override BaseMatrix LUsq()
         {
             var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
-            if (shift_l.Length == 1 && shift_u.Length == 1 && shift_l[0] == shift_u[0])
+            // Здесь нужно разделить и верхний и нижные треугольники
+            for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
+                for (int inddi = 0, indl = shift_l[l_diags]; indl < al[l_diags].Length; inddi++, indl++)
+                    matrPrec.al[l_diags][indl] /= matrPrec.di[inddi];
+
+            for (int u_diags = 0; u_diags < shift_u.Length; u_diags++)
+                for (int inddi = 0, indu = shift_u[u_diags]; indu < au[u_diags].Length; inddi++, indu++)
+                    matrPrec.au[u_diags][indu] /= matrPrec.di[inddi];
+            List<int> shift = new List<int>(shift_l); // одинаковые смещения
+            shift.Intersect<int>(shift_u);
+            for (int i = 1; i < di.Length; i++)
             {
-                if (di[0] < 0)
-                    throw new Exception("Предобусловливание LU :  на диагонали матрицы элемент №0 отрицательный (sqrt(-1))");
-                matrPrec.di[0] = Math.Sqrt(matrPrec.di[0]);
-                for (int i = 1; i < di.Length; i++)
-                {
-                    if (di[i - 1] < 0)
-                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", i - 1, "отрицательный (sqrt(-1))"));
-                    matrPrec.au[i][0] /= matrPrec.di[i - 1];
-                    matrPrec.al[i][0] /= matrPrec.di[i - 1];
-                    double newdi = matrPrec.di[i] - matrPrec.au[i][0] * matrPrec.al[i][0];
-                    if (newdi < 0)
-                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", i, " равен 0 (деление на 0)"));
-                    matrPrec.di[i] = Math.Sqrt(newdi);
-                }
-                
-            }
-            else // Неполное LUsq разложение
-            {
-                // Здесь нужно разделить и верхний и нижные треугольники
-                for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
-                    for (int inddi = 0, indl = shift_l[l_diags]; indl < al[l_diags].Length; inddi++, indl++)
-                        matrPrec.al[l_diags][indl] /= matrPrec.di[inddi];
-
-                for (int u_diags = 0; u_diags < shift_u.Length; u_diags++)
-                    for (int inddi = 0, indu = shift_u[u_diags]; indu < au[u_diags].Length; inddi++, indu++)
-                        matrPrec.au[u_diags][indu] /= matrPrec.di[inddi];
-
-                var shift_max = shift_l;
-                var shift_min = shift_u;
-                if (shift_l.Length < shift_u.Length)
-                {
-                    shift_max = shift_u;
-                    shift_min = shift_l;
-                }
-                List<int> shift = new List<int>(shift_min); // одинаковые смещения
-                foreach (int i in shift_max)
-                    if (!shift.Contains(i))
-                        shift.Remove(i);
-                for (int i = 1; i < di.Length; i++)
-                {
-                    double sum = 0;
-                    foreach (int k in shift)
-                        sum += matrPrec.al[i][k] * matrPrec.au[i][k];
-
-                    double newdi = matrPrec.di[i] - sum;
-                    if (newdi < 0)
-                        throw new Exception("Предобусловливание LLsq : sqrt(отрицательно число)");
-                    matrPrec.di[i] = Math.Sqrt(newdi);
-                }
+                double sum = 0;
+                foreach (int k in shift)
+                    sum += matrPrec.al[i][k] * matrPrec.au[i][k];
+                double newdi = matrPrec.di[i] - sum;
+                if (newdi < 0)
+                    throw new Exception("Предобусловливание LLsq : sqrt(отрицательно число)");
+                matrPrec.di[i] = Math.Sqrt(newdi);
             }
             return matrPrec;
         }
