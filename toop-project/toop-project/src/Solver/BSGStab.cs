@@ -24,34 +24,36 @@ namespace toop_project.src.Solver
             else
             {
                 int oIter = 0;
-                double nPi,oPi, alpha, w, oNev, bNev, betta;
+                double nPi, oPi, alpha, w, oNev, bNev, betta;
                 oPi = alpha = w = 1;
                 int size = rightPart.Size;
-                Vector x, r, rTab, s, t;
+                Vector x, r, rTab, s, t, z, sqt;
                 Vector v = new Vector(size);
                 Vector p = new Vector(size);
                 v.Nullify();
                 p.Nullify();
                 x = initialSolution;
-                r = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
+                r = rightPart - matrix.SourceMatrix.Multiply(x);
                 rTab = r;
-                bNev =matrix.SMultiply(rightPart).Norm();
+                bNev = rightPart.Norm();
                 oNev = r.Norm() / bNev;
                 solverLogger.AddIterationInfo(oIter, oNev);//logger
 
-                while (oIter<ConGradParametrs.MaxIterations && oNev>ConGradParametrs.Epsilon )
+                while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon)
                 {
                     nPi = rTab * r;
-                    betta = (nPi / oPi) * (alpha/w);
+                    betta = (nPi / oPi) * (alpha / w);
                     p = r + (p - v * w) * betta;
-                    v = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(p)));
+                    v = matrix.SourceMatrix.Multiply(p);
                     alpha = nPi / (rTab * v);
                     x = x + p * alpha;//УТОЧНИТЬ!!!!!!!!!!!!!!!
                     s = r - v * alpha;
-                    t = matrix.SMultiply(matrix.SourceMatrix.Multiply(matrix.QMultiply(s)));
-                    w = (s * t) / (t * t);
-                    x = x + s * w;//УТОЧНИТЬ!!!!!!!!!!!!!!!!!!!
-                    r = s - t * w; 
+                    z = matrix.QSolve(matrix.SSolve(s));
+                    t = matrix.SourceMatrix.Multiply(z);
+                    sqt = matrix.QSolve(matrix.SSolve(t));
+                    w = (z * sqt) / (sqt * sqt);
+                    x = x + z * w;//УТОЧНИТЬ!!!!!!!!!!!!!!!!!!!
+                    r = s - t * w;
 
                     oPi = nPi;
                     oIter++;
@@ -59,8 +61,7 @@ namespace toop_project.src.Solver
                     solverLogger.AddIterationInfo(oIter, oNev);//logger
                 }
 
-                return matrix.QSolve(x);
-
+                return x;
             }
         }
     }
