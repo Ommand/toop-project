@@ -33,6 +33,8 @@ namespace toop_project.src.Solver
                     return new src.Solver.MSG();
                 case Type.BSGStab:
                     return new src.Solver.BSGStab();
+                case Type.LOS:
+                    return new src.Solver.LOS();
             }
             return null;
         }

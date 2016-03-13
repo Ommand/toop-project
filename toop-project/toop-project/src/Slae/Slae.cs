@@ -53,6 +53,8 @@ namespace toop_project.src.Slae {
                     return new Solver.MSGParametrs(eps, maxIter);
                 case src.Solver.Type.BSGStab:
                     return new Solver.BSGStabParametrs(eps, MaxIter);
+                case src.Solver.Type.LOS:
+                    return new Solver.LOSParametrs(eps, MaxIter);
             }
             return null;
         }
