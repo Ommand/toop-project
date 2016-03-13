@@ -4,19 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using toop_project.src.Matrix;
-    namespace toop_project.src.Preconditioner
-    {
-        enum Type {
-            LU,
-            LLT,
-            LUsq
-        }
-        public interface IPreconditioner
-        {
-        BaseMatrix LU();
-        BaseMatrix LLt(); // Только для симметричной матрицы, все элементы хранятся в al
-        BaseMatrix LUsq();
+using toop_project.src.Vector_;
 
-        }
+namespace toop_project.src.Preconditioner
+{
+    public enum Type
+    {
+        NoPrecond,
+        LU,
+        LLT,
+        LUsq
     }
+    public interface IPreconditioner
+    {
+        BaseMatrix SourceMatrix { get; }
+        Type Type { get; }
+
+        //SAQ-общий случай
+        Vector SMultiply(Vector x);
+        Vector QMultiply(Vector x);
+        Vector SSolve(Vector x);
+        Vector QSolve(Vector x);
+    }
+}
 

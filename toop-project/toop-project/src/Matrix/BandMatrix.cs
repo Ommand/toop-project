@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using toop_project.src.Vector_;
-using toop_project.src.Preconditioner;
 
 /*
     Реализация ленточного формата хранения матрицы.
@@ -43,7 +42,7 @@ using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Matrix
 {
-    public class BandMatrix: BaseMatrix, IPreconditioner
+    public class BandMatrix: BaseMatrix
     {
         private double[] di; // диагональ
         private double[][] au;// верхняя половина
@@ -78,6 +77,14 @@ namespace toop_project.src.Matrix
             get
             {
                 return n;
+            }
+        }
+
+        public override Type Type
+        {
+            get
+            {
+                return Type.Band;
             }
         }
 
@@ -481,7 +488,7 @@ namespace toop_project.src.Matrix
         #endregion
 
         #region Preconditioner
-        public BaseMatrix LU()
+        public override BaseMatrix LU()
         {
             double[] diPrecond = new double[n];
             double[][] alPrecond = new double[n][];
@@ -516,7 +523,7 @@ namespace toop_project.src.Matrix
             }
             return new BandMatrix(bandWidth, diPrecond, alPrecond, auPrecond);
         }
-        public BaseMatrix LUsq()
+        public override BaseMatrix LUsq()
         {
             double[] diPrecond = new double[n];
             double[][] alPrecond = new double[n][];
@@ -551,7 +558,7 @@ namespace toop_project.src.Matrix
             }
             return new BandMatrix(bandWidth, diPrecond, alPrecond, auPrecond);
         }
-        public BaseMatrix LLt()
+        public override BaseMatrix LLt()
         {
             double[] diPrecond = new double[n];
             double[][] alPrecond = new double[n][];

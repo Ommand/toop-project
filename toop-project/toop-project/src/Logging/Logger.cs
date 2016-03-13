@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace toop_project.src.Logging
 {
-    class Logger : ILogger,ISolverLogger,IDisposable
+    public class Logger : ILogger,ISolverLogger,IDisposable
     {
         private enum MessageType
         {

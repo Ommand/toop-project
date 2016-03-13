@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using toop_project.src.Vector_;
-using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Matrix
 {
-    class DenseMatrix : BaseMatrix, IPreconditioner
+    class DenseMatrix : BaseMatrix
     {
         private double[][] a;
         private int n;
@@ -35,6 +34,14 @@ namespace toop_project.src.Matrix
             get
             {
                 return n; ;
+            }
+        }
+
+        public override Type Type
+        {
+            get
+            {
+                return Type.Dense;
             }
         }
 
@@ -308,7 +315,7 @@ namespace toop_project.src.Matrix
         #endregion Matrix
 
         #region Preconditioner 
-        public BaseMatrix LU()
+        public override BaseMatrix LU()
         {
             double[][] aPrecond = new double[n][];
             for (int i = 0; i < n; i++)
@@ -339,7 +346,7 @@ namespace toop_project.src.Matrix
             }
             return new DenseMatrix(aPrecond);
         }
-        public BaseMatrix LUsq()
+        public override BaseMatrix LUsq()
         {
             double[][] aPrecond = new double[n][];
             for (int i = 0; i < n; i++)
@@ -370,7 +377,7 @@ namespace toop_project.src.Matrix
             }
             return new DenseMatrix(aPrecond);
         }
-        public BaseMatrix LLt()
+        public override BaseMatrix LLt()
         {
             double[][] aPrecond = new double[n][];
             for (int i = 0; i < n; i++)

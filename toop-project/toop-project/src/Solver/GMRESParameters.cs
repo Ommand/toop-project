@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 
 namespace toop_project.src.Solver
 {
-    public class JacobiParametrs : ISolverParametrs {
-        public JacobiParametrs(double epsilon, int maxIterations, double relax = 1.0) {
+    class GMRESParameters : ISolverParametrs
+    {
+        public GMRESParameters(double epsilon, int maxIterations, int m)
+        {
             this.Epsilon = epsilon;
             this.MaxIterations = maxIterations;
-            this.Relaxation = relax;
+            this.M = m;
         }
-
         public double Epsilon { get { return epsilon; } protected set { epsilon = value; } }
         private double epsilon;
         public int MaxIterations { get { return maxIterations; } protected set { maxIterations = value; } }
         private int maxIterations;
-        public double Relaxation { get { return relaxation; } protected set { relaxation = value; } }
-        private double relaxation;
+        public int M { get { return m; } protected set { m = value; } }
+        private int m;
     }
+
 }

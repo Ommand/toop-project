@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using toop_project.src.Matrix;
 using toop_project.src.Vector_;
 using toop_project.src.Logging;
+using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Solver
 {
     public class Jacobi : ISolver
     {
-        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                                     ILogger logger,  ISolverLogger solverLogger, ISolverParametrs solverParametrs,  BaseMatrix predMatrix)
+        public override Vector Solve(IPreconditioner matrix, Vector rightPart, Vector initialSolution,
+                                     ILogger logger,  ISolverLogger solverLogger, ISolverParametrs solverParametrs)
         {
             JacobiParametrs JacParametrs = solverParametrs as JacobiParametrs;
 
@@ -30,12 +31,12 @@ namespace toop_project.src.Solver
 
                 x = initialSolution;
                 w = JacParametrs.Relaxation;
-                diagonal = matrix.Diagonal;
+                diagonal = matrix.SourceMatrix.Diagonal;
                 rightPartNorm = rightPart.Norm();
 
                 Dx = Vector.Mult(diagonal, x);
-                Lx = matrix.LMult(x, false);
-                Ux = matrix.UMult(x, false);
+                Lx = matrix.SourceMatrix.LMult(x, false);
+                Ux = matrix.SourceMatrix.UMult(x, false);
                 r = Lx + Dx + Ux - rightPart;
                 relativeResidual = r.Norm() / rightPartNorm;
 
@@ -50,8 +51,8 @@ namespace toop_project.src.Solver
                     x = (Db - DULx) * w + x * (1 - w);
 
                     Dx = Vector.Mult(diagonal, x);
-                    Lx = matrix.LMult(x, false);
-                    Ux = matrix.UMult(x, false);
+                    Lx = matrix.SourceMatrix.LMult(x, false);
+                    Ux = matrix.SourceMatrix.UMult(x, false);
                     r = Lx + Dx + Ux - rightPart;
                     relativeResidual = r.Norm() / rightPartNorm;
 

@@ -12,6 +12,7 @@
 
 #Log files
 log/
+log.txt
 
 # Build results
 [Dd]ebug/

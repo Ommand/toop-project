@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using toop_project.src.Matrix;
 using toop_project.src.Vector_;
 using toop_project.src.Logging;
+using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Solver
 {
     class GZ: ISolver
     {
-        public override Vector Solve(BaseMatrix matrix, Vector rightPart, Vector initialSolution,
-                                    ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs, BaseMatrix predMatrix)
+        public override Vector Solve(IPreconditioner matrix, Vector rightPart, Vector initialSolution,
+                                    ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs)
         {
             if (solverParametrs is GZParametrs)
             {
@@ -21,7 +22,7 @@ namespace toop_project.src.Solver
                 Vector x,xnext, r, di;
                 int size, k;
                 double Residual, w;
-                Vector DEx, DFx, DEb, Dx, Fx, Ex;
+                Vector DEx,DEb, Dx, Fx, Ex;
 
                 size = initialSolution.Size;
                 x = new Vector(size);
@@ -31,29 +32,29 @@ namespace toop_project.src.Solver
 
                 x = initialSolution;
                 w = GZParametrs.Relaxation;
-                di = matrix.Diagonal;
+                di = matrix.SourceMatrix.Diagonal;
 
-                Dx = diagonalMult(di, x);
-                Fx = matrix.LMult(x, false);
-                Ex = matrix.UMult(x, false);
+                Dx = Vector.Mult(di, x);
+                Fx = matrix.SourceMatrix.LMult(x, false);
+                Ex = matrix.SourceMatrix.UMult(x, false);
                 r = Dx+Fx+ Ex - rightPart;
                 var rpnorm = rightPart.Norm();
                 Residual = r.Norm() / rpnorm;
 
-                DEb = diagonalSolve(di, rightPart);
+                DEb = Vector.Division(rightPart,di);
 
                 solverLogger.AddIterationInfo(0, Residual);
-                for (k = 1; k <= solverParametrs.MaxIterations && Residual > solverParametrs.Epsilon; k++)
+                for (k = 1; k <= GZParametrs.MaxIterations && Residual > GZParametrs.Epsilon; k++)
                 {
 
-                    DEx = diagonalSolve(di, Ex+Fx);
+                    DEx = Vector.Division(Ex+Fx,di);
 
-                    xnext = (DEb + DEx) * w + x * (1 - w);
+                    xnext = (DEb - DEx) * w + x * (1 - w);
 
-                    Dx = diagonalMult(di, xnext);
-                    Ex = matrix.UMult(x, false) ;
-                    r = Dx+Fx + Ex - rightPart;
-                    Fx = matrix.LMult(xnext, false);
+                    Ex = matrix.SourceMatrix.UMult(x, false) ;
+                    r = Dx + Fx + Ex - rightPart;
+                    Dx = Vector.Mult(di, xnext);
+                    Fx = matrix.SourceMatrix.LMult(xnext, false);
 
                     Residual = r.Norm() / rpnorm;
 
@@ -72,26 +73,5 @@ namespace toop_project.src.Solver
         }
 
        public override Type Type { get { return Type.Seidel; } }
-
-        Vector diagonalSolve(Vector diagonal, Vector vector)
-        {
-            int size = diagonal.Size;
-            Vector result = new Vector(size);
-
-            for (int i = 0; i < size; i++)
-                result[i] = vector[i] / diagonal[i];
-
-            return result;
-        }
-        Vector diagonalMult(Vector diagonal, Vector vector)
-        {
-            int size = diagonal.Size;
-            Vector result = new Vector(size);
-
-            for (int i = 0; i < size; i++)
-                result[i] = vector[i] * diagonal[i];
-
-            return result;
-        }
     }
 }

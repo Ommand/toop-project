@@ -38,6 +38,9 @@
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBot = new System.Windows.Forms.Panel();
+            this.lblResidual = new System.Windows.Forms.Label();
+            this.lblIter = new System.Windows.Forms.Label();
+            this.pbarSolver = new System.Windows.Forms.ProgressBar();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.pnlSolver = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
@@ -56,18 +59,16 @@
             this.lblMatixFileName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.sbtnS = new toop_project.src.GUI.SinkButton();
+            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvMatrix = new System.Windows.Forms.DataGridView();
             this.dgvRightPart = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.pbarSolver = new System.Windows.Forms.ProgressBar();
-            this.lblIter = new System.Windows.Forms.Label();
-            this.lblResidual = new System.Windows.Forms.Label();
-            this.sbtnS = new toop_project.src.GUI.SinkButton();
-            this.sbtnF = new toop_project.src.GUI.SinkButton();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.dgvResult = new System.Windows.Forms.DataGridView();
             this.mnu.SuspendLayout();
             this.pnlBot.SuspendLayout();
             this.pnlLeft.SuspendLayout();
@@ -79,6 +80,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRightPart)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
             this.SuspendLayout();
             // 
             // mnu
@@ -90,7 +93,7 @@
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.mnu.Size = new System.Drawing.Size(643, 24);
+            this.mnu.Size = new System.Drawing.Size(602, 24);
             this.mnu.TabIndex = 0;
             this.mnu.Text = "menuStrip1";
             // 
@@ -162,8 +165,40 @@
             this.pnlBot.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlBot.Name = "pnlBot";
             this.pnlBot.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlBot.Size = new System.Drawing.Size(643, 24);
+            this.pnlBot.Size = new System.Drawing.Size(602, 24);
             this.pnlBot.TabIndex = 1;
+            // 
+            // lblResidual
+            // 
+            this.lblResidual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblResidual.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblResidual.Location = new System.Drawing.Point(149, 2);
+            this.lblResidual.Name = "lblResidual";
+            this.lblResidual.Size = new System.Drawing.Size(184, 20);
+            this.lblResidual.TabIndex = 2;
+            this.lblResidual.Text = "Residual:";
+            this.lblResidual.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblIter
+            // 
+            this.lblIter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblIter.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblIter.Location = new System.Drawing.Point(333, 2);
+            this.lblIter.Name = "lblIter";
+            this.lblIter.Size = new System.Drawing.Size(123, 20);
+            this.lblIter.TabIndex = 1;
+            this.lblIter.Text = "Iteration:";
+            this.lblIter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pbarSolver
+            // 
+            this.pbarSolver.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pbarSolver.Location = new System.Drawing.Point(456, 2);
+            this.pbarSolver.Name = "pbarSolver";
+            this.pbarSolver.Size = new System.Drawing.Size(144, 20);
+            this.pbarSolver.Step = 1;
+            this.pbarSolver.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pbarSolver.TabIndex = 0;
             // 
             // pnlLeft
             // 
@@ -257,7 +292,6 @@
             this.cmbPrecond.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbPrecond.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPrecond.Enabled = false;
             this.cmbPrecond.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbPrecond.Font = new System.Drawing.Font("Trebuchet MS", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbPrecond.FormattingEnabled = true;
@@ -265,6 +299,7 @@
             this.cmbPrecond.Name = "cmbPrecond";
             this.cmbPrecond.Size = new System.Drawing.Size(101, 24);
             this.cmbPrecond.TabIndex = 3;
+            this.cmbPrecond.SelectedIndexChanged += new System.EventHandler(this.cmbPrecond_SelectedIndexChanged);
             // 
             // cmbMatrixFormat
             // 
@@ -381,125 +416,8 @@
             this.pnlTop.Location = new System.Drawing.Point(0, 24);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlTop.Size = new System.Drawing.Size(643, 30);
+            this.pnlTop.Size = new System.Drawing.Size(602, 30);
             this.pnlTop.TabIndex = 4;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(228, 54);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(415, 376);
-            this.tabControl1.TabIndex = 5;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.dgvMatrix);
-            this.tabPage1.Controls.Add(this.dgvRightPart);
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(407, 345);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Matrix";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // dgvMatrix
-            // 
-            this.dgvMatrix.AllowUserToAddRows = false;
-            this.dgvMatrix.AllowUserToDeleteRows = false;
-            this.dgvMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMatrix.ColumnHeadersVisible = false;
-            this.dgvMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMatrix.Location = new System.Drawing.Point(3, 3);
-            this.dgvMatrix.Name = "dgvMatrix";
-            this.dgvMatrix.ReadOnly = true;
-            this.dgvMatrix.RowHeadersVisible = false;
-            this.dgvMatrix.Size = new System.Drawing.Size(333, 339);
-            this.dgvMatrix.TabIndex = 0;
-            // 
-            // dgvRightPart
-            // 
-            this.dgvRightPart.AllowUserToAddRows = false;
-            this.dgvRightPart.AllowUserToDeleteRows = false;
-            this.dgvRightPart.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvRightPart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRightPart.ColumnHeadersVisible = false;
-            this.dgvRightPart.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dgvRightPart.Location = new System.Drawing.Point(336, 3);
-            this.dgvRightPart.Name = "dgvRightPart";
-            this.dgvRightPart.ReadOnly = true;
-            this.dgvRightPart.RowHeadersVisible = false;
-            this.dgvRightPart.Size = new System.Drawing.Size(68, 339);
-            this.dgvRightPart.TabIndex = 0;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 27);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(407, 345);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "SLAE Analysis";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.rtbLog);
-            this.tabPage3.Location = new System.Drawing.Point(4, 27);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(407, 345);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Log";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // rtbLog
-            // 
-            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbLog.Location = new System.Drawing.Point(4, 4);
-            this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(399, 342);
-            this.rtbLog.TabIndex = 0;
-            this.rtbLog.Text = "";
-            // 
-            // pbarSolver
-            // 
-            this.pbarSolver.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbarSolver.Location = new System.Drawing.Point(497, 2);
-            this.pbarSolver.Name = "pbarSolver";
-            this.pbarSolver.Size = new System.Drawing.Size(144, 20);
-            this.pbarSolver.Step = 1;
-            this.pbarSolver.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.pbarSolver.TabIndex = 0;
-            // 
-            // lblIter
-            // 
-            this.lblIter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblIter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblIter.Location = new System.Drawing.Point(374, 2);
-            this.lblIter.Name = "lblIter";
-            this.lblIter.Size = new System.Drawing.Size(123, 20);
-            this.lblIter.TabIndex = 1;
-            this.lblIter.Text = "Iteration:";
-            this.lblIter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblResidual
-            // 
-            this.lblResidual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblResidual.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblResidual.Location = new System.Drawing.Point(190, 2);
-            this.lblResidual.Name = "lblResidual";
-            this.lblResidual.Size = new System.Drawing.Size(184, 20);
-            this.lblResidual.TabIndex = 2;
-            this.lblResidual.Text = "Residual:";
-            this.lblResidual.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // sbtnS
             // 
@@ -523,11 +441,112 @@
             this.sbtnF.Text = "F";
             this.sbtnF.UseVisualStyleBackColor = false;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(228, 54);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(374, 376);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dgvMatrix);
+            this.tabPage1.Controls.Add(this.dgvRightPart);
+            this.tabPage1.Location = new System.Drawing.Point(4, 27);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(366, 345);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Matrix";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dgvMatrix
+            // 
+            this.dgvMatrix.AllowUserToAddRows = false;
+            this.dgvMatrix.AllowUserToDeleteRows = false;
+            this.dgvMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMatrix.ColumnHeadersVisible = false;
+            this.dgvMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvMatrix.Location = new System.Drawing.Point(3, 3);
+            this.dgvMatrix.Name = "dgvMatrix";
+            this.dgvMatrix.ReadOnly = true;
+            this.dgvMatrix.RowHeadersVisible = false;
+            this.dgvMatrix.Size = new System.Drawing.Size(328, 339);
+            this.dgvMatrix.TabIndex = 0;
+            // 
+            // dgvRightPart
+            // 
+            this.dgvRightPart.AllowUserToAddRows = false;
+            this.dgvRightPart.AllowUserToDeleteRows = false;
+            this.dgvRightPart.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvRightPart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRightPart.ColumnHeadersVisible = false;
+            this.dgvRightPart.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dgvRightPart.Location = new System.Drawing.Point(331, 3);
+            this.dgvRightPart.Name = "dgvRightPart";
+            this.dgvRightPart.ReadOnly = true;
+            this.dgvRightPart.RowHeadersVisible = false;
+            this.dgvRightPart.Size = new System.Drawing.Size(32, 339);
+            this.dgvRightPart.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.rtbLog);
+            this.tabPage3.Location = new System.Drawing.Point(4, 27);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage3.Size = new System.Drawing.Size(366, 345);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Log";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // rtbLog
+            // 
+            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLog.Location = new System.Drawing.Point(4, 4);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.Size = new System.Drawing.Size(358, 337);
+            this.rtbLog.TabIndex = 0;
+            this.rtbLog.Text = "";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.dgvResult);
+            this.tabPage4.Location = new System.Drawing.Point(4, 27);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(366, 345);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Result";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dgvResult
+            // 
+            this.dgvResult.AllowUserToAddRows = false;
+            this.dgvResult.AllowUserToDeleteRows = false;
+            this.dgvResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvResult.ColumnHeadersVisible = false;
+            this.dgvResult.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dgvResult.Location = new System.Drawing.Point(3, 3);
+            this.dgvResult.Name = "dgvResult";
+            this.dgvResult.ReadOnly = true;
+            this.dgvResult.RowHeadersVisible = false;
+            this.dgvResult.Size = new System.Drawing.Size(132, 339);
+            this.dgvResult.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 454);
+            this.ClientSize = new System.Drawing.Size(602, 454);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pnlLeft);
             this.Controls.Add(this.pnlTop);
@@ -553,6 +572,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMatrix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRightPart)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -578,7 +599,6 @@
         private src.GUI.SinkButton sbtnS;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.RichTextBox rtbLog;
         private System.Windows.Forms.Label lblMatixFileName;
@@ -600,6 +620,8 @@
         private System.Windows.Forms.ProgressBar pbarSolver;
         private System.Windows.Forms.Label lblIter;
         private System.Windows.Forms.Label lblResidual;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.DataGridView dgvResult;
     }
 }
 
