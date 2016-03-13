@@ -16,12 +16,12 @@ namespace toop_project.src.Solver
         {
             if (solverParametrs is LOSParametrs)
             {
-                LOSParametrs GZParametrs = solverParametrs as LOSParametrs;
+                LOSParametrs LOSParametrs = solverParametrs as LOSParametrs;
 
                 Vector x, r, z, p;
                 double alpha, betta;
                 int size, k;
-                double Residual, pnorm;
+                double Residual,pp,rightnorm;
                 Vector Ax;
                 Vector LAU, Ur;
 
@@ -35,22 +35,20 @@ namespace toop_project.src.Solver
                 Ur = new Vector(size);
 
                 Ax = matrix.SourceMatrix.Multiply(x);
-
                 x = initialSolution;
                 r = matrix.SSolve(rightPart - Ax);
                 z = matrix.QSolve(r);
                 p = matrix.SSolve(matrix.SourceMatrix.Multiply(z));
 
-                r = Ax - rightPart;
-                var rpnorm = rightPart.Norm();
-                Residual = r.Norm() / rpnorm;
+                rightnorm = matrix.SSolve(rightPart).Norm();
+                Residual = (r*r)/rightnorm;
 
                 solverLogger.AddIterationInfo(0, Residual);
-                for (k = 1; k <= solverParametrs.MaxIterations && Residual > solverParametrs.Epsilon; k++)
+                for (k = 1; k <= LOSParametrs.MaxIterations && Residual > LOSParametrs.Epsilon; k++)
                 {
-                    pnorm = p.Norm();
+                    pp = p*p;
 
-                    alpha = Math.Sqrt((p * r)) / pnorm;
+                    alpha = (p * r) / pp;
                     x = x + z * alpha;
                     r = r - p * alpha;
 
@@ -58,11 +56,11 @@ namespace toop_project.src.Solver
                     LAU = matrix.SourceMatrix.Multiply(Ur);
                     LAU = matrix.SSolve(LAU);
 
-                    betta = -Math.Sqrt(p * LAU) / pnorm;
+                    betta = - (p * LAU) / pp;
                     z = Ur + z * betta;
                     p = LAU + p * betta;
 
-                    Residual = r.Norm() / rpnorm;
+                    Residual = (r * r) / rightnorm;
                     solverLogger.AddIterationInfo(k, Residual);
 
                 }
