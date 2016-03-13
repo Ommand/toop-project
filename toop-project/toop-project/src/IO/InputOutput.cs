@@ -253,6 +253,7 @@ namespace toop_project
 			}
 			log.Info("Ввод ia завершен.");
 
+			NormaliseIA(ia);
 			int m = ia[n];
 
 			//чтение di
@@ -330,6 +331,7 @@ namespace toop_project
 			}
 			log.Info("Ввод ia завершен.");
 
+			NormaliseIA(ia);
 			int m = ia[n];
 
 			//чтение ja
@@ -603,6 +605,15 @@ namespace toop_project
 			log.Info("Успешное завершение ввода матрицы.");
 			return new BandMatrix(bandWidth, di, al, au);
 		}
-		
+
+		private static void NormaliseIA(int[] ia)
+		{
+			int offset = ia[0];
+
+			for (int i = 0; i < ia.Length; i++)
+			{
+				ia[i] -= offset;
+			}
+		}
 	}
 }
