@@ -88,6 +88,8 @@
     <Compile Include="src\Solver\ISolverParametrs.cs" />
     <Compile Include="src\Solver\Jacobi.cs" />
     <Compile Include="src\Solver\JacobiParametrs.cs" />
+    <Compile Include="src\Solver\LOS.cs" />
+    <Compile Include="src\Solver\LOSParametrs.cs" />
     <Compile Include="src\Solver\MSG.cs" />
     <Compile Include="src\Solver\MSGParametrs.cs" />
     <Compile Include="src\Vector_\Vector.cs" />
