@@ -63,6 +63,14 @@ namespace toop_project.src.Matrix
             }
         }
 
+        public override Type Type
+        {
+            get
+            {
+                return Type.Diagonal;
+            }
+        }
+
         #region Matrix
 
         public DiagonalMatrix(double[] di, double[][] al, double[][] au, int[] shift_l, int[] shift_u)
