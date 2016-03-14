@@ -107,6 +107,7 @@ namespace toop_project {
         private void setDataBindings() {
             pnlFile.DataBindings.Add(new Binding("Visible", sbtnF, "Sink"));
             pnlSolver.DataBindings.Add(new Binding("Visible", sbtnS, "Sink"));
+            pnlParameters.DataBindings.Add(new Binding("Visible", sbtnP, "Sink"));
         }
 
         private void setComboboxes() {
