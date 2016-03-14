@@ -15,12 +15,13 @@ namespace toop_project {
         src.Slae.SLAE slae;
 
         const String MatrixFileExtension = "mtx";
-        const String RightPartFileExtension = "rtx";
+        const String VectorFileExtension = "vec";
         String resPath = System.IO.Path.GetFullPath(@"..\..\res\");
 
         OpenFileDialog ofdMatrix = new OpenFileDialog();
         OpenFileDialog ofdRightPart = new OpenFileDialog();
-        
+        OpenFileDialog ofdInitial = new OpenFileDialog();
+
         delegate void UpdateResidualCallback(double residual);
         private void UpdateResidual(double residual) {
             if (this.lblResidual.InvokeRequired)
@@ -137,11 +138,7 @@ namespace toop_project {
 
         private void updateDgvRightPart(src.Vector_.Vector vec) {
             tabControl1.SelectedIndex = 0;
-
-            dgvRightPart.Rows.Clear();
-            dgvRightPart.Columns.Clear();
-            dgvRightPart.Columns.Add("", "");
-
+            ClearDgv(dgvRightPart);
             for (var i = 0; i < vec.Size; i++) {
                 String[] strs = new String[1];
                 strs[0] = vec[i].ToString();
@@ -150,15 +147,24 @@ namespace toop_project {
             }
         }
 
+        private void updateDgvInitial(src.Vector_.Vector vec) {
+            tabControl1.SelectedIndex = 1;
+            ClearDgv(dgvInitial);
+            for (var i = 0; i < vec.Size; i++)
+                dgvInitial.Rows.Add(vec[i].ToString());
+        }
+
         private void updateDgvResult(src.Vector_.Vector vec) {
             tabControl1.SelectedIndex = 2;
-
-            dgvResult.Rows.Clear();
-            dgvResult.Columns.Clear();
-            dgvResult.Columns.Add("", "");
-
+            ClearDgv(dgvResult);
             for (var i = 0; i < vec.Size; i++)
                 dgvResult.Rows.Add(vec[i].ToString());
+        }
+
+        void ClearDgv(DataGridView dgv) {
+            dgv.Rows.Clear();
+            dgv.Columns.Clear();
+            dgv.Columns.Add("", "");
         }
 
         private void btnOpenRPFile_Click(object sender, EventArgs e) {
@@ -169,7 +175,7 @@ namespace toop_project {
                         vector = toop_project.InputOutput.InputRightPart(ofdRightPart.FileName);
                         updateDgvRightPart(vector);
                         slae.Right = vector;
-                        lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\') + 1);
+                        lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdRightPart.FileName.LastIndexOf('\\') + 1);
                     }
                 }
                 catch (Exception ex) {
@@ -179,11 +185,6 @@ namespace toop_project {
         }
 
         private void btnSolve_Click(object sender, EventArgs e) {
-            if (cmbSolver.SelectedIndex < 0)
-                cmbSolver.SelectedIndex = 0;
-            if (cmbPrecond.SelectedIndex < 0)
-                cmbPrecond.SelectedIndex = 0;
-
             if (!slae.CanBeComputed()) {
                 MessageBox.Show("Can't compute this slae","Error");
                 return;
@@ -213,21 +214,61 @@ namespace toop_project {
             ofdMatrix.Multiselect = false;
 
             ofdRightPart.InitialDirectory = System.IO.Path.GetDirectoryName(resPath);
-            ofdRightPart.Filter = RightPartFileExtension + " files (*." + RightPartFileExtension + ")|*." + RightPartFileExtension + "";
+            ofdRightPart.Filter = VectorFileExtension + " files (*." + VectorFileExtension + ")|*." + VectorFileExtension + "";
             ofdRightPart.RestoreDirectory = true;
             ofdRightPart.Multiselect = false;
+
+            ofdInitial.InitialDirectory = System.IO.Path.GetDirectoryName(resPath);
+            ofdInitial.Filter = VectorFileExtension + " files (*." + VectorFileExtension + ")|*." + VectorFileExtension + "";
+            ofdInitial.RestoreDirectory = true;
+            ofdInitial.Multiselect = false;
         }
 
         private void Form1_Load(object sender, EventArgs e) {
             slae = new src.Slae.SLAE(this);
+
+            cmbPrecond.SelectedIndex = 0;
+            cmbSolver.SelectedIndex = 0;
         }
 
         private void cmbPrecond_SelectedIndexChanged(object sender, EventArgs e) {
-            if (cmbPrecond.SelectedIndex < 0) {
-                slae.PreconditionerType = src.Preconditioner.Type.NoPrecond;
+            if (cmbPrecond.SelectedIndex < 0)
                 return;
-            }
+
             slae.PreconditionerType = (src.Preconditioner.Type)Enum.ToObject(typeof(src.Preconditioner.Type), cmbPrecond.SelectedIndex);
+        }
+
+        private void mnuInitial_Click(object sender, EventArgs e) {
+            if (ofdInitial.ShowDialog() == DialogResult.OK) {
+                try {
+                    if (ofdInitial.FileName != null) { 
+                        src.Vector_.Vector vector;
+                        vector = toop_project.InputOutput.InputRightPart(ofdInitial.FileName);
+                        updateDgvInitial(vector);
+                        slae.Initial = vector;
+                        lblInitialFileName.Text = ofdInitial.FileName.Substring(ofdInitial.FileName.LastIndexOf('\\') + 1);
+
+                        cbxInitial.Checked = true;
+                        cbxInitial.Enabled = true;
+                    }
+                }
+                catch (Exception ex) {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
+        }
+
+        private void cbxInitial_CheckedChanged(object sender, EventArgs e) {
+            if (cbxInitial.Checked == false) {
+                tabControl1.SelectedIndex = 2;
+                slae.Initial = null;
+                lblInitialFileName.Text = "fileName";
+                ClearDgv(dgvInitial);
+                if (slae.Matrix != null)
+                    updateDgvInitial(new src.Vector_.Vector(slae.Matrix.Size));
+
+                cbxInitial.Enabled = false;
+            }
         }
     }
 }
