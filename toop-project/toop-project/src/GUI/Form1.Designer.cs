@@ -42,6 +42,11 @@
             this.lblIter = new System.Windows.Forms.Label();
             this.pbarSolver = new System.Windows.Forms.ProgressBar();
             this.pnlLeft = new System.Windows.Forms.Panel();
+            this.pnlParameters = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.pnlSolver = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,6 +58,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
             this.pnlFile = new System.Windows.Forms.Panel();
+            this.cbxInitial = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.lblInitialFileName = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -71,12 +77,18 @@
             this.dgvResult = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.cbxInitial = new System.Windows.Forms.CheckBox();
+            this.tbResidual = new System.Windows.Forms.TextBox();
+            this.sbtnP = new toop_project.src.GUI.SinkButton();
             this.sbtnS = new toop_project.src.GUI.SinkButton();
             this.sbtnF = new toop_project.src.GUI.SinkButton();
+            this.label13 = new System.Windows.Forms.Label();
+            this.nudRelaxation = new System.Windows.Forms.NumericUpDown();
+            this.nudMaxIter = new System.Windows.Forms.NumericUpDown();
+            this.nudMGMRES = new System.Windows.Forms.NumericUpDown();
             this.mnu.SuspendLayout();
             this.pnlBot.SuspendLayout();
             this.pnlLeft.SuspendLayout();
+            this.pnlParameters.SuspendLayout();
             this.pnlSolver.SuspendLayout();
             this.pnlFile.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -89,6 +101,9 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRelaxation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMaxIter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMGMRES)).BeginInit();
             this.SuspendLayout();
             // 
             // mnu
@@ -99,7 +114,7 @@
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.mnu.Size = new System.Drawing.Size(665, 24);
+            this.mnu.Size = new System.Drawing.Size(745, 24);
             this.mnu.TabIndex = 0;
             this.mnu.Text = "menuStrip1";
             // 
@@ -169,18 +184,18 @@
             this.pnlBot.Controls.Add(this.lblIter);
             this.pnlBot.Controls.Add(this.pbarSolver);
             this.pnlBot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBot.Location = new System.Drawing.Point(0, 435);
+            this.pnlBot.Location = new System.Drawing.Point(0, 509);
             this.pnlBot.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlBot.Name = "pnlBot";
             this.pnlBot.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlBot.Size = new System.Drawing.Size(665, 24);
+            this.pnlBot.Size = new System.Drawing.Size(745, 24);
             this.pnlBot.TabIndex = 1;
             // 
             // lblResidual
             // 
             this.lblResidual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblResidual.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblResidual.Location = new System.Drawing.Point(212, 2);
+            this.lblResidual.Location = new System.Drawing.Point(292, 2);
             this.lblResidual.Name = "lblResidual";
             this.lblResidual.Size = new System.Drawing.Size(184, 20);
             this.lblResidual.TabIndex = 2;
@@ -191,7 +206,7 @@
             // 
             this.lblIter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblIter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblIter.Location = new System.Drawing.Point(396, 2);
+            this.lblIter.Location = new System.Drawing.Point(476, 2);
             this.lblIter.Name = "lblIter";
             this.lblIter.Size = new System.Drawing.Size(123, 20);
             this.lblIter.TabIndex = 1;
@@ -201,7 +216,7 @@
             // pbarSolver
             // 
             this.pbarSolver.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbarSolver.Location = new System.Drawing.Point(519, 2);
+            this.pbarSolver.Location = new System.Drawing.Point(599, 2);
             this.pbarSolver.Name = "pbarSolver";
             this.pbarSolver.Size = new System.Drawing.Size(144, 20);
             this.pbarSolver.Step = 1;
@@ -212,6 +227,7 @@
             // 
             this.pnlLeft.AutoScroll = true;
             this.pnlLeft.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.pnlLeft.Controls.Add(this.pnlParameters);
             this.pnlLeft.Controls.Add(this.pnlSolver);
             this.pnlLeft.Controls.Add(this.panel11);
             this.pnlLeft.Controls.Add(this.pnlFile);
@@ -220,8 +236,66 @@
             this.pnlLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlLeft.Name = "pnlLeft";
             this.pnlLeft.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pnlLeft.Size = new System.Drawing.Size(292, 381);
+            this.pnlLeft.Size = new System.Drawing.Size(292, 455);
             this.pnlLeft.TabIndex = 2;
+            // 
+            // pnlParameters
+            // 
+            this.pnlParameters.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlParameters.Controls.Add(this.nudMGMRES);
+            this.pnlParameters.Controls.Add(this.nudMaxIter);
+            this.pnlParameters.Controls.Add(this.nudRelaxation);
+            this.pnlParameters.Controls.Add(this.label13);
+            this.pnlParameters.Controls.Add(this.tbResidual);
+            this.pnlParameters.Controls.Add(this.label9);
+            this.pnlParameters.Controls.Add(this.label10);
+            this.pnlParameters.Controls.Add(this.label11);
+            this.pnlParameters.Controls.Add(this.label12);
+            this.pnlParameters.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlParameters.Location = new System.Drawing.Point(3, 251);
+            this.pnlParameters.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnlParameters.Name = "pnlParameters";
+            this.pnlParameters.Padding = new System.Windows.Forms.Padding(2);
+            this.pnlParameters.Size = new System.Drawing.Size(286, 136);
+            this.pnlParameters.TabIndex = 7;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(15, 77);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(91, 18);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "Max iterations:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(15, 54);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(91, 18);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "Relaxation par:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(27, 34);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(79, 18);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Min residual:";
+            // 
+            // label12
+            // 
+            this.label12.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label12.Location = new System.Drawing.Point(2, 2);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(282, 24);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Parameters";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlSolver
             // 
@@ -363,6 +437,17 @@
             this.pnlFile.Size = new System.Drawing.Size(286, 107);
             this.pnlFile.TabIndex = 0;
             // 
+            // cbxInitial
+            // 
+            this.cbxInitial.AutoSize = true;
+            this.cbxInitial.Enabled = false;
+            this.cbxInitial.Location = new System.Drawing.Point(266, 83);
+            this.cbxInitial.Name = "cbxInitial";
+            this.cbxInitial.Size = new System.Drawing.Size(15, 14);
+            this.cbxInitial.TabIndex = 10;
+            this.cbxInitial.UseVisualStyleBackColor = true;
+            this.cbxInitial.CheckedChanged += new System.EventHandler(this.cbxInitial_CheckedChanged);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -443,13 +528,14 @@
             // pnlTop
             // 
             this.pnlTop.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.pnlTop.Controls.Add(this.sbtnP);
             this.pnlTop.Controls.Add(this.sbtnS);
             this.pnlTop.Controls.Add(this.sbtnF);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 24);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlTop.Size = new System.Drawing.Size(665, 30);
+            this.pnlTop.Size = new System.Drawing.Size(745, 30);
             this.pnlTop.TabIndex = 4;
             // 
             // tabControl1
@@ -462,7 +548,7 @@
             this.tabControl1.Location = new System.Drawing.Point(292, 54);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(373, 381);
+            this.tabControl1.Size = new System.Drawing.Size(453, 455);
             this.tabControl1.TabIndex = 5;
             // 
             // tabPage1
@@ -472,7 +558,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(365, 350);
+            this.tabPage1.Size = new System.Drawing.Size(445, 424);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Matrix";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -489,7 +575,7 @@
             this.dgvMatrix.Name = "dgvMatrix";
             this.dgvMatrix.ReadOnly = true;
             this.dgvMatrix.RowHeadersVisible = false;
-            this.dgvMatrix.Size = new System.Drawing.Size(327, 344);
+            this.dgvMatrix.Size = new System.Drawing.Size(407, 418);
             this.dgvMatrix.TabIndex = 0;
             // 
             // dgvRightPart
@@ -500,11 +586,11 @@
             this.dgvRightPart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRightPart.ColumnHeadersVisible = false;
             this.dgvRightPart.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dgvRightPart.Location = new System.Drawing.Point(330, 3);
+            this.dgvRightPart.Location = new System.Drawing.Point(410, 3);
             this.dgvRightPart.Name = "dgvRightPart";
             this.dgvRightPart.ReadOnly = true;
             this.dgvRightPart.RowHeadersVisible = false;
-            this.dgvRightPart.Size = new System.Drawing.Size(32, 344);
+            this.dgvRightPart.Size = new System.Drawing.Size(32, 418);
             this.dgvRightPart.TabIndex = 0;
             // 
             // tabPage2
@@ -513,7 +599,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(365, 350);
+            this.tabPage2.Size = new System.Drawing.Size(445, 424);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "Initial";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -530,7 +616,7 @@
             this.dgvInitial.Name = "dgvInitial";
             this.dgvInitial.ReadOnly = true;
             this.dgvInitial.RowHeadersVisible = false;
-            this.dgvInitial.Size = new System.Drawing.Size(132, 349);
+            this.dgvInitial.Size = new System.Drawing.Size(132, 418);
             this.dgvInitial.TabIndex = 2;
             // 
             // tabPage4
@@ -539,7 +625,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 27);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(365, 350);
+            this.tabPage4.Size = new System.Drawing.Size(445, 424);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Result";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -556,7 +642,7 @@
             this.dgvResult.Name = "dgvResult";
             this.dgvResult.ReadOnly = true;
             this.dgvResult.RowHeadersVisible = false;
-            this.dgvResult.Size = new System.Drawing.Size(132, 349);
+            this.dgvResult.Size = new System.Drawing.Size(132, 418);
             this.dgvResult.TabIndex = 1;
             // 
             // tabPage3
@@ -565,7 +651,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 27);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(365, 350);
+            this.tabPage3.Size = new System.Drawing.Size(445, 424);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Log";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -576,25 +662,36 @@
             this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbLog.Location = new System.Drawing.Point(4, 4);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(357, 347);
+            this.rtbLog.Size = new System.Drawing.Size(437, 416);
             this.rtbLog.TabIndex = 0;
             this.rtbLog.Text = "";
             // 
-            // cbxInitial
+            // tbResidual
             // 
-            this.cbxInitial.AutoSize = true;
-            this.cbxInitial.Enabled = false;
-            this.cbxInitial.Location = new System.Drawing.Point(268, 83);
-            this.cbxInitial.Name = "cbxInitial";
-            this.cbxInitial.Size = new System.Drawing.Size(15, 14);
-            this.cbxInitial.TabIndex = 10;
-            this.cbxInitial.UseVisualStyleBackColor = true;
-            this.cbxInitial.CheckedChanged += new System.EventHandler(this.cbxInitial_CheckedChanged);
+            this.tbResidual.Location = new System.Drawing.Point(116, 31);
+            this.tbResidual.Name = "tbResidual";
+            this.tbResidual.Size = new System.Drawing.Size(165, 21);
+            this.tbResidual.TabIndex = 7;
+            this.tbResidual.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbResidual_KeyPress);
+            this.tbResidual.Leave += new System.EventHandler(this.tbResidual_Leave);
+            // 
+            // sbtnP
+            // 
+            this.sbtnP.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnP.Dock = System.Windows.Forms.DockStyle.Left;
+            this.sbtnP.Location = new System.Drawing.Point(54, 2);
+            this.sbtnP.Name = "sbtnP";
+            this.sbtnP.Sink = true;
+            this.sbtnP.Size = new System.Drawing.Size(26, 26);
+            this.sbtnP.TabIndex = 2;
+            this.sbtnP.Text = "P";
+            this.sbtnP.UseVisualStyleBackColor = false;
             // 
             // sbtnS
             // 
             this.sbtnS.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.sbtnS.Location = new System.Drawing.Point(29, 2);
+            this.sbtnS.Dock = System.Windows.Forms.DockStyle.Left;
+            this.sbtnS.Location = new System.Drawing.Point(28, 2);
             this.sbtnS.Name = "sbtnS";
             this.sbtnS.Sink = true;
             this.sbtnS.Size = new System.Drawing.Size(26, 26);
@@ -605,6 +702,7 @@
             // sbtnF
             // 
             this.sbtnF.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnF.Dock = System.Windows.Forms.DockStyle.Left;
             this.sbtnF.Location = new System.Drawing.Point(2, 2);
             this.sbtnF.Name = "sbtnF";
             this.sbtnF.Sink = true;
@@ -613,11 +711,95 @@
             this.sbtnF.Text = "F";
             this.sbtnF.UseVisualStyleBackColor = false;
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(47, 98);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(59, 18);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "KSSD (m):";
+            // 
+            // nudRelaxation
+            // 
+            this.nudRelaxation.DecimalPlaces = 2;
+            this.nudRelaxation.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nudRelaxation.Location = new System.Drawing.Point(116, 54);
+            this.nudRelaxation.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudRelaxation.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nudRelaxation.Name = "nudRelaxation";
+            this.nudRelaxation.Size = new System.Drawing.Size(165, 21);
+            this.nudRelaxation.TabIndex = 9;
+            this.nudRelaxation.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudRelaxation.ValueChanged += new System.EventHandler(this.nudRelaxation_ValueChanged);
+            // 
+            // nudMaxIter
+            // 
+            this.nudMaxIter.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudMaxIter.Location = new System.Drawing.Point(116, 75);
+            this.nudMaxIter.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nudMaxIter.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nudMaxIter.Name = "nudMaxIter";
+            this.nudMaxIter.Size = new System.Drawing.Size(165, 21);
+            this.nudMaxIter.TabIndex = 10;
+            this.nudMaxIter.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nudMaxIter.ValueChanged += new System.EventHandler(this.nudMaxIter_ValueChanged);
+            // 
+            // nudMGMRES
+            // 
+            this.nudMGMRES.Location = new System.Drawing.Point(116, 96);
+            this.nudMGMRES.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudMGMRES.Name = "nudMGMRES";
+            this.nudMGMRES.Size = new System.Drawing.Size(165, 21);
+            this.nudMGMRES.TabIndex = 11;
+            this.nudMGMRES.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nudMGMRES.ValueChanged += new System.EventHandler(this.nudMGMRES_ValueChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 459);
+            this.ClientSize = new System.Drawing.Size(745, 533);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pnlLeft);
             this.Controls.Add(this.pnlTop);
@@ -633,6 +815,8 @@
             this.mnu.PerformLayout();
             this.pnlBot.ResumeLayout(false);
             this.pnlLeft.ResumeLayout(false);
+            this.pnlParameters.ResumeLayout(false);
+            this.pnlParameters.PerformLayout();
             this.pnlSolver.ResumeLayout(false);
             this.pnlSolver.PerformLayout();
             this.pnlFile.ResumeLayout(false);
@@ -647,6 +831,9 @@
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudRelaxation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMaxIter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMGMRES)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -700,6 +887,17 @@
         private System.Windows.Forms.Label lblInitialFileName;
         private System.Windows.Forms.ToolStripMenuItem mnuInitial;
         private System.Windows.Forms.CheckBox cbxInitial;
+        private src.GUI.SinkButton sbtnP;
+        private System.Windows.Forms.Panel pnlParameters;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox tbResidual;
+        private System.Windows.Forms.NumericUpDown nudMGMRES;
+        private System.Windows.Forms.NumericUpDown nudMaxIter;
+        private System.Windows.Forms.NumericUpDown nudRelaxation;
+        private System.Windows.Forms.Label label13;
     }
 }
 
