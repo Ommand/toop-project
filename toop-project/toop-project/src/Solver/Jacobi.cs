@@ -29,18 +29,18 @@ namespace toop_project.src.Solver
                 r = new Vector(size);
                 diagonal = new Vector(size);
 
-                x = matrix.QSolve(initialSolution);
+                x = initialSolution;
                 w = JacParametrs.Relaxation;
                 diagonal = matrix.SourceMatrix.Diagonal;
-                rightPartNorm = matrix.SSolve(rightPart).Norm();
+                rightPartNorm = rightPart.Norm();
 
                 Dx = Vector.Mult(diagonal, x);
                 Lx = matrix.SourceMatrix.LMult(x, false);
                 Ux = matrix.SourceMatrix.UMult(x, false);
-                r = matrix.SSolve(Lx + Dx + Ux - rightPart);
+                r = Lx + Dx + Ux - rightPart;
                 relativeResidual = r.Norm() / rightPartNorm;
 
-                Db = Vector.Division(matrix.SSolve(rightPart), matrix.SSolve(diagonal));
+                Db = Vector.Division(rightPart, diagonal);
 
                 solverLogger.AddIterationInfo(0, relativeResidual);
 
@@ -48,18 +48,18 @@ namespace toop_project.src.Solver
                 {
                     DULx = Vector.Division(Ux + Lx, diagonal);
 
-                    x = matrix.SSolve((Db - DULx)) * w + x * (1 - w);
+                    x = (Db - DULx) * w + x * (1 - w);
 
                     Dx = Vector.Mult(diagonal, x);
                     Lx = matrix.SourceMatrix.LMult(x, false);
                     Ux = matrix.SourceMatrix.UMult(x, false);
-                    r = matrix.SSolve(Lx + Dx + Ux - rightPart);
+                    r = Lx + Dx + Ux - rightPart;
                     relativeResidual = r.Norm() / rightPartNorm;
 
                     solverLogger.AddIterationInfo(k, relativeResidual);
                 }
 
-                return matrix.QMultiply(x);
+                return x;
             }
             else {
                 logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
