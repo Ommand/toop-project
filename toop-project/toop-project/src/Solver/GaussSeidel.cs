@@ -22,7 +22,7 @@ namespace toop_project.src.Solver
                 Vector x,xnext, r, di;
                 int size, k;
                 double Residual, w;
-                Vector DEx,DEb, Dx, Fx, Ex ;
+                Vector DEx,DEb, Dx, Fx, Ex;
 
                 size = initialSolution.Size;
                 x = new Vector(size);
@@ -42,11 +42,12 @@ namespace toop_project.src.Solver
                 Residual = r.Norm() / rpnorm;
 
                 DEb = Vector.Division(rightPart,di);
+             
 
                 solverLogger.AddIterationInfo(0, Residual);
                 for (k = 1; k <= GZParametrs.MaxIterations && Residual > GZParametrs.Epsilon; k++)
                 {
-                    
+                
                     DEx = Vector.Division(Ex+Fx,di);                
                     xnext = (DEb - DEx) * w + x * (1 - w);
                     Ex = matrix.SourceMatrix.UMult(xnext, false);
@@ -62,10 +63,10 @@ namespace toop_project.src.Solver
 
 
                     r = Dx + Fx + Ex - rightPart;
+
                     Residual = r.Norm() / rpnorm;
                     solverLogger.AddIterationInfo(k, Residual);
 
-                    x = xnext;
                 }
 
                 return xnext;
