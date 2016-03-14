@@ -9,13 +9,13 @@ using toop_project.src.Vector_;
 
 namespace toop_project.src.Solver
 {
-    class BSGStab : ISolver
+    class BCGStab : ISolver
     {
-        public override Type Type { get { return Type.BSGStab; } }
+        public override Type Type { get { return Type.BCGStab; } }
 
         public override Vector Solve(IPreconditioner matrix, Vector rightPart, Vector initialSolution, ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs)
         {
-            BSGStabParametrs ConGradParametrs = solverParametrs as BSGStabParametrs;
+            BCGStabParametrs ConGradParametrs = solverParametrs as BCGStabParametrs;
             if (ConGradParametrs == null)
             {
                 logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in BSGStab");

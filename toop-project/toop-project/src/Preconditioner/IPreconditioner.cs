@@ -11,6 +11,7 @@ namespace toop_project.src.Preconditioner
     public enum Type
     {
         NoPrecond,
+        Diagonal,
         LU,
         LLT,
         LUsq

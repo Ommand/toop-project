@@ -10,14 +10,14 @@ using toop_project.src.Preconditioner;
 
 namespace toop_project.src.Solver
 {
-    class GZ: ISolver
+    class GaussSeidel: ISolver
     {
         public override Vector Solve(IPreconditioner matrix, Vector rightPart, Vector initialSolution,
                                     ILogger logger, ISolverLogger solverLogger, ISolverParametrs solverParametrs)
         {
-            if (solverParametrs is GZParametrs)
+            if (solverParametrs is GaussSeidelParametrs)
             {
-                GZParametrs GZParametrs = solverParametrs as GZParametrs;
+                GaussSeidelParametrs GZParametrs = solverParametrs as GaussSeidelParametrs;
 
                 Vector x,xnext, r, di;
                 int size, k;
@@ -72,6 +72,6 @@ namespace toop_project.src.Solver
             }
         }
 
-       public override Type Type { get { return Type.Seidel; } }
+       public override Type Type { get { return Type.GaussSeidel; } }
     }
 }
