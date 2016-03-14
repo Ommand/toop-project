@@ -12,10 +12,10 @@ namespace toop_project.src.Solver
 {
     public enum Type {
         Jacobi,
-        Seidel,
+        GaussSeidel,
         LOS,
         MSG,
-        BSGStab,
+        BCGStab,
         GMRES
     }
     abstract public class ISolver {
@@ -25,14 +25,14 @@ namespace toop_project.src.Solver
             switch (type) {
                 case Type.Jacobi:
                     return new src.Solver.Jacobi();
-                case Type.Seidel:
-                    return new src.Solver.GZ();
+                case Type.GaussSeidel:
+                    return new src.Solver.GaussSeidel();
                 case Type.GMRES:
                     return new src.Solver.GMRES();
                 case Type.MSG:
                     return new src.Solver.MSG();
-                case Type.BSGStab:
-                    return new src.Solver.BSGStab();
+                case Type.BCGStab:
+                    return new src.Solver.BCGStab();
                 case Type.LOS:
                     return new src.Solver.LOS();
             }

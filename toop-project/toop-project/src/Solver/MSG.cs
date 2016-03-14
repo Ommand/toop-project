@@ -16,7 +16,7 @@ namespace toop_project.src.Solver
         {
             MSGParametrs ConGradParametrs = solverParametrs as MSGParametrs;
 
-            if (ConGradParametrs==null)
+            if (ConGradParametrs == null)
             {
                 logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in MSG");
                 throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in MSG");
@@ -25,43 +25,39 @@ namespace toop_project.src.Solver
             {
                 //prestart
                 int oIter = 0;
-                double alpha, beta, oNev, bNev, scalRO,scaleRN;
+                double alpha, beta, oNev, bNev, scalRO, scaleRN;
                 Vector x = initialSolution, rNew, rOld, z, ap, p;
-                rOld =rightPart - matrix.SourceMatrix.Multiply(x);
+                rOld = rightPart - matrix.SourceMatrix.Multiply(x);
                 z = matrix.QSolve(matrix.SSolve(rOld));
                 p = z;
                 ap = matrix.SourceMatrix.Multiply(p);
-                bNev =rightPart.Norm();
+                bNev = rightPart.Norm();
                 oNev = rOld.Norm() / bNev;
                 scalRO = z * rOld;
-              //  x = matrix.QSolve(x);
+                //  x = matrix.QSolve(x);
                 solverLogger.AddIterationInfo(oIter, oNev);//logger
 
-                while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon) 
+                while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon)
                 {
-
                     alpha = scalRO / (ap * p);
                     x = x + p * alpha;
-                   // if (oIter % 100 == 0)
-                   // rNew = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
-                   // else
+                    // if (oIter % 100 == 0)
+                    // rNew = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
+                    // else
                     rNew = rOld - ap * alpha;
-                    z= matrix.QSolve(matrix.SSolve(rNew));
+                    z = matrix.QSolve(matrix.SSolve(rNew));
                     scaleRN = z * rNew;
                     beta = scaleRN / scalRO;
                     scalRO = scaleRN;
                     p = z + p * beta;
-                    ap =matrix.SourceMatrix.Multiply(p);
+                    ap = matrix.SourceMatrix.Multiply(p);
                     rOld = rNew;
                     oIter++;
 
-                  
                     oNev = rNew.Norm() / bNev;
 
                     solverLogger.AddIterationInfo(oIter, oNev);//logger
-
                 }
-
                 return x;
             }
 
