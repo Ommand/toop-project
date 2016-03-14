@@ -351,7 +351,7 @@ namespace toop_project {
 
         private void nudMGMRES_ValueChanged(object sender, EventArgs e)
         {
-            slae.MGMRES = (int)nudMaxIter.Value;
+            slae.MGMRES = (int)nudMGMRES.Value;
         }
     }
 }
