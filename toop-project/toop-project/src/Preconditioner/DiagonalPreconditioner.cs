@@ -10,16 +10,22 @@ namespace toop_project.src.Preconditioner
 {
     class DiagonalPreconditioner : IPreconditioner
     {
+        Vector diag;
+        BaseMatrix sourceMatrix;
         private DiagonalPreconditioner() { }
         static public DiagonalPreconditioner Create(BaseMatrix matrix)
         {
-            throw new NotImplementedException();
+            return new DiagonalPreconditioner()
+            {
+                sourceMatrix = matrix,
+                diag = matrix.Diagonal
+            };
         }
         public BaseMatrix SourceMatrix
         {
             get
             {
-                throw new NotImplementedException();
+                return sourceMatrix;
             }
         }
 
@@ -27,28 +33,28 @@ namespace toop_project.src.Preconditioner
         {
             get
             {
-                throw new NotImplementedException();
+                return Type.Diagonal;
             }
         }
 
         public Vector QMultiply(Vector x)
         {
-            throw new NotImplementedException();
+            return x.Clone() as Vector;
         }
 
         public Vector QSolve(Vector x)
         {
-            throw new NotImplementedException();
+            return x.Clone() as Vector;
         }
 
         public Vector SMultiply(Vector x)
         {
-            throw new NotImplementedException();
+            return Vector.Mult(x, diag);
         }
 
         public Vector SSolve(Vector x)
         {
-            throw new NotImplementedException();
+            return Vector.Mult(x, Vector.Inverse(diag));
         }
     }
 }

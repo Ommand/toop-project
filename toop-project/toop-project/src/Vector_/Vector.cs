@@ -145,6 +145,16 @@ namespace toop_project.src.Vector_
                 throw new Exception("Несовпадение длин у операндов при вычитании");
         }
 
+        public static Vector Inverse(Vector v) // Возведение каждого элемента вектора в степень -1
+        {
+            Vector vector = new Vector(v.Size);
+            for (int index = 0; index < v.Size; index++)
+            {
+                vector[index] = 1.0 / v[index];
+            }
+            return vector;
+        }
+
         #endregion Vector
     }
 }
