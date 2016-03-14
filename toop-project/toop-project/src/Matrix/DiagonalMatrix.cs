@@ -394,7 +394,7 @@ namespace toop_project.src.Matrix
             // Нижний треугольник
             for (int j = 0; j < shift_l.Length; j++)
                 for (int i = shift_l[j]; i < di.Length; i++)
-                    fun(i - shift_l[j], i, al[j][i]);
+                    fun(i, i - shift_l[j], al[i][j]);
 
             // Диагональ
             for (int i = 0; i < di.Length; i++)
@@ -403,7 +403,7 @@ namespace toop_project.src.Matrix
             //Верхний треугольник
             for (int j = 0; j < shift_u.Length; j++)
                 for (int i = shift_u[j]; i < di.Length; i++)
-                    fun(i - shift_u[j], i, au[j][i]);
+                    fun(i - shift_u[j], i, au[i][j]);
         }
 
         #endregion
