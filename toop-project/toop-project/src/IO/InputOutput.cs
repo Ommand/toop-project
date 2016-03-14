@@ -91,11 +91,11 @@ namespace toop_project
 		}
 
 		//метод для чтения правой части из файла
-		public static Vector InputRightPart(string fileName)
+		public static Vector InputVector(string fileName)
 		{
 			Logger log = Logger.Instance;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
-			Vector rightPart;
+			Vector vector;
 
 			string[] fileContent;
 
@@ -103,54 +103,54 @@ namespace toop_project
 			{
 				using (StreamReader streamReader = new StreamReader(fileName))
 				{
-					log.Info("Чтение информации о правой части из файла " + fileName + ".");
+					log.Info("Чтение информации о векторе из файла " + fileName + ".");
 					fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 				}
 
 				//чтение n
 				int n;
-				log.Info("Ввод размерности правой части...");
+				log.Info("Ввод размерности вектора...");
 				if (!int.TryParse(fileContent[0], out n))
 				{
-					throw new Exception("Некорректно введена размерность матрицы (Должна представлять собой целое число).");
+					throw new Exception("Некорректно введена размерность вектора (Должна представлять собой целое число).");
 				}
 				if (n < 1)
 				{
-					throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
+					throw new Exception("Некорректно введена размерность вектора (Не должна быть меньше 1).");
 				}
-				log.Info("Ввод размерности правой части завершен.");
+				log.Info("Ввод размерности вектора завершен.");
 
 				double bi;
 
 				//чтение правой части
-				rightPart = new Vector(n);
-				log.Info("Ввод элементов правой части...");
+				vector = new Vector(n);
+				log.Info("Ввод элементов вектора...");
 				for (int i = 0; i < n; i++)
 				{
 					if (!double.TryParse(fileContent[1 + i], NumberStyles.Any, cultureInfo, out bi))
 					{
-						throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент правой части (Должен представлять собой число).");
+						throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент вектора (Должен представлять собой число).");
 					}
-					rightPart[i] = bi;
+					vector[i] = bi;
 				}
-				log.Info("Ввод элементов правой части завершен.");
+				log.Info("Ввод элементов вектора завершен.");
 
-				log.Info("Успешное завершение ввода правой части.");
+				log.Info("Успешное завершение ввода вектора.");
 			}
 			catch (IndexOutOfRangeException e)
 			{
 				log.Error("Выхождение индекса за пределы массива с данными (Не хватает данных для корректного ввода).");
-				log.Error("Аварийное завершение ввода правой части.");
-				rightPart = null;
+				log.Error("Аварийное завершение ввода вектора.");
+				vector = null;
 			}
 			catch (Exception e)
 			{
 				log.Error(e.Message);
-				log.Error("Аварийное завершение ввода правой части.");
-				rightPart = null;
+				log.Error("Аварийное завершение ввода вектора.");
+				vector = null;
 			}
 
-			return rightPart;
+			return vector;
 		}
 
 		public static void OutputVector(string fileName, Vector vector)
@@ -161,18 +161,18 @@ namespace toop_project
 			{
 				using (StreamWriter streamWriter = new StreamWriter(fileName))
 				{
-					log.Info("Вывод результата в файл " + fileName + "...");
+					log.Info("Вывод вектора в файл " + fileName + "...");
 					for (int i = 0; i < vector.Size; i++)
 					{
 						streamWriter.WriteLine(vector[i]);
 					}
-					log.Info("Вывод результата в файл завершен.");
+					log.Info("Вывод вектора в файл завершен.");
 				}
 			}
 			catch (Exception e)
 			{
 				log.Error(e.Message);
-				log.Error("Аварийное завершение вывода результата.");
+				log.Error("Аварийное завершение вывода вектора.");
 			}
 		}
 
