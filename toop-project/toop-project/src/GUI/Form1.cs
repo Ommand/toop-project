@@ -172,7 +172,7 @@ namespace toop_project {
                 try {
                     if (ofdRightPart.FileName != null) {
                         src.Vector_.Vector vector;
-                        vector = toop_project.InputOutput.InputRightPart(ofdRightPart.FileName);
+                        vector = toop_project.InputOutput.InputVector(ofdRightPart.FileName);
                         updateDgvRightPart(vector);
                         slae.Right = vector;
                         lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdRightPart.FileName.LastIndexOf('\\') + 1);
@@ -243,7 +243,7 @@ namespace toop_project {
                 try {
                     if (ofdInitial.FileName != null) { 
                         src.Vector_.Vector vector;
-                        vector = toop_project.InputOutput.InputRightPart(ofdInitial.FileName);
+                        vector = toop_project.InputOutput.InputVector(ofdInitial.FileName);
                         updateDgvInitial(vector);
                         slae.Initial = vector;
                         lblInitialFileName.Text = ofdInitial.FileName.Substring(ofdInitial.FileName.LastIndexOf('\\') + 1);
