@@ -9,6 +9,10 @@ namespace toop_project.src.Slae {
         src.GUI.IGUI iGui = null;
         public SLAE(src.GUI.IGUI igui) {
             iGui = igui;
+            MaxIter = DefaultMaxIter;
+            MinResidual = DefaultMinResidual;
+            MGMRES = DefaultMGMRES;
+            Relaxation = DefaultRelaxation;
         }
 
         public bool CanBeComputed() {
@@ -26,7 +30,7 @@ namespace toop_project.src.Slae {
                 Initial = new Vector_.Vector(Right.Size);
 
             Result = Solver.Solve(Preconditioner, Right, Initial, src.Logging.Logger.Instance, src.Logging.Logger.Instance,
-                GenerateParameters(Solver.Type,MaxIter,Eps,Relaxation, MGMRES));
+                GenerateParameters(Solver.Type,MaxIter,MinResidual,Relaxation, MGMRES));
             iGui.FinishSolve();
         }
         public src.Matrix.BaseMatrix Matrix = null;
@@ -36,10 +40,20 @@ namespace toop_project.src.Slae {
         public src.Solver.ISolver Solver = null;
         public src.Preconditioner.Type PreconditionerType = src.Preconditioner.Type.NoPrecond;
 
-        public double Eps = 1e-10;
-        public int MaxIter = 1000;
-        public double Relaxation = 1;
-        public int MGMRES = 30;
+        public double MinResidual;
+        public int MaxIter;
+        public double Relaxation;
+        public int MGMRES;
+
+        private double defaultMinResidual = 1e-10;
+        private int defaultMaxIter = 1000;
+        private double defaultRelaxation = 1;
+        private int defaultMGMRES = 30;
+
+        public double DefaultMinResidual { get { return defaultMinResidual; } }
+        public int DefaultMaxIter { get { return defaultMaxIter; } }
+        public double DefaultRelaxation { get { return defaultRelaxation; } }
+        public int DefaultMGMRES { get { return defaultMGMRES; } }
 
         src.Solver.ISolverParametrs GenerateParameters(src.Solver.Type type, int maxIter, double eps, double relaxation = 1,int mGMRES = 5) {
             switch(type) {

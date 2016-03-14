@@ -172,7 +172,7 @@ namespace toop_project {
                 try {
                     if (ofdRightPart.FileName != null) {
                         src.Vector_.Vector vector;
-                        vector = toop_project.InputOutput.InputRightPart(ofdRightPart.FileName);
+                        vector = toop_project.InputOutput.InputVector(ofdRightPart.FileName);
                         updateDgvRightPart(vector);
                         slae.Right = vector;
                         lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdRightPart.FileName.LastIndexOf('\\') + 1);
@@ -205,6 +205,47 @@ namespace toop_project {
             }
             var el = (src.Solver.Type)Enum.ToObject(typeof(src.Solver.Type), cmbSolver.SelectedIndex);
             slae.Solver = src.Solver.ISolver.getSolver(el);
+            SetControls();
+        }
+
+        private void SetControls() {
+            if (slae.Solver == null)
+                return;
+
+            switch(slae.Solver.Type) {
+                case src.Solver.Type.Jacobi:
+                    cmbPrecond.Enabled = false;
+                    cmbPrecond.SelectedIndex = 0;
+                    nudMGMRES.Enabled = false;
+                    nudRelaxation.Enabled = true;
+                    break;
+                case src.Solver.Type.GaussSeidel:
+                    cmbPrecond.Enabled = false;
+                    cmbPrecond.SelectedIndex = 0;
+                    nudMGMRES.Enabled = false;
+                    nudRelaxation.Enabled = true;
+                    break;
+                case src.Solver.Type.LOS:
+                    cmbPrecond.Enabled = true;
+                    nudMGMRES.Enabled = false;
+                    nudRelaxation.Enabled = false;
+                    break;
+                case src.Solver.Type.MSG:
+                    cmbPrecond.Enabled = true;
+                    nudMGMRES.Enabled = false;
+                    nudRelaxation.Enabled = false;
+                    break;
+                case src.Solver.Type.BCGStab:
+                    cmbPrecond.Enabled = true;
+                    nudMGMRES.Enabled = false;
+                    nudRelaxation.Enabled = false;
+                    break;
+                case src.Solver.Type.GMRES:
+                    cmbPrecond.Enabled = true;
+                    nudMGMRES.Enabled = true;
+                    nudRelaxation.Enabled = false;
+                    break;
+            }
         }
 
         private void setFileDialogs() {
@@ -229,6 +270,11 @@ namespace toop_project {
 
             cmbPrecond.SelectedIndex = 0;
             cmbSolver.SelectedIndex = 0;
+
+            tbResidual.Text = slae.MinResidual.ToString();
+            nudMaxIter.Value = slae.MaxIter;
+            nudMGMRES.Value = slae.MGMRES;
+            nudRelaxation.Value = (decimal)slae.Relaxation;
         }
 
         private void cmbPrecond_SelectedIndexChanged(object sender, EventArgs e) {
@@ -243,7 +289,7 @@ namespace toop_project {
                 try {
                     if (ofdInitial.FileName != null) { 
                         src.Vector_.Vector vector;
-                        vector = toop_project.InputOutput.InputRightPart(ofdInitial.FileName);
+                        vector = toop_project.InputOutput.InputVector(ofdInitial.FileName);
                         updateDgvInitial(vector);
                         slae.Initial = vector;
                         lblInitialFileName.Text = ofdInitial.FileName.Substring(ofdInitial.FileName.LastIndexOf('\\') + 1);
@@ -269,6 +315,42 @@ namespace toop_project {
 
                 cbxInitial.Enabled = false;
             }
+        }
+
+        private void tbResidual_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.') && (e.KeyChar != 'e') && (e.KeyChar != 'E')
+                && (e.KeyChar != '+') && (e.KeyChar != '-')) {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))  {
+                e.Handled = true;
+            }
+        }
+
+        private void tbResidual_Leave(object sender, EventArgs e) {
+            if (!double.TryParse(tbResidual.Text,out slae.MinResidual)) {
+                MessageBox.Show("Error: Can't parse residual. Return to default value.");
+                slae.MinResidual = slae.DefaultMinResidual;
+                tbResidual.Text = slae.MinResidual.ToString();
+            }
+        }
+
+        private void nudRelaxation_ValueChanged(object sender, EventArgs e)
+        {
+            slae.Relaxation = (double)nudRelaxation.Value;
+        }
+
+        private void nudMaxIter_ValueChanged(object sender, EventArgs e)
+        {
+            slae.MaxIter = (int)nudMaxIter.Value;
+        }
+
+        private void nudMGMRES_ValueChanged(object sender, EventArgs e)
+        {
+            slae.MGMRES = (int)nudMaxIter.Value;
         }
     }
 }
