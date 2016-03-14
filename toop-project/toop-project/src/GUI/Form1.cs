@@ -307,7 +307,7 @@ namespace toop_project {
 
         private void cbxInitial_CheckedChanged(object sender, EventArgs e) {
             if (cbxInitial.Checked == false) {
-                tabControl1.SelectedIndex = 2;
+                tabControl1.SelectedIndex = 1;
                 slae.Initial = null;
                 lblInitialFileName.Text = "fileName";
                 ClearDgv(dgvInitial);
