@@ -175,7 +175,7 @@ namespace toop_project {
                         vector = toop_project.InputOutput.InputRightPart(ofdRightPart.FileName);
                         updateDgvRightPart(vector);
                         slae.Right = vector;
-                        lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\') + 1);
+                        lblRPFileName.Text = ofdRightPart.FileName.Substring(ofdRightPart.FileName.LastIndexOf('\\') + 1);
                     }
                 }
                 catch (Exception ex) {
@@ -251,7 +251,7 @@ namespace toop_project {
                         vector = toop_project.InputOutput.InputRightPart(ofdInitial.FileName);
                         updateDgvInitial(vector);
                         slae.Initial = vector;
-                        lblInitialFileName.Text = ofdInitial.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\') + 1);
+                        lblInitialFileName.Text = ofdInitial.FileName.Substring(ofdInitial.FileName.LastIndexOf('\\') + 1);
 
                         cbxInitial.Checked = true;
                         cbxInitial.Enabled = true;
