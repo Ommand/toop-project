@@ -229,7 +229,6 @@ namespace toop_project {
 
             cmbPrecond.SelectedIndex = 0;
             cmbSolver.SelectedIndex = 0;
-
         }
 
         private void cmbPrecond_SelectedIndexChanged(object sender, EventArgs e) {
@@ -239,14 +238,10 @@ namespace toop_project {
             slae.PreconditionerType = (src.Preconditioner.Type)Enum.ToObject(typeof(src.Preconditioner.Type), cmbPrecond.SelectedIndex);
         }
 
-        private void mnuInitial_Click(object sender, EventArgs e)
-        {
-            if (ofdInitial.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    if (ofdInitial.FileName != null)
-                    {
+        private void mnuInitial_Click(object sender, EventArgs e) {
+            if (ofdInitial.ShowDialog() == DialogResult.OK) {
+                try {
+                    if (ofdInitial.FileName != null) { 
                         src.Vector_.Vector vector;
                         vector = toop_project.InputOutput.InputRightPart(ofdInitial.FileName);
                         updateDgvInitial(vector);
@@ -257,17 +252,14 @@ namespace toop_project {
                         cbxInitial.Enabled = true;
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
                 }
             }
         }
 
-        private void cbxInitial_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbxInitial.Checked == false)
-            {
+        private void cbxInitial_CheckedChanged(object sender, EventArgs e) {
+            if (cbxInitial.Checked == false) {
                 tabControl1.SelectedIndex = 2;
                 slae.Initial = null;
                 lblInitialFileName.Text = "fileName";
