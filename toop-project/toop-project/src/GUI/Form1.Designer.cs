@@ -32,9 +32,9 @@
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRightPart = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuInitial = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFileExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBot = new System.Windows.Forms.Panel();
@@ -53,22 +53,27 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
             this.pnlFile = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblInitialFileName = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblRPFileName = new System.Windows.Forms.Label();
             this.lblMatixFileName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.sbtnS = new toop_project.src.GUI.SinkButton();
-            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvMatrix = new System.Windows.Forms.DataGridView();
             this.dgvRightPart = new System.Windows.Forms.DataGridView();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.rtbLog = new System.Windows.Forms.RichTextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgvInitial = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dgvResult = new System.Windows.Forms.DataGridView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.rtbLog = new System.Windows.Forms.RichTextBox();
+            this.cbxInitial = new System.Windows.Forms.CheckBox();
+            this.sbtnS = new toop_project.src.GUI.SinkButton();
+            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.mnu.SuspendLayout();
             this.pnlBot.SuspendLayout();
             this.pnlLeft.SuspendLayout();
@@ -79,21 +84,22 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMatrix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRightPart)).BeginInit();
-            this.tabPage3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInitial)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnu
             // 
             this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
-            this.viewToolStripMenuItem,
             this.mnuHelp});
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.mnu.Size = new System.Drawing.Size(602, 24);
+            this.mnu.Size = new System.Drawing.Size(665, 24);
             this.mnu.TabIndex = 0;
             this.mnu.Text = "menuStrip1";
             // 
@@ -102,6 +108,7 @@
             this.mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFileOpen,
             this.mnuRightPart,
+            this.mnuInitial,
             this.toolStripSeparator1,
             this.mnuFileExit});
             this.mnuFile.Name = "mnuFile";
@@ -111,34 +118,35 @@
             // mnuFileOpen
             // 
             this.mnuFileOpen.Name = "mnuFileOpen";
-            this.mnuFileOpen.Size = new System.Drawing.Size(164, 22);
+            this.mnuFileOpen.Size = new System.Drawing.Size(190, 22);
             this.mnuFileOpen.Text = "Open matrix...";
             this.mnuFileOpen.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
             // mnuRightPart
             // 
             this.mnuRightPart.Name = "mnuRightPart";
-            this.mnuRightPart.Size = new System.Drawing.Size(164, 22);
+            this.mnuRightPart.Size = new System.Drawing.Size(190, 22);
             this.mnuRightPart.Text = "Open right part...";
             this.mnuRightPart.Click += new System.EventHandler(this.btnOpenRPFile_Click);
+            // 
+            // mnuInitial
+            // 
+            this.mnuInitial.Name = "mnuInitial";
+            this.mnuInitial.Size = new System.Drawing.Size(190, 22);
+            this.mnuInitial.Text = "Open initial solution...";
+            this.mnuInitial.Click += new System.EventHandler(this.mnuInitial_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(187, 6);
             // 
             // mnuFileExit
             // 
             this.mnuFileExit.Name = "mnuFileExit";
-            this.mnuFileExit.Size = new System.Drawing.Size(164, 22);
+            this.mnuFileExit.Size = new System.Drawing.Size(190, 22);
             this.mnuFileExit.Text = "Exit";
             this.mnuFileExit.Click += new System.EventHandler(this.mnuFileExit_Click);
-            // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
             // 
             // mnuHelp
             // 
@@ -161,18 +169,18 @@
             this.pnlBot.Controls.Add(this.lblIter);
             this.pnlBot.Controls.Add(this.pbarSolver);
             this.pnlBot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBot.Location = new System.Drawing.Point(0, 430);
+            this.pnlBot.Location = new System.Drawing.Point(0, 435);
             this.pnlBot.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlBot.Name = "pnlBot";
             this.pnlBot.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlBot.Size = new System.Drawing.Size(602, 24);
+            this.pnlBot.Size = new System.Drawing.Size(665, 24);
             this.pnlBot.TabIndex = 1;
             // 
             // lblResidual
             // 
             this.lblResidual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblResidual.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblResidual.Location = new System.Drawing.Point(149, 2);
+            this.lblResidual.Location = new System.Drawing.Point(212, 2);
             this.lblResidual.Name = "lblResidual";
             this.lblResidual.Size = new System.Drawing.Size(184, 20);
             this.lblResidual.TabIndex = 2;
@@ -183,7 +191,7 @@
             // 
             this.lblIter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblIter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblIter.Location = new System.Drawing.Point(333, 2);
+            this.lblIter.Location = new System.Drawing.Point(396, 2);
             this.lblIter.Name = "lblIter";
             this.lblIter.Size = new System.Drawing.Size(123, 20);
             this.lblIter.TabIndex = 1;
@@ -193,7 +201,7 @@
             // pbarSolver
             // 
             this.pbarSolver.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbarSolver.Location = new System.Drawing.Point(456, 2);
+            this.pbarSolver.Location = new System.Drawing.Point(519, 2);
             this.pbarSolver.Name = "pbarSolver";
             this.pbarSolver.Size = new System.Drawing.Size(144, 20);
             this.pbarSolver.Step = 1;
@@ -212,7 +220,7 @@
             this.pnlLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlLeft.Name = "pnlLeft";
             this.pnlLeft.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pnlLeft.Size = new System.Drawing.Size(228, 376);
+            this.pnlLeft.Size = new System.Drawing.Size(292, 381);
             this.pnlLeft.TabIndex = 2;
             // 
             // pnlSolver
@@ -227,11 +235,11 @@
             this.pnlSolver.Controls.Add(this.cmbMatrixFormat);
             this.pnlSolver.Controls.Add(this.label2);
             this.pnlSolver.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlSolver.Location = new System.Drawing.Point(3, 97);
+            this.pnlSolver.Location = new System.Drawing.Point(3, 115);
             this.pnlSolver.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlSolver.Name = "pnlSolver";
             this.pnlSolver.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlSolver.Size = new System.Drawing.Size(222, 136);
+            this.pnlSolver.Size = new System.Drawing.Size(286, 136);
             this.pnlSolver.TabIndex = 2;
             // 
             // label6
@@ -265,7 +273,7 @@
             // 
             this.btnSolve.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSolve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSolve.Location = new System.Drawing.Point(135, 106);
+            this.btnSolve.Location = new System.Drawing.Point(199, 106);
             this.btnSolve.Name = "btnSolve";
             this.btnSolve.Size = new System.Drawing.Size(84, 27);
             this.btnSolve.TabIndex = 5;
@@ -283,7 +291,7 @@
             this.cmbSolver.FormattingEnabled = true;
             this.cmbSolver.Location = new System.Drawing.Point(116, 79);
             this.cmbSolver.Name = "cmbSolver";
-            this.cmbSolver.Size = new System.Drawing.Size(101, 24);
+            this.cmbSolver.Size = new System.Drawing.Size(165, 24);
             this.cmbSolver.TabIndex = 4;
             this.cmbSolver.SelectedIndexChanged += new System.EventHandler(this.cmbSolver_SelectedIndexChanged);
             // 
@@ -297,7 +305,7 @@
             this.cmbPrecond.FormattingEnabled = true;
             this.cmbPrecond.Location = new System.Drawing.Point(116, 54);
             this.cmbPrecond.Name = "cmbPrecond";
-            this.cmbPrecond.Size = new System.Drawing.Size(101, 24);
+            this.cmbPrecond.Size = new System.Drawing.Size(165, 24);
             this.cmbPrecond.TabIndex = 3;
             this.cmbPrecond.SelectedIndexChanged += new System.EventHandler(this.cmbPrecond_SelectedIndexChanged);
             // 
@@ -312,7 +320,7 @@
             this.cmbMatrixFormat.FormattingEnabled = true;
             this.cmbMatrixFormat.Location = new System.Drawing.Point(116, 29);
             this.cmbMatrixFormat.Name = "cmbMatrixFormat";
-            this.cmbMatrixFormat.Size = new System.Drawing.Size(101, 24);
+            this.cmbMatrixFormat.Size = new System.Drawing.Size(165, 24);
             this.cmbMatrixFormat.TabIndex = 1;
             // 
             // label2
@@ -321,7 +329,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
             this.label2.Location = new System.Drawing.Point(2, 2);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(218, 24);
+            this.label2.Size = new System.Drawing.Size(282, 24);
             this.label2.TabIndex = 0;
             this.label2.Text = "Solver";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -330,15 +338,18 @@
             // 
             this.panel11.BackColor = System.Drawing.Color.Transparent;
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel11.Location = new System.Drawing.Point(3, 93);
+            this.panel11.Location = new System.Drawing.Point(3, 111);
             this.panel11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(222, 4);
+            this.panel11.Size = new System.Drawing.Size(286, 4);
             this.panel11.TabIndex = 7;
             // 
             // pnlFile
             // 
             this.pnlFile.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlFile.Controls.Add(this.cbxInitial);
+            this.pnlFile.Controls.Add(this.label7);
+            this.pnlFile.Controls.Add(this.lblInitialFileName);
             this.pnlFile.Controls.Add(this.label8);
             this.pnlFile.Controls.Add(this.label5);
             this.pnlFile.Controls.Add(this.lblRPFileName);
@@ -349,8 +360,30 @@
             this.pnlFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlFile.Name = "pnlFile";
             this.pnlFile.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlFile.Size = new System.Drawing.Size(222, 89);
+            this.pnlFile.Size = new System.Drawing.Size(286, 107);
             this.pnlFile.TabIndex = 0;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(5, 83);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(90, 18);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Initial solution:";
+            // 
+            // lblInitialFileName
+            // 
+            this.lblInitialFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInitialFileName.AutoEllipsis = true;
+            this.lblInitialFileName.Location = new System.Drawing.Point(94, 81);
+            this.lblInitialFileName.Name = "lblInitialFileName";
+            this.lblInitialFileName.Size = new System.Drawing.Size(171, 22);
+            this.lblInitialFileName.TabIndex = 8;
+            this.lblInitialFileName.Text = "fileName";
+            this.lblInitialFileName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblInitialFileName.DoubleClick += new System.EventHandler(this.mnuInitial_Click);
             // 
             // label8
             // 
@@ -375,9 +408,9 @@
             this.lblRPFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRPFileName.AutoEllipsis = true;
-            this.lblRPFileName.Location = new System.Drawing.Point(68, 55);
+            this.lblRPFileName.Location = new System.Drawing.Point(94, 55);
             this.lblRPFileName.Name = "lblRPFileName";
-            this.lblRPFileName.Size = new System.Drawing.Size(149, 22);
+            this.lblRPFileName.Size = new System.Drawing.Size(171, 22);
             this.lblRPFileName.TabIndex = 1;
             this.lblRPFileName.Text = "fileName";
             this.lblRPFileName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -388,9 +421,9 @@
             this.lblMatixFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMatixFileName.AutoEllipsis = true;
-            this.lblMatixFileName.Location = new System.Drawing.Point(68, 29);
+            this.lblMatixFileName.Location = new System.Drawing.Point(94, 29);
             this.lblMatixFileName.Name = "lblMatixFileName";
-            this.lblMatixFileName.Size = new System.Drawing.Size(149, 22);
+            this.lblMatixFileName.Size = new System.Drawing.Size(171, 22);
             this.lblMatixFileName.TabIndex = 1;
             this.lblMatixFileName.Text = "fileName";
             this.lblMatixFileName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -402,7 +435,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(2, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(218, 24);
+            this.label1.Size = new System.Drawing.Size(282, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "File";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -416,8 +449,147 @@
             this.pnlTop.Location = new System.Drawing.Point(0, 24);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlTop.Size = new System.Drawing.Size(602, 30);
+            this.pnlTop.Size = new System.Drawing.Size(665, 30);
             this.pnlTop.TabIndex = 4;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(292, 54);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(373, 381);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dgvMatrix);
+            this.tabPage1.Controls.Add(this.dgvRightPart);
+            this.tabPage1.Location = new System.Drawing.Point(4, 27);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(365, 350);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Matrix";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dgvMatrix
+            // 
+            this.dgvMatrix.AllowUserToAddRows = false;
+            this.dgvMatrix.AllowUserToDeleteRows = false;
+            this.dgvMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMatrix.ColumnHeadersVisible = false;
+            this.dgvMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvMatrix.Location = new System.Drawing.Point(3, 3);
+            this.dgvMatrix.Name = "dgvMatrix";
+            this.dgvMatrix.ReadOnly = true;
+            this.dgvMatrix.RowHeadersVisible = false;
+            this.dgvMatrix.Size = new System.Drawing.Size(327, 344);
+            this.dgvMatrix.TabIndex = 0;
+            // 
+            // dgvRightPart
+            // 
+            this.dgvRightPart.AllowUserToAddRows = false;
+            this.dgvRightPart.AllowUserToDeleteRows = false;
+            this.dgvRightPart.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvRightPart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRightPart.ColumnHeadersVisible = false;
+            this.dgvRightPart.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dgvRightPart.Location = new System.Drawing.Point(330, 3);
+            this.dgvRightPart.Name = "dgvRightPart";
+            this.dgvRightPart.ReadOnly = true;
+            this.dgvRightPart.RowHeadersVisible = false;
+            this.dgvRightPart.Size = new System.Drawing.Size(32, 344);
+            this.dgvRightPart.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.dgvInitial);
+            this.tabPage2.Location = new System.Drawing.Point(4, 27);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(365, 350);
+            this.tabPage2.TabIndex = 4;
+            this.tabPage2.Text = "Initial";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dgvInitial
+            // 
+            this.dgvInitial.AllowUserToAddRows = false;
+            this.dgvInitial.AllowUserToDeleteRows = false;
+            this.dgvInitial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvInitial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInitial.ColumnHeadersVisible = false;
+            this.dgvInitial.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dgvInitial.Location = new System.Drawing.Point(3, 3);
+            this.dgvInitial.Name = "dgvInitial";
+            this.dgvInitial.ReadOnly = true;
+            this.dgvInitial.RowHeadersVisible = false;
+            this.dgvInitial.Size = new System.Drawing.Size(132, 349);
+            this.dgvInitial.TabIndex = 2;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.dgvResult);
+            this.tabPage4.Location = new System.Drawing.Point(4, 27);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(365, 350);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Result";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dgvResult
+            // 
+            this.dgvResult.AllowUserToAddRows = false;
+            this.dgvResult.AllowUserToDeleteRows = false;
+            this.dgvResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvResult.ColumnHeadersVisible = false;
+            this.dgvResult.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dgvResult.Location = new System.Drawing.Point(3, 3);
+            this.dgvResult.Name = "dgvResult";
+            this.dgvResult.ReadOnly = true;
+            this.dgvResult.RowHeadersVisible = false;
+            this.dgvResult.Size = new System.Drawing.Size(132, 349);
+            this.dgvResult.TabIndex = 1;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.rtbLog);
+            this.tabPage3.Location = new System.Drawing.Point(4, 27);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage3.Size = new System.Drawing.Size(365, 350);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Log";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // rtbLog
+            // 
+            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLog.Location = new System.Drawing.Point(4, 4);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.Size = new System.Drawing.Size(357, 347);
+            this.rtbLog.TabIndex = 0;
+            this.rtbLog.Text = "";
+            // 
+            // cbxInitial
+            // 
+            this.cbxInitial.AutoSize = true;
+            this.cbxInitial.Enabled = false;
+            this.cbxInitial.Location = new System.Drawing.Point(268, 83);
+            this.cbxInitial.Name = "cbxInitial";
+            this.cbxInitial.Size = new System.Drawing.Size(15, 14);
+            this.cbxInitial.TabIndex = 10;
+            this.cbxInitial.UseVisualStyleBackColor = true;
+            this.cbxInitial.CheckedChanged += new System.EventHandler(this.cbxInitial_CheckedChanged);
             // 
             // sbtnS
             // 
@@ -441,112 +613,11 @@
             this.sbtnF.Text = "F";
             this.sbtnF.UseVisualStyleBackColor = false;
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(228, 54);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(374, 376);
-            this.tabControl1.TabIndex = 5;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.dgvMatrix);
-            this.tabPage1.Controls.Add(this.dgvRightPart);
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(366, 345);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Matrix";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // dgvMatrix
-            // 
-            this.dgvMatrix.AllowUserToAddRows = false;
-            this.dgvMatrix.AllowUserToDeleteRows = false;
-            this.dgvMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMatrix.ColumnHeadersVisible = false;
-            this.dgvMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMatrix.Location = new System.Drawing.Point(3, 3);
-            this.dgvMatrix.Name = "dgvMatrix";
-            this.dgvMatrix.ReadOnly = true;
-            this.dgvMatrix.RowHeadersVisible = false;
-            this.dgvMatrix.Size = new System.Drawing.Size(328, 339);
-            this.dgvMatrix.TabIndex = 0;
-            // 
-            // dgvRightPart
-            // 
-            this.dgvRightPart.AllowUserToAddRows = false;
-            this.dgvRightPart.AllowUserToDeleteRows = false;
-            this.dgvRightPart.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvRightPart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRightPart.ColumnHeadersVisible = false;
-            this.dgvRightPart.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dgvRightPart.Location = new System.Drawing.Point(331, 3);
-            this.dgvRightPart.Name = "dgvRightPart";
-            this.dgvRightPart.ReadOnly = true;
-            this.dgvRightPart.RowHeadersVisible = false;
-            this.dgvRightPart.Size = new System.Drawing.Size(32, 339);
-            this.dgvRightPart.TabIndex = 0;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.rtbLog);
-            this.tabPage3.Location = new System.Drawing.Point(4, 27);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(366, 345);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Log";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // rtbLog
-            // 
-            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbLog.Location = new System.Drawing.Point(4, 4);
-            this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(358, 337);
-            this.rtbLog.TabIndex = 0;
-            this.rtbLog.Text = "";
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.dgvResult);
-            this.tabPage4.Location = new System.Drawing.Point(4, 27);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(366, 345);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Result";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // dgvResult
-            // 
-            this.dgvResult.AllowUserToAddRows = false;
-            this.dgvResult.AllowUserToDeleteRows = false;
-            this.dgvResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResult.ColumnHeadersVisible = false;
-            this.dgvResult.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dgvResult.Location = new System.Drawing.Point(3, 3);
-            this.dgvResult.Name = "dgvResult";
-            this.dgvResult.ReadOnly = true;
-            this.dgvResult.RowHeadersVisible = false;
-            this.dgvResult.Size = new System.Drawing.Size(132, 339);
-            this.dgvResult.TabIndex = 1;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(602, 454);
+            this.ClientSize = new System.Drawing.Size(665, 459);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pnlLeft);
             this.Controls.Add(this.pnlTop);
@@ -571,9 +642,11 @@
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMatrix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRightPart)).EndInit();
-            this.tabPage3.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInitial)).EndInit();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).EndInit();
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -594,7 +667,6 @@
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel pnlTop;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private src.GUI.SinkButton sbtnF;
         private src.GUI.SinkButton sbtnS;
         private System.Windows.Forms.TabControl tabControl1;
@@ -622,6 +694,12 @@
         private System.Windows.Forms.Label lblResidual;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.DataGridView dgvResult;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView dgvInitial;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblInitialFileName;
+        private System.Windows.Forms.ToolStripMenuItem mnuInitial;
+        private System.Windows.Forms.CheckBox cbxInitial;
     }
 }
 

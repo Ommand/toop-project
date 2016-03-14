@@ -14,11 +14,8 @@ namespace toop_project.src.Slae {
         public bool CanBeComputed() {
             if (Matrix == null) return false;
             if (Right == null) return false;
-            // TODO: uncomment if need precond
-            //if (Precond == null) return false;
             if (Solver == null) return false;
-
-            // TODO: check sizes of rp & matrix?
+            if (Matrix.Size != Right.Size ||Initial != null && Matrix.Size != Initial.Size) return false;
 
             return true;
         }
