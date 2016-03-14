@@ -60,13 +60,18 @@ namespace toop_project.src.Solver
                         }
 
                         H[j - 1][j] = w.Norm();
-                        if (Math.Abs(H[j - 1][j]) < epsilon)
+                        if (Math.Abs(H[j - 1][j]) < 1e-10)
                         {
                             m = j;
                             continueCalculations = false;
                         }
                         else
-                            V[j] = w * (1.0 / H[j - 1][j]);
+                        {
+                            if(j != m)
+                                V[j] = w * (1.0 / H[j - 1][j]);
+                            else
+                                throw new Exception("GMRES: Недостаточно большое m");
+                        }                       
                     }
 
                     d[0] = residualNorm;
@@ -118,7 +123,7 @@ namespace toop_project.src.Solver
             for (int i = 0; i < m; i++)
             {
                 tmp = Math.Sqrt(H_previous[i][i] * H_previous[i][i] +
-                                            H[i][i] * H[i][i]);
+                                            H[i][i + 1] * H[i][i + 1]);
                 ci = H_previous[i][i] / tmp;
                 si = H[i][i + 1] / tmp;
 
@@ -141,7 +146,6 @@ namespace toop_project.src.Solver
             #endregion
 
             #region d1=R*d1
-                tmp11 = 0;
                 //рассчитываем элементы вектора, где блок синусов-косинусов
                 tmp11 = d1[i] * ci + d1[i + 1] * si;
                 tmp22 = -d1[i] * si + d1[i + 1] * ci;
