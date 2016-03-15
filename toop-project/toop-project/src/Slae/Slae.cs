@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace toop_project.src.Slae {
@@ -24,13 +25,20 @@ namespace toop_project.src.Slae {
             return true;
         }
         public void Solve() {
-            //затычка, довести до запускаемой проги
-            var Preconditioner = GeneratePreconditioner(PreconditionerType, Matrix);
-            if (Initial == null)
-                Initial = new Vector_.Vector(Right.Size);
+            try {
+                var Preconditioner = GeneratePreconditioner(PreconditionerType, Matrix);
+                if (Initial == null)
+                    Initial = new Vector_.Vector(Right.Size);
 
-            Result = Solver.Solve(Preconditioner, Right, Initial, src.Logging.Logger.Instance, src.Logging.Logger.Instance,
-                GenerateParameters(Solver.Type,MaxIter,MinResidual,Relaxation, MGMRES));
+                Result = Solver.Solve(Preconditioner, Right, Initial, src.Logging.Logger.Instance, src.Logging.Logger.Instance,
+                    GenerateParameters(Solver.Type, MaxIter, MinResidual, Relaxation, MGMRES));
+            }
+            catch (ThreadAbortException e) {
+                Logging.Logger.Instance.Info("Solving: Процесс решения прерван");
+            }
+            catch (Exception e) {
+                Logging.Logger.Instance.Error("Solving error: " + e.Message);
+            }
             iGui.FinishSolve();
         }
         public src.Matrix.BaseMatrix Matrix = null;
