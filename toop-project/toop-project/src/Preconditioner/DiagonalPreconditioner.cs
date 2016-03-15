@@ -10,17 +10,27 @@ namespace toop_project.src.Preconditioner
 {
     class DiagonalPreconditioner : IPreconditioner
     {
-        Vector diag;
+        Vector diagsqrt;
         BaseMatrix sourceMatrix;
         private DiagonalPreconditioner() { }
         static public DiagonalPreconditioner Create(BaseMatrix matrix)
         {
+
             return new DiagonalPreconditioner()
             {
                 sourceMatrix = matrix,
-                diag = matrix.Diagonal
+                diagsqrt = Sqrt(matrix)
             };
         }
+
+        private static Vector Sqrt(BaseMatrix matrix)
+        {
+            var vec = matrix.Diagonal.Clone() as Vector;
+            for (int i = 0; i < vec.Size; i++)
+                vec[i] = Math.Sqrt(vec[i]);
+            return vec;
+        }
+
         public BaseMatrix SourceMatrix
         {
             get
@@ -39,22 +49,22 @@ namespace toop_project.src.Preconditioner
 
         public Vector QMultiply(Vector x)
         {
-            return x.Clone() as Vector;
+            return Vector.Mult(x, diagsqrt);
         }
 
         public Vector QSolve(Vector x)
         {
-            return x.Clone() as Vector;
+            return Vector.Mult(x, Vector.Inverse(diagsqrt));
         }
 
         public Vector SMultiply(Vector x)
         {
-            return Vector.Mult(x, diag);
+            return Vector.Mult(x, diagsqrt);
         }
 
         public Vector SSolve(Vector x)
         {
-            return Vector.Mult(x, Vector.Inverse(diag));
+            return Vector.Mult(x, Vector.Inverse(diagsqrt));
         }
     }
 }
