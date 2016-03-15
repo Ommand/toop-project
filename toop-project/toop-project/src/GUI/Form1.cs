@@ -21,6 +21,7 @@ namespace toop_project {
         OpenFileDialog ofdMatrix = new OpenFileDialog();
         OpenFileDialog ofdRightPart = new OpenFileDialog();
         OpenFileDialog ofdInitial = new OpenFileDialog();
+        SaveFileDialog sfdResult = new SaveFileDialog();
 
         delegate void UpdateResidualCallback(double residual);
         private void UpdateResidual(double residual) {
@@ -283,6 +284,10 @@ namespace toop_project {
             ofdInitial.Filter = VectorFileExtension + " files (*." + VectorFileExtension + ")|*." + VectorFileExtension + "";
             ofdInitial.RestoreDirectory = true;
             ofdInitial.Multiselect = false;
+
+            sfdResult.InitialDirectory = System.IO.Path.GetDirectoryName(resPath);
+            sfdResult.Filter = VectorFileExtension + " files (*." + VectorFileExtension + ")|*." + VectorFileExtension + "";
+            sfdResult.RestoreDirectory = true;
         }
 
         private void Form1_Load(object sender, EventArgs e) {
@@ -379,6 +384,30 @@ namespace toop_project {
         private void button1_Click(object sender, EventArgs e)
         {
             rtbLog.Text = "";
+        }
+
+        private void saveResultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (slae.Result == null)
+            {
+                MessageBox.Show("Nothing to save");
+                return;
+            }
+
+            if (sfdResult.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (sfdResult.FileName != null)
+                    {
+                        toop_project.InputOutput.OutputVector(sfdResult.FileName,slae.Result);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read save file. Original error: " + ex.Message);
+                }
+            }
         }
     }
 }
