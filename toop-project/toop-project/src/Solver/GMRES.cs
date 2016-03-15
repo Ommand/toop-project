@@ -69,8 +69,6 @@ namespace toop_project.src.Solver
                         {
                             if(j != m)
                                 V[j] = w * (1.0 / H[j - 1][j]);
-                            else
-                                throw new Exception("GMRES: Недостаточно большое m");
                         }                       
                     }
 
