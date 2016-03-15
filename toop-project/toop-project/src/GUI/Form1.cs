@@ -92,7 +92,11 @@ namespace toop_project {
                         lblMatixFileName.Text = ofdMatrix.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\')+1);
                         cmbMatrixFormat.Text = matrix.Type.ToString();
 
-                        cbxInitial.Checked = false;
+                        if (slae.Initial != null && slae.Matrix.Size != slae.Initial.Size)
+                            if (cbxInitial.Checked)
+                                cbxInitial.Checked = false;
+                            else
+                                slae.Initial = null;
                     }
                 }
                 catch (Exception ex) {

@@ -78,6 +78,7 @@ namespace toop_project.src.Logging
         public void Error(string message)
         {
             AddLine(MessageType.ERROR, message);
+            MessageBox.Show("Error: " + message);
         }
         #endregion
 
