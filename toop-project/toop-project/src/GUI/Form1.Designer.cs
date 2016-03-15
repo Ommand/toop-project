@@ -53,6 +53,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.pnlSolver = new System.Windows.Forms.Panel();
+            this.btnCancelSolve = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -81,9 +82,8 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dgvResult = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.btnCancelSolve = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.sbtnP = new toop_project.src.GUI.SinkButton();
             this.sbtnS = new toop_project.src.GUI.SinkButton();
             this.sbtnF = new toop_project.src.GUI.SinkButton();
@@ -411,6 +411,19 @@
             this.pnlSolver.Padding = new System.Windows.Forms.Padding(2);
             this.pnlSolver.Size = new System.Drawing.Size(286, 136);
             this.pnlSolver.TabIndex = 2;
+            // 
+            // btnCancelSolve
+            // 
+            this.btnCancelSolve.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelSolve.Enabled = false;
+            this.btnCancelSolve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelSolve.Location = new System.Drawing.Point(116, 106);
+            this.btnCancelSolve.Name = "btnCancelSolve";
+            this.btnCancelSolve.Size = new System.Drawing.Size(77, 27);
+            this.btnCancelSolve.TabIndex = 7;
+            this.btnCancelSolve.Text = "Cancel";
+            this.btnCancelSolve.UseVisualStyleBackColor = true;
+            this.btnCancelSolve.Click += new System.EventHandler(this.btnCancelSolve_Click);
             // 
             // label6
             // 
@@ -753,29 +766,6 @@
             this.tabPage3.Text = "Log";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // rtbLog
-            // 
-            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbLog.Location = new System.Drawing.Point(4, 4);
-            this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(437, 416);
-            this.rtbLog.TabIndex = 0;
-            this.rtbLog.Text = "";
-            // 
-            // btnCancelSolve
-            // 
-            this.btnCancelSolve.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelSolve.Enabled = false;
-            this.btnCancelSolve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelSolve.Location = new System.Drawing.Point(116, 106);
-            this.btnCancelSolve.Name = "btnCancelSolve";
-            this.btnCancelSolve.Size = new System.Drawing.Size(77, 27);
-            this.btnCancelSolve.TabIndex = 7;
-            this.btnCancelSolve.Text = "Cancel";
-            this.btnCancelSolve.UseVisualStyleBackColor = true;
-            this.btnCancelSolve.Click += new System.EventHandler(this.btnCancelSolve_Click);
-            // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -786,6 +776,16 @@
             this.button1.Text = "Clear log";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // rtbLog
+            // 
+            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLog.Location = new System.Drawing.Point(4, 4);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.Size = new System.Drawing.Size(437, 416);
+            this.rtbLog.TabIndex = 0;
+            this.rtbLog.Text = "";
             // 
             // sbtnP
             // 
