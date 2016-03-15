@@ -161,10 +161,14 @@ namespace toop_project
 			{
 				using (StreamWriter streamWriter = new StreamWriter(fileName))
 				{
+					log.Info("Вывод размерности вектора в файл " + fileName + "...");
+					streamWriter.WriteLine(vector.Size);
+					log.Info("Вывод размерности вектора в файл завершен.");
+
 					log.Info("Вывод вектора в файл " + fileName + "...");
 					for (int i = 0; i < vector.Size; i++)
 					{
-						streamWriter.WriteLine(vector[i]);
+						streamWriter.WriteLine(vector[i].ToString().Replace(',', '.'));
 					}
 					log.Info("Вывод вектора в файл завершен.");
 				}
