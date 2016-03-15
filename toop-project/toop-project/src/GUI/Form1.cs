@@ -91,6 +91,8 @@ namespace toop_project {
                         slae.Matrix = matrix;
                         lblMatixFileName.Text = ofdMatrix.FileName.Substring(ofdMatrix.FileName.LastIndexOf('\\')+1);
                         cmbMatrixFormat.Text = matrix.Type.ToString();
+
+                        cbxInitial.Checked = false;
                     }
                 }
                 catch (Exception ex) {
@@ -307,12 +309,9 @@ namespace toop_project {
 
         private void cbxInitial_CheckedChanged(object sender, EventArgs e) {
             if (cbxInitial.Checked == false) {
-                tabControl1.SelectedIndex = 1;
                 slae.Initial = null;
                 lblInitialFileName.Text = "fileName";
                 ClearDgv(dgvInitial);
-                if (slae.Matrix != null)
-                    updateDgvInitial(new src.Vector_.Vector(slae.Matrix.Size));
 
                 cbxInitial.Enabled = false;
             }
