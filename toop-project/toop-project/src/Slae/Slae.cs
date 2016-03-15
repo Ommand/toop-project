@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace toop_project.src.Slae {
@@ -31,6 +32,9 @@ namespace toop_project.src.Slae {
 
                 Result = Solver.Solve(Preconditioner, Right, Initial, src.Logging.Logger.Instance, src.Logging.Logger.Instance,
                     GenerateParameters(Solver.Type, MaxIter, MinResidual, Relaxation, MGMRES));
+            }
+            catch (ThreadAbortException e) {
+                Logging.Logger.Instance.Info("Solving: Процесс решения прерван");
             }
             catch (Exception e) {
                 Logging.Logger.Instance.Error("Solving error: " + e.Message);

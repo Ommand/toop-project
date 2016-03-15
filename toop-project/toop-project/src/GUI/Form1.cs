@@ -57,6 +57,16 @@ namespace toop_project {
             else
                 updateDgvResult(vec);
         }
+        delegate void UpdateBtnSolveCallback(bool btnSolveActive = true);
+        private void UpdateBtnSolve(bool btnSolveActive = true) {
+            if (this.btnSolve.InvokeRequired)
+                this.Invoke(new UpdateBtnSolveCallback(UpdateBtnSolve), new object[] { btnSolveActive });
+            else
+            {
+                btnSolve.Enabled = btnSolveActive;
+                btnCancelSolve.Enabled = !btnSolveActive;
+            }
+        }
 
         public void UpdateLog(String message) {
             AddLog(message + Environment.NewLine);
@@ -71,6 +81,7 @@ namespace toop_project {
         public void FinishSolve() {
             UpdateProgressBar(slae.MaxIter);
             UpdateDgvResult(slae.Result);
+            UpdateBtnSolve(true);
         }
 
         public Form1() {
@@ -203,6 +214,8 @@ namespace toop_project {
 
             solverThread = new Thread(slae.Solve);
             solverThread.Start();
+
+            UpdateBtnSolve(false);
         }
 
         private void cmbSolver_SelectedIndexChanged(object sender, EventArgs e) {
@@ -355,6 +368,12 @@ namespace toop_project {
         private void nudMGMRES_ValueChanged(object sender, EventArgs e)
         {
             slae.MGMRES = (int)nudMGMRES.Value;
+        }
+
+        private void btnCancelSolve_Click(object sender, EventArgs e)
+        {
+            solverThread?.Abort();
+            UpdateBtnSolve(true);
         }
     }
 }
