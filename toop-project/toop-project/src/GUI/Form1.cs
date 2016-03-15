@@ -375,5 +375,10 @@ namespace toop_project {
             solverThread?.Abort();
             UpdateBtnSolve(true);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            rtbLog.Text = "";
+        }
     }
 }
