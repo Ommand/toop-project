@@ -34,8 +34,8 @@ namespace toop_project.src.Solver
                 LAU = new Vector(size);
                 Ur = new Vector(size);
 
-                Ax = matrix.SourceMatrix.Multiply(x);
                 x = initialSolution;
+                Ax = matrix.SourceMatrix.Multiply(x);
                 r = matrix.SSolve(rightPart - Ax);
                 z = matrix.QSolve(r);
                 p = matrix.SSolve(matrix.SourceMatrix.Multiply(z));
