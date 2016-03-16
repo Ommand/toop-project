@@ -41,10 +41,10 @@ namespace toop_project.src.Solver
                     H[i] = new Vector(m + 1);
 
                 d = new Vector(m + 1);
-                d.Nullify();
 
                 for (int k = 1; k <= maxIterations && residualNorm > epsilon; k++)
                 {
+                    d.Nullify();
                     V[0] = residual * (1.0 / residualNorm);
 
                     continueCalculations = true;
