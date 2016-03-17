@@ -400,7 +400,7 @@ namespace toop_project {
                 {
                     if (sfdResult.FileName != null)
                     {
-                        toop_project.InputOutput.OutputVector(sfdResult.FileName,slae.Result);
+                        toop_project.InputOutput.OutputVector(sfdResult.FileName,slae.Result, true);
                     }
                 }
                 catch (Exception ex)
