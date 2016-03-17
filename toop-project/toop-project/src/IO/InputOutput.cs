@@ -13,6 +13,8 @@ namespace toop_project
 {
 	static class InputOutput
 	{
+		private static char[] delimiters = new char[] { ' ', '\t', '\n', '\r', '\0', '\uffff' };
+
 		//метод для чтения матрицы из файла
 		public static BaseMatrix InputMatrix(string fileName)
 		{
@@ -153,7 +155,7 @@ namespace toop_project
 			return vector;
 		}
 
-		public static void OutputVector(string fileName, Vector vector)
+		public static void OutputVector(string fileName, Vector vector, bool useDots)
 		{
 			Logger log = Logger.Instance;
 
@@ -166,9 +168,19 @@ namespace toop_project
 					log.Info("Вывод размерности вектора в файл завершен.");
 
 					log.Info("Вывод вектора в файл " + fileName + "...");
-					for (int i = 0; i < vector.Size; i++)
+					if (useDots)
 					{
-						streamWriter.WriteLine(vector[i].ToString().Replace(',', '.'));
+						for (int i = 0; i < vector.Size; i++)
+						{
+							streamWriter.WriteLine(vector[i].ToString().Replace(',', '.'));
+						}
+					}
+					else
+					{
+						for (int i = 0; i < vector.Size; i++)
+						{
+							streamWriter.WriteLine(vector[i].ToString());
+						}
 					}
 					log.Info("Вывод вектора в файл завершен.");
 				}
@@ -198,7 +210,7 @@ namespace toop_project
 			}
 			if (n < 1)
 			{
-				throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
+				throw new Exception("Некорректно введена размерность матрицы (Не должна быть меньше 1).");
 			}
 			log.Info("Ввод размерности матрицы завершен.");
 
@@ -241,7 +253,7 @@ namespace toop_project
 			}
 			if (n < 1)
 			{
-				throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
+				throw new Exception("Некорректно введена размерность матрицы (Не должна быть меньше 1).");
 			}
 			log.Info("Ввод размерности матрицы завершен.");
 
@@ -319,7 +331,7 @@ namespace toop_project
 			}
 			if (n < 1)
 			{
-				throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
+				throw new Exception("Некорректно введена размерность матрицы (Не должна быть меньше 1).");
 			}
 			log.Info("Ввод размерности матрицы завершен.");
 
@@ -409,7 +421,7 @@ namespace toop_project
 			}
 			if (n < 1)
 			{
-				throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
+				throw new Exception("Некорректно введена размерность матрицы (Не должна быть меньше 1).");
 			}
 			log.Info("Ввод размерности матрицы завершен.");
 
@@ -544,7 +556,7 @@ namespace toop_project
 			}
 			if (n < 1)
 			{
-				throw new Exception("Некорректно введена размерность матрица (Не должна быть меньше 1).");
+				throw new Exception("Некорректно введена размерность матрицы (Не должна быть меньше 1).");
 			}
 			log.Info("Ввод размерности матрицы завершен.");
 
@@ -619,5 +631,192 @@ namespace toop_project
 				ia[i] -= offset;
 			}
 		}
+
+		public static BaseMatrix InputGenericSparseMatrix(string fileName)
+		{
+			Logger log = Logger.Instance;
+			BaseMatrix matrix;
+
+			int n = 4;
+			int m;
+			int[] ia;
+			double[] di;
+			List<int> ja = new List<int>();
+			List<double> al = new List<double>();
+			List<double> au = new List<double>();
+
+			try
+			{
+				using (StreamReader streamReader = new StreamReader(fileName))
+				{
+					log.Info("Чтение информации о матрице из файла " + fileName + "...");
+					log.Info("Ввод размерности матрицы...");
+					m = ReadInt(streamReader);
+					if (m < 0)
+					{
+						throw new Exception("Некорректно введена размерность матрицы (Не должна быть меньше 1).");
+					}
+					log.Info("Ввод размерности матрицы завершен.");
+
+					ia = new int[n + 1];
+					di = new double[n];
+
+					for (int i = 0; i < m; i++)
+					{
+						int row = ReadInt(streamReader);
+						int col = ReadInt(streamReader);
+						if (row < 0 || col < 0 || row > n - 1 || col > n - 1)
+						{
+							throw new Exception("Некорректно введено расположение " + (i + 1).ToString() + " элемента (индексы не должны быть меньше 0 / больше n - 1).");
+						}
+						double a = ReadDouble(streamReader);
+						
+						if (col == row)
+						{
+							di[row] = a;
+						}
+						else
+						{
+							int rRow;
+							int rCol;
+							List<double> a1;
+							List<double> a2;
+
+							if (row > col)
+							{
+								a1 = al;
+								a2 = au;
+								rRow = row;
+								rCol = col;
+							}
+							else
+							{
+								a1 = au;
+								a2 = al;
+								rRow = col;
+								rCol = row;
+							}
+
+							int k;
+							int i0 = ia[rRow];
+							int i1 = ia[rRow + 1];
+							bool isExisting = false;
+							for (k = i0; k < i1; k++)
+							{
+								if (rCol == ja[k])
+								{
+									a1[k] = a;
+									isExisting = true;
+									break;
+								}
+								if (rCol < ja[k])
+								{
+									break;
+								}
+							}
+							if (!isExisting)
+							{
+								ja.Insert(k, rCol);
+								a1.Insert(k, a);
+								a2.Insert(k, 0);
+								for (int j = rRow + 1; j < n + 1; j++)
+								{
+									ia[j]++;
+								}
+							}
+						}
+					}
+				}
+
+				matrix = new SparseMatrix(ia, ja.ToArray<int>(), al.ToArray<double>(), au.ToArray<double>(), di);
+			}
+			catch (Exception e)
+			{
+				log.Error(e.Message);
+				log.Error("Аварийное завершение ввода матрицы.");
+				return null;
+			}
+
+			return matrix;
+		}
+
+		private static int ReadInt(StreamReader streamReader)
+		{
+			char symbol;
+			string intValue = "";
+
+			do
+			{
+				symbol = (char)streamReader.Read();
+			}
+			while (delimiters.Contains<char>(symbol));
+
+			do
+			{
+				intValue += symbol;
+				symbol = (char)streamReader.Read();
+			}
+			while (!delimiters.Contains<char>(symbol));
+
+			int result;
+			if (!int.TryParse(intValue, out result))
+			{
+				throw new Exception("Некорректно введено целое число.");
+			}
+			return result;
+		}
+
+		private static double ReadDouble(StreamReader streamReader)
+		{
+			char symbol;
+			string doubleValue = "";
+
+			do
+			{
+				symbol = (char)streamReader.Read();
+			}
+			while (delimiters.Contains<char>(symbol));
+
+			do
+			{
+				doubleValue += symbol;
+				symbol = (char)streamReader.Read();
+			}
+			while (!delimiters.Contains<char>(symbol));
+
+			doubleValue = doubleValue.Replace('.', ',');
+
+			double result;
+			if (!double.TryParse(doubleValue, out result))
+			{
+				throw new Exception("Некорректно введено число.");
+			}
+			return result;
+		}
+
+		private static int[] ReadInt(StreamReader streamReader, int n)
+		{
+			int[] result = new int[n];
+
+			for (int i = 0; i < n; i++)
+			{
+				result[i] = ReadInt(streamReader);
+			}
+
+			return result;
+		}
+
+		private static double[] ReadDouble(StreamReader streamReader, int n)
+		{
+			double[] result = new double[n];
+
+			for (int i = 0; i < n; i++)
+			{
+				result[i] = ReadDouble(streamReader);
+			}
+
+			return result;
+		}
 	}
+
 }
