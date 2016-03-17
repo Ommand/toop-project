@@ -661,6 +661,7 @@ namespace toop_project
 					ia = new int[n + 1];
 					di = new double[n];
 
+					log.Info("Ввод элементов матрицы...");
 					for (int i = 0; i < m; i++)
 					{
 						int row = ReadInt(streamReader);
@@ -726,6 +727,7 @@ namespace toop_project
 							}
 						}
 					}
+					log.Info("Ввод элементов матрицы завершен.");
 				}
 
 				matrix = new SparseMatrix(ia, ja.ToArray<int>(), al.ToArray<double>(), au.ToArray<double>(), di);
