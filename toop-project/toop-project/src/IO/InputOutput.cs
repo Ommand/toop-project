@@ -191,32 +191,9 @@ namespace toop_project
 				log.Error("Аварийное завершение вывода вектора.");
 			}
 		}
-        public static void OutputGenericMatrix(string fileName, BaseMatrix matrix)
-        {
-            Logger log = Logger.Instance;
 
-            try
-            {
-                using (StreamWriter streamWriter = new StreamWriter(fileName))
-                {
-                    log.Info("Вывод матрицы в файл в обобщенном формате" + fileName + "...");
-
-                    int n = 0;
-                    matrix.Run((i, j, u) => { if (u != 0) n++; });
-                    streamWriter.WriteLine(n);
-                    matrix.Run((i, j, u) => { if (u != 0) streamWriter.WriteLine(String.Format("{0} {1} {2}", i, j, u)); });
-                    log.Info("Вывод матрицы в файл завершен.");
-                }
-            }
-            catch (Exception e)
-            {
-                log.Error(e.Message);
-                log.Error("Аварийное завершение вывода матрицы.");
-            }
-        }
-
-        //ввод матрицы в плотном формате
-        private static BaseMatrix InputDenseMatrix(string[] fileContent)
+		//ввод матрицы в плотном формате
+		private static BaseMatrix InputDenseMatrix(string[] fileContent)
 		{
 			Logger log = Logger.Instance;
 			CultureInfo cultureInfo = new CultureInfo("en-US");
@@ -660,7 +637,7 @@ namespace toop_project
 			Logger log = Logger.Instance;
 			BaseMatrix matrix;
 
-			int n = 5;
+			int n = 4;
 			int m;
 			int[] ia;
 			double[] di;
