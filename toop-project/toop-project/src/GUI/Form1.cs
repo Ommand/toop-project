@@ -16,6 +16,8 @@ namespace toop_project {
 
         const String MatrixFileExtension = "mtx";
         const String VectorFileExtension = "vec";
+        const int maxDrawSize = 5;
+
         String resPath = System.IO.Path.GetFullPath(@"..\..\res\");
 
         OpenFileDialog ofdMatrix = new OpenFileDialog();
@@ -149,6 +151,12 @@ namespace toop_project {
             for(var i=0; i < matrix.Size; i++)
                 dgvMatrix.Columns.Add("","");
 
+            if  (matrix.Size > maxDrawSize)
+            {
+                dgvMatrix.Rows.Add("Matrix is too big to draw");
+                return;
+            }
+
             string[][] strs = new string[matrix.Size][];
             for(int i=0;i < matrix.Size;i++)
                 strs[i] = new string[matrix.Size];
@@ -161,6 +169,11 @@ namespace toop_project {
         private void updateDgvRightPart(src.Vector_.Vector vec) {
             tabControl1.SelectedIndex = 0;
             ClearDgv(dgvRightPart);
+            if (vec.Size > maxDrawSize)
+            {
+                dgvRightPart.Rows.Add("Vector is too big to draw");
+                return;
+            }
             for (var i = 0; i < vec.Size; i++) {
                 String[] strs = new String[1];
                 strs[0] = vec[i].ToString();
@@ -172,6 +185,11 @@ namespace toop_project {
         private void updateDgvInitial(src.Vector_.Vector vec) {
             tabControl1.SelectedIndex = 1;
             ClearDgv(dgvInitial);
+            if (vec.Size > maxDrawSize)
+            {
+                dgvInitial.Rows.Add("Vector is too big to draw");
+                return;
+            }
             for (var i = 0; i < vec.Size; i++)
                 dgvInitial.Rows.Add(vec[i].ToString());
         }
@@ -179,6 +197,11 @@ namespace toop_project {
         private void updateDgvResult(src.Vector_.Vector vec) {
             tabControl1.SelectedIndex = 2;
             ClearDgv(dgvResult);
+            if (vec.Size > maxDrawSize)
+            {
+                dgvResult.Rows.Add("Vector is too big to draw");
+                return;
+            }
             for (var i = 0; i < vec.Size; i++)
                 dgvResult.Rows.Add(vec[i].ToString());
         }
