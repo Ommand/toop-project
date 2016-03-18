@@ -632,12 +632,21 @@ namespace toop_project
 			}
 		}
 
-		public static BaseMatrix InputGenericSparseMatrix(string fileName)
+		public static BaseMatrix InputGenericSparseMatrix(string fileName, int _n)
 		{
 			Logger log = Logger.Instance;
 			BaseMatrix matrix;
 
-			int n = 4;
+			int n;
+			if (_n == 0)
+			{
+				n = InputGenericN(fileName);
+			}
+			else
+			{
+				n = _n;
+			}
+			
 			int m;
 			int[] ia;
 			double[] di;
@@ -740,6 +749,73 @@ namespace toop_project
 			}
 
 			return matrix;
+		}
+
+		public static int InputGenericN(string fileName)
+		{
+			Logger log = Logger.Instance;
+
+			int n = 0;
+			try
+			{
+				using (StreamReader streamReader = new StreamReader(fileName))
+				{
+					log.Info("Извлечение размерности из файла с матрицей " + fileName + "...");
+					int k = ReadInt(streamReader);
+					for (int i = 0; i < k; i++)
+					{
+						int row = ReadInt(streamReader);
+						int col = ReadInt(streamReader);
+						if (row < 0 || col < 0 || row > n - 1 || col > n - 1)
+						{
+							throw new Exception("Некорректно введено расположение " + (i + 1).ToString() + " элемента (индексы не должны быть меньше 0 / больше n - 1).");
+						}
+						double a = ReadDouble(streamReader);
+						if (row > n)
+						{
+							n = row;
+						}
+						if (col > n)
+						{
+							n = col;
+						}
+					}
+					n++;
+					log.Info("Извлечение размерности из файла с матрицей завершено (Предположительно, n = " + n.ToString() + ").");
+				}
+			}
+			catch (Exception e)
+			{
+				log.Error(e.Message);
+				log.Error("Аварийное завершение извлечения размерности из файла с матрицей.");
+				return 0;
+			}
+
+			return n;
+		}
+
+		public static void OutputGenericMatrix(string fileName, BaseMatrix matrix)
+		{
+			Logger log = Logger.Instance;
+
+			try
+			{
+				using (StreamWriter streamWriter = new StreamWriter(fileName))
+				{
+					log.Info("Вывод матрицы в файл в обобщенном формате" + fileName + "...");
+
+					int n = 0;
+					matrix.Run((i, j, u) => {if (u != 0) n++;});
+					streamWriter.WriteLine(n);
+					matrix.Run((i, j, u) => {if (u != 0) streamWriter.WriteLine(String.Format("{0} {1} {2}", i, j, u));});
+					log.Info("Вывод матрицы в файл завершен.");
+				}
+			}
+			catch (Exception e)
+			{
+				log.Error(e.Message);
+				log.Error("Аварийное завершение вывода матрицы.");
+			}
 		}
 
 		private static int ReadInt(StreamReader streamReader)
