@@ -45,6 +45,16 @@
             this.lblIter = new System.Windows.Forms.Label();
             this.pbarSolver = new System.Windows.Forms.ProgressBar();
             this.pnlLeft = new System.Windows.Forms.Panel();
+            this.pnlGenericFormat = new System.Windows.Forms.Panel();
+            this.cbxAutoDim = new System.Windows.Forms.CheckBox();
+            this.btnGenericMatrixSave = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.btnGenericMatrixLoad = new System.Windows.Forms.Button();
+            this.btnGenericDim = new System.Windows.Forms.Button();
+            this.nudMatrixDim = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.pnlParameters = new System.Windows.Forms.Panel();
             this.nudMGMRES = new System.Windows.Forms.NumericUpDown();
             this.nudMaxIter = new System.Windows.Forms.NumericUpDown();
@@ -76,6 +86,7 @@
             this.lblMatixFileName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.sbtnG = new toop_project.src.GUI.SinkButton();
             this.sbtnP = new toop_project.src.GUI.SinkButton();
             this.sbtnS = new toop_project.src.GUI.SinkButton();
             this.sbtnF = new toop_project.src.GUI.SinkButton();
@@ -90,20 +101,11 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.pnlGenericFormat = new System.Windows.Forms.Panel();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.nudMatrixDim = new System.Windows.Forms.NumericUpDown();
-            this.btnGenericDim = new System.Windows.Forms.Button();
-            this.btnGenericMatrixLoad = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
-            this.btnGenericMatrixSave = new System.Windows.Forms.Button();
-            this.cbxAutoDim = new System.Windows.Forms.CheckBox();
-            this.sbtnG = new toop_project.src.GUI.SinkButton();
             this.mnu.SuspendLayout();
             this.pnlBot.SuspendLayout();
             this.pnlLeft.SuspendLayout();
+            this.pnlGenericFormat.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMatrixDim)).BeginInit();
             this.pnlParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMGMRES)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMaxIter)).BeginInit();
@@ -120,8 +122,6 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
             this.tabPage3.SuspendLayout();
-            this.pnlGenericFormat.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMatrixDim)).BeginInit();
             this.SuspendLayout();
             // 
             // mnu
@@ -281,6 +281,134 @@
             this.pnlLeft.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlLeft.Size = new System.Drawing.Size(292, 540);
             this.pnlLeft.TabIndex = 2;
+            // 
+            // pnlGenericFormat
+            // 
+            this.pnlGenericFormat.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlGenericFormat.Controls.Add(this.cbxAutoDim);
+            this.pnlGenericFormat.Controls.Add(this.btnGenericMatrixSave);
+            this.pnlGenericFormat.Controls.Add(this.label16);
+            this.pnlGenericFormat.Controls.Add(this.btnGenericMatrixLoad);
+            this.pnlGenericFormat.Controls.Add(this.btnGenericDim);
+            this.pnlGenericFormat.Controls.Add(this.nudMatrixDim);
+            this.pnlGenericFormat.Controls.Add(this.label15);
+            this.pnlGenericFormat.Controls.Add(this.label14);
+            this.pnlGenericFormat.Controls.Add(this.label18);
+            this.pnlGenericFormat.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlGenericFormat.Location = new System.Drawing.Point(3, 387);
+            this.pnlGenericFormat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnlGenericFormat.Name = "pnlGenericFormat";
+            this.pnlGenericFormat.Padding = new System.Windows.Forms.Padding(2);
+            this.pnlGenericFormat.Size = new System.Drawing.Size(286, 149);
+            this.pnlGenericFormat.TabIndex = 12;
+            // 
+            // cbxAutoDim
+            // 
+            this.cbxAutoDim.AutoSize = true;
+            this.cbxAutoDim.Checked = true;
+            this.cbxAutoDim.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxAutoDim.Location = new System.Drawing.Point(229, 47);
+            this.cbxAutoDim.Name = "cbxAutoDim";
+            this.cbxAutoDim.Size = new System.Drawing.Size(52, 22);
+            this.cbxAutoDim.TabIndex = 8;
+            this.cbxAutoDim.Text = "auto";
+            this.cbxAutoDim.UseVisualStyleBackColor = true;
+            this.cbxAutoDim.CheckedChanged += new System.EventHandler(this.cbxAutoDim_CheckedChanged);
+            // 
+            // btnGenericMatrixSave
+            // 
+            this.btnGenericMatrixSave.Location = new System.Drawing.Point(42, 120);
+            this.btnGenericMatrixSave.Name = "btnGenericMatrixSave";
+            this.btnGenericMatrixSave.Size = new System.Drawing.Size(239, 23);
+            this.btnGenericMatrixSave.TabIndex = 7;
+            this.btnGenericMatrixSave.Text = "Save matrix to file";
+            this.btnGenericMatrixSave.UseVisualStyleBackColor = true;
+            this.btnGenericMatrixSave.Click += new System.EventHandler(this.saveMatrixInGenericFormatToolStripMenuItem_Click);
+            // 
+            // label16
+            // 
+            this.label16.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label16.Location = new System.Drawing.Point(4, 95);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(282, 22);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "Output";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnGenericMatrixLoad
+            // 
+            this.btnGenericMatrixLoad.Location = new System.Drawing.Point(42, 69);
+            this.btnGenericMatrixLoad.Name = "btnGenericMatrixLoad";
+            this.btnGenericMatrixLoad.Size = new System.Drawing.Size(239, 23);
+            this.btnGenericMatrixLoad.TabIndex = 5;
+            this.btnGenericMatrixLoad.Text = "Load matrix from file";
+            this.btnGenericMatrixLoad.UseVisualStyleBackColor = true;
+            this.btnGenericMatrixLoad.Click += new System.EventHandler(this.openMatrixGENERICToolStripMenuItem_Click);
+            // 
+            // btnGenericDim
+            // 
+            this.btnGenericDim.Enabled = false;
+            this.btnGenericDim.Location = new System.Drawing.Point(188, 46);
+            this.btnGenericDim.Name = "btnGenericDim";
+            this.btnGenericDim.Size = new System.Drawing.Size(35, 23);
+            this.btnGenericDim.TabIndex = 4;
+            this.btnGenericDim.Text = "File";
+            this.btnGenericDim.UseVisualStyleBackColor = true;
+            this.btnGenericDim.Click += new System.EventHandler(this.btnGenericDim_Click);
+            // 
+            // nudMatrixDim
+            // 
+            this.nudMatrixDim.Enabled = false;
+            this.nudMatrixDim.Location = new System.Drawing.Point(75, 48);
+            this.nudMatrixDim.Maximum = new decimal(new int[] {
+            -159383552,
+            46653770,
+            5421,
+            0});
+            this.nudMatrixDim.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudMatrixDim.Name = "nudMatrixDim";
+            this.nudMatrixDim.Size = new System.Drawing.Size(107, 21);
+            this.nudMatrixDim.TabIndex = 3;
+            this.nudMatrixDim.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(2, 48);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(67, 18);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Dimension:";
+            // 
+            // label14
+            // 
+            this.label14.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label14.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label14.Location = new System.Drawing.Point(2, 26);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(282, 22);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "Input";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label18
+            // 
+            this.label18.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.label18.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label18.Location = new System.Drawing.Point(2, 2);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(282, 24);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Generic format";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlParameters
             // 
@@ -689,6 +817,18 @@
             this.pnlTop.Size = new System.Drawing.Size(951, 30);
             this.pnlTop.TabIndex = 4;
             // 
+            // sbtnG
+            // 
+            this.sbtnG.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnG.Dock = System.Windows.Forms.DockStyle.Left;
+            this.sbtnG.Location = new System.Drawing.Point(80, 2);
+            this.sbtnG.Name = "sbtnG";
+            this.sbtnG.Sink = true;
+            this.sbtnG.Size = new System.Drawing.Size(26, 26);
+            this.sbtnG.TabIndex = 3;
+            this.sbtnG.Text = "G";
+            this.sbtnG.UseVisualStyleBackColor = false;
+            // 
             // sbtnP
             // 
             this.sbtnP.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
@@ -786,7 +926,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(445, 424);
+            this.tabPage2.Size = new System.Drawing.Size(651, 509);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "Initial";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -803,7 +943,7 @@
             this.dgvInitial.Name = "dgvInitial";
             this.dgvInitial.ReadOnly = true;
             this.dgvInitial.RowHeadersVisible = false;
-            this.dgvInitial.Size = new System.Drawing.Size(132, 418);
+            this.dgvInitial.Size = new System.Drawing.Size(132, 503);
             this.dgvInitial.TabIndex = 2;
             // 
             // tabPage4
@@ -812,7 +952,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 27);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(445, 424);
+            this.tabPage4.Size = new System.Drawing.Size(651, 509);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Result";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -829,7 +969,7 @@
             this.dgvResult.Name = "dgvResult";
             this.dgvResult.ReadOnly = true;
             this.dgvResult.RowHeadersVisible = false;
-            this.dgvResult.Size = new System.Drawing.Size(132, 418);
+            this.dgvResult.Size = new System.Drawing.Size(132, 503);
             this.dgvResult.TabIndex = 1;
             // 
             // tabPage3
@@ -839,7 +979,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 27);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(445, 424);
+            this.tabPage3.Size = new System.Drawing.Size(651, 509);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Log";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -847,9 +987,9 @@
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.Location = new System.Drawing.Point(4, 397);
+            this.button1.Location = new System.Drawing.Point(4, 482);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(437, 23);
+            this.button1.Size = new System.Drawing.Size(643, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "Clear log";
             this.button1.UseVisualStyleBackColor = true;
@@ -861,145 +1001,9 @@
             this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbLog.Location = new System.Drawing.Point(4, 4);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(437, 416);
+            this.rtbLog.Size = new System.Drawing.Size(643, 501);
             this.rtbLog.TabIndex = 0;
             this.rtbLog.Text = "";
-            // 
-            // pnlGenericFormat
-            // 
-            this.pnlGenericFormat.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlGenericFormat.Controls.Add(this.cbxAutoDim);
-            this.pnlGenericFormat.Controls.Add(this.btnGenericMatrixSave);
-            this.pnlGenericFormat.Controls.Add(this.label16);
-            this.pnlGenericFormat.Controls.Add(this.btnGenericMatrixLoad);
-            this.pnlGenericFormat.Controls.Add(this.btnGenericDim);
-            this.pnlGenericFormat.Controls.Add(this.nudMatrixDim);
-            this.pnlGenericFormat.Controls.Add(this.label15);
-            this.pnlGenericFormat.Controls.Add(this.label14);
-            this.pnlGenericFormat.Controls.Add(this.label18);
-            this.pnlGenericFormat.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlGenericFormat.Location = new System.Drawing.Point(3, 387);
-            this.pnlGenericFormat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pnlGenericFormat.Name = "pnlGenericFormat";
-            this.pnlGenericFormat.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlGenericFormat.Size = new System.Drawing.Size(286, 149);
-            this.pnlGenericFormat.TabIndex = 12;
-            // 
-            // label18
-            // 
-            this.label18.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.label18.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label18.Location = new System.Drawing.Point(2, 2);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(282, 24);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Generic format";
-            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label14
-            // 
-            this.label14.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label14.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.Location = new System.Drawing.Point(2, 26);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(282, 22);
-            this.label14.TabIndex = 1;
-            this.label14.Text = "Input";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(2, 48);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(67, 18);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Dimension:";
-            // 
-            // nudMatrixDim
-            // 
-            this.nudMatrixDim.Location = new System.Drawing.Point(75, 48);
-            this.nudMatrixDim.Maximum = new decimal(new int[] {
-            -159383552,
-            46653770,
-            5421,
-            0});
-            this.nudMatrixDim.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudMatrixDim.Name = "nudMatrixDim";
-            this.nudMatrixDim.Size = new System.Drawing.Size(107, 21);
-            this.nudMatrixDim.TabIndex = 3;
-            this.nudMatrixDim.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // btnGenericDim
-            // 
-            this.btnGenericDim.Location = new System.Drawing.Point(188, 46);
-            this.btnGenericDim.Name = "btnGenericDim";
-            this.btnGenericDim.Size = new System.Drawing.Size(35, 23);
-            this.btnGenericDim.TabIndex = 4;
-            this.btnGenericDim.Text = "File";
-            this.btnGenericDim.UseVisualStyleBackColor = true;
-            this.btnGenericDim.Click += new System.EventHandler(this.btnGenericDim_Click);
-            // 
-            // btnGenericMatrixLoad
-            // 
-            this.btnGenericMatrixLoad.Location = new System.Drawing.Point(42, 69);
-            this.btnGenericMatrixLoad.Name = "btnGenericMatrixLoad";
-            this.btnGenericMatrixLoad.Size = new System.Drawing.Size(239, 23);
-            this.btnGenericMatrixLoad.TabIndex = 5;
-            this.btnGenericMatrixLoad.Text = "Load matrix from file";
-            this.btnGenericMatrixLoad.UseVisualStyleBackColor = true;
-            this.btnGenericMatrixLoad.Click += new System.EventHandler(this.openMatrixGENERICToolStripMenuItem_Click);
-            // 
-            // label16
-            // 
-            this.label16.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.Location = new System.Drawing.Point(4, 95);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(282, 22);
-            this.label16.TabIndex = 6;
-            this.label16.Text = "Output";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnGenericMatrixSave
-            // 
-            this.btnGenericMatrixSave.Location = new System.Drawing.Point(42, 120);
-            this.btnGenericMatrixSave.Name = "btnGenericMatrixSave";
-            this.btnGenericMatrixSave.Size = new System.Drawing.Size(239, 23);
-            this.btnGenericMatrixSave.TabIndex = 7;
-            this.btnGenericMatrixSave.Text = "Save matrix to file";
-            this.btnGenericMatrixSave.UseVisualStyleBackColor = true;
-            this.btnGenericMatrixSave.Click += new System.EventHandler(this.saveMatrixInGenericFormatToolStripMenuItem_Click);
-            // 
-            // cbxAutoDim
-            // 
-            this.cbxAutoDim.AutoSize = true;
-            this.cbxAutoDim.Location = new System.Drawing.Point(229, 47);
-            this.cbxAutoDim.Name = "cbxAutoDim";
-            this.cbxAutoDim.Size = new System.Drawing.Size(52, 22);
-            this.cbxAutoDim.TabIndex = 8;
-            this.cbxAutoDim.Text = "auto";
-            this.cbxAutoDim.UseVisualStyleBackColor = true;
-            this.cbxAutoDim.CheckedChanged += new System.EventHandler(this.cbxAutoDim_CheckedChanged);
-            // 
-            // sbtnG
-            // 
-            this.sbtnG.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.sbtnG.Dock = System.Windows.Forms.DockStyle.Left;
-            this.sbtnG.Location = new System.Drawing.Point(80, 2);
-            this.sbtnG.Name = "sbtnG";
-            this.sbtnG.Sink = true;
-            this.sbtnG.Size = new System.Drawing.Size(26, 26);
-            this.sbtnG.TabIndex = 3;
-            this.sbtnG.Text = "G";
-            this.sbtnG.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -1021,6 +1025,9 @@
             this.mnu.PerformLayout();
             this.pnlBot.ResumeLayout(false);
             this.pnlLeft.ResumeLayout(false);
+            this.pnlGenericFormat.ResumeLayout(false);
+            this.pnlGenericFormat.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMatrixDim)).EndInit();
             this.pnlParameters.ResumeLayout(false);
             this.pnlParameters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMGMRES)).EndInit();
@@ -1040,9 +1047,6 @@
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            this.pnlGenericFormat.ResumeLayout(false);
-            this.pnlGenericFormat.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMatrixDim)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

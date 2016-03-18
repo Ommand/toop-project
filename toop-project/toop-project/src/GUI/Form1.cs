@@ -446,7 +446,11 @@ namespace toop_project {
                     if (ofdMatrixGeneric.FileName != null)
                     {
                         src.Matrix.BaseMatrix matrix;
-                        matrix = toop_project.InputOutput.InputGenericSparseMatrix(ofdMatrixGeneric.FileName);
+                        if (cbxAutoDim.Checked)
+                            matrix = toop_project.InputOutput.InputGenericSparseMatrix(ofdMatrixGeneric.FileName,0);
+                        else
+                            matrix = toop_project.InputOutput.InputGenericSparseMatrix(ofdMatrixGeneric.FileName,(int)nudMatrixDim.Value);
+
                         updateDgvMatrix(matrix);
                         slae.Matrix = matrix;
                         lblMatixFileName.Text = ofdMatrixGeneric.FileName.Substring(ofdMatrixGeneric.FileName.LastIndexOf('\\') + 1);
@@ -468,8 +472,8 @@ namespace toop_project {
 
         private void cbxAutoDim_CheckedChanged(object sender, EventArgs e)
         {
-            nudMatrixDim.Enabled = cbxAutoDim.Checked;
-            btnGenericMatrixLoad.Enabled = cbxAutoDim.Checked;
+            nudMatrixDim.Enabled = !cbxAutoDim.Checked;
+            btnGenericDim.Enabled = !cbxAutoDim.Checked;
         }
 
         private void btnGenericDim_Click(object sender, EventArgs e)
