@@ -19,9 +19,11 @@ namespace toop_project {
         String resPath = System.IO.Path.GetFullPath(@"..\..\res\");
 
         OpenFileDialog ofdMatrix = new OpenFileDialog();
+        OpenFileDialog ofdMatrixGeneric = new OpenFileDialog();
         OpenFileDialog ofdRightPart = new OpenFileDialog();
         OpenFileDialog ofdInitial = new OpenFileDialog();
         SaveFileDialog sfdResult = new SaveFileDialog();
+        SaveFileDialog sfdGenericMatrix = new SaveFileDialog();
 
         delegate void UpdateResidualCallback(double residual);
         private void UpdateResidual(double residual) {
@@ -405,7 +407,60 @@ namespace toop_project {
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: Could not read save file. Original error: " + ex.Message);
+                    MessageBox.Show("Error: Could not save file. Original error: " + ex.Message);
+                }
+            }
+        }
+
+        private void saveMatrixInGenericFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (slae.Matrix == null)
+            {
+                MessageBox.Show("Nothing to save");
+                return;
+            }
+
+            if (sfdGenericMatrix.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (sfdGenericMatrix.FileName != null)
+                    {
+                        toop_project.InputOutput.OutputGenericMatrix(sfdGenericMatrix.FileName, slae.Matrix);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not save file. Original error: " + ex.Message);
+                }
+            }
+        }
+
+        private void openMatrixGENERICToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ofdMatrixGeneric.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (ofdMatrixGeneric.FileName != null)
+                    {
+                        src.Matrix.BaseMatrix matrix;
+                        matrix = toop_project.InputOutput.InputGenericSparseMatrix(ofdMatrixGeneric.FileName);
+                        updateDgvMatrix(matrix);
+                        slae.Matrix = matrix;
+                        lblMatixFileName.Text = ofdMatrixGeneric.FileName.Substring(ofdMatrixGeneric.FileName.LastIndexOf('\\') + 1);
+                        cmbMatrixFormat.Text = matrix.Type.ToString();
+
+                        if (slae.Initial != null && slae.Matrix.Size != slae.Initial.Size)
+                            if (cbxInitial.Checked)
+                                cbxInitial.Checked = false;
+                            else
+                                slae.Initial = null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
                 }
             }
         }
