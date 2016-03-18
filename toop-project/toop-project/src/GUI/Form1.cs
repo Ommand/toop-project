@@ -128,6 +128,7 @@ namespace toop_project {
             pnlFile.DataBindings.Add(new Binding("Visible", sbtnF, "Sink"));
             pnlSolver.DataBindings.Add(new Binding("Visible", sbtnS, "Sink"));
             pnlParameters.DataBindings.Add(new Binding("Visible", sbtnP, "Sink"));
+            pnlGenericFormat.DataBindings.Add(new Binding("Visible", sbtnG, "Sink"));
         }
 
         private void setComboboxes() {
@@ -456,6 +457,34 @@ namespace toop_project {
                                 cbxInitial.Checked = false;
                             else
                                 slae.Initial = null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                }
+            }
+        }
+
+        private void cbxAutoDim_CheckedChanged(object sender, EventArgs e)
+        {
+            nudMatrixDim.Enabled = cbxAutoDim.Checked;
+            btnGenericMatrixLoad.Enabled = cbxAutoDim.Checked;
+        }
+
+        private void btnGenericDim_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (ofd.FileName != null)
+                    {
+                        using (System.IO.StreamReader reader = new System.IO.StreamReader(ofd.FileName))
+                        {
+                            nudMatrixDim.Value = int.Parse(reader.ReadLine());
+                        }
                     }
                 }
                 catch (Exception ex)

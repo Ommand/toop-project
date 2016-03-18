@@ -31,9 +31,11 @@
             this.mnu = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMatrixGENERICToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRightPart = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuInitial = new System.Windows.Forms.ToolStripMenuItem();
             this.saveResultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveMatrixInGenericFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +76,9 @@
             this.lblMatixFileName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlTop = new System.Windows.Forms.Panel();
+            this.sbtnP = new toop_project.src.GUI.SinkButton();
+            this.sbtnS = new toop_project.src.GUI.SinkButton();
+            this.sbtnF = new toop_project.src.GUI.SinkButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvMatrix = new System.Windows.Forms.DataGridView();
@@ -85,11 +90,17 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.saveMatrixInGenericFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sbtnP = new toop_project.src.GUI.SinkButton();
-            this.sbtnS = new toop_project.src.GUI.SinkButton();
-            this.sbtnF = new toop_project.src.GUI.SinkButton();
-            this.openMatrixGENERICToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlGenericFormat = new System.Windows.Forms.Panel();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.nudMatrixDim = new System.Windows.Forms.NumericUpDown();
+            this.btnGenericDim = new System.Windows.Forms.Button();
+            this.btnGenericMatrixLoad = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.btnGenericMatrixSave = new System.Windows.Forms.Button();
+            this.cbxAutoDim = new System.Windows.Forms.CheckBox();
+            this.sbtnG = new toop_project.src.GUI.SinkButton();
             this.mnu.SuspendLayout();
             this.pnlBot.SuspendLayout();
             this.pnlLeft.SuspendLayout();
@@ -109,6 +120,8 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.pnlGenericFormat.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMatrixDim)).BeginInit();
             this.SuspendLayout();
             // 
             // mnu
@@ -119,7 +132,7 @@
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.mnu.Size = new System.Drawing.Size(745, 24);
+            this.mnu.Size = new System.Drawing.Size(951, 24);
             this.mnu.TabIndex = 0;
             this.mnu.Text = "menuStrip1";
             // 
@@ -145,6 +158,13 @@
             this.mnuFileOpen.Text = "Open matrix...";
             this.mnuFileOpen.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
+            // openMatrixGENERICToolStripMenuItem
+            // 
+            this.openMatrixGENERICToolStripMenuItem.Name = "openMatrixGENERICToolStripMenuItem";
+            this.openMatrixGENERICToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.openMatrixGENERICToolStripMenuItem.Text = "Open matrix (GENERIC)";
+            this.openMatrixGENERICToolStripMenuItem.Click += new System.EventHandler(this.openMatrixGENERICToolStripMenuItem_Click);
+            // 
             // mnuRightPart
             // 
             this.mnuRightPart.Name = "mnuRightPart";
@@ -165,6 +185,13 @@
             this.saveResultToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.saveResultToolStripMenuItem.Text = "Save result...";
             this.saveResultToolStripMenuItem.Click += new System.EventHandler(this.saveResultToolStripMenuItem_Click);
+            // 
+            // saveMatrixInGenericFormatToolStripMenuItem
+            // 
+            this.saveMatrixInGenericFormatToolStripMenuItem.Name = "saveMatrixInGenericFormatToolStripMenuItem";
+            this.saveMatrixInGenericFormatToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.saveMatrixInGenericFormatToolStripMenuItem.Text = "Save matrix (GENERIC)";
+            this.saveMatrixInGenericFormatToolStripMenuItem.Click += new System.EventHandler(this.saveMatrixInGenericFormatToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -199,18 +226,18 @@
             this.pnlBot.Controls.Add(this.lblIter);
             this.pnlBot.Controls.Add(this.pbarSolver);
             this.pnlBot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBot.Location = new System.Drawing.Point(0, 509);
+            this.pnlBot.Location = new System.Drawing.Point(0, 594);
             this.pnlBot.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlBot.Name = "pnlBot";
             this.pnlBot.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlBot.Size = new System.Drawing.Size(745, 24);
+            this.pnlBot.Size = new System.Drawing.Size(951, 24);
             this.pnlBot.TabIndex = 1;
             // 
             // lblResidual
             // 
             this.lblResidual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblResidual.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblResidual.Location = new System.Drawing.Point(292, 2);
+            this.lblResidual.Location = new System.Drawing.Point(498, 2);
             this.lblResidual.Name = "lblResidual";
             this.lblResidual.Size = new System.Drawing.Size(184, 20);
             this.lblResidual.TabIndex = 2;
@@ -221,7 +248,7 @@
             // 
             this.lblIter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblIter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblIter.Location = new System.Drawing.Point(476, 2);
+            this.lblIter.Location = new System.Drawing.Point(682, 2);
             this.lblIter.Name = "lblIter";
             this.lblIter.Size = new System.Drawing.Size(123, 20);
             this.lblIter.TabIndex = 1;
@@ -231,7 +258,7 @@
             // pbarSolver
             // 
             this.pbarSolver.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pbarSolver.Location = new System.Drawing.Point(599, 2);
+            this.pbarSolver.Location = new System.Drawing.Point(805, 2);
             this.pbarSolver.Name = "pbarSolver";
             this.pbarSolver.Size = new System.Drawing.Size(144, 20);
             this.pbarSolver.Step = 1;
@@ -242,6 +269,7 @@
             // 
             this.pnlLeft.AutoScroll = true;
             this.pnlLeft.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.pnlLeft.Controls.Add(this.pnlGenericFormat);
             this.pnlLeft.Controls.Add(this.pnlParameters);
             this.pnlLeft.Controls.Add(this.pnlSolver);
             this.pnlLeft.Controls.Add(this.panel11);
@@ -251,7 +279,7 @@
             this.pnlLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnlLeft.Name = "pnlLeft";
             this.pnlLeft.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pnlLeft.Size = new System.Drawing.Size(292, 455);
+            this.pnlLeft.Size = new System.Drawing.Size(292, 540);
             this.pnlLeft.TabIndex = 2;
             // 
             // pnlParameters
@@ -650,6 +678,7 @@
             // pnlTop
             // 
             this.pnlTop.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.pnlTop.Controls.Add(this.sbtnG);
             this.pnlTop.Controls.Add(this.sbtnP);
             this.pnlTop.Controls.Add(this.sbtnS);
             this.pnlTop.Controls.Add(this.sbtnF);
@@ -657,155 +686,8 @@
             this.pnlTop.Location = new System.Drawing.Point(0, 24);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlTop.Size = new System.Drawing.Size(745, 30);
+            this.pnlTop.Size = new System.Drawing.Size(951, 30);
             this.pnlTop.TabIndex = 4;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(292, 54);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(453, 455);
-            this.tabControl1.TabIndex = 5;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.dgvMatrix);
-            this.tabPage1.Controls.Add(this.dgvRightPart);
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(445, 424);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Matrix";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // dgvMatrix
-            // 
-            this.dgvMatrix.AllowUserToAddRows = false;
-            this.dgvMatrix.AllowUserToDeleteRows = false;
-            this.dgvMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMatrix.ColumnHeadersVisible = false;
-            this.dgvMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvMatrix.Location = new System.Drawing.Point(3, 3);
-            this.dgvMatrix.Name = "dgvMatrix";
-            this.dgvMatrix.ReadOnly = true;
-            this.dgvMatrix.RowHeadersVisible = false;
-            this.dgvMatrix.Size = new System.Drawing.Size(407, 418);
-            this.dgvMatrix.TabIndex = 0;
-            // 
-            // dgvRightPart
-            // 
-            this.dgvRightPart.AllowUserToAddRows = false;
-            this.dgvRightPart.AllowUserToDeleteRows = false;
-            this.dgvRightPart.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvRightPart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRightPart.ColumnHeadersVisible = false;
-            this.dgvRightPart.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dgvRightPart.Location = new System.Drawing.Point(410, 3);
-            this.dgvRightPart.Name = "dgvRightPart";
-            this.dgvRightPart.ReadOnly = true;
-            this.dgvRightPart.RowHeadersVisible = false;
-            this.dgvRightPart.Size = new System.Drawing.Size(32, 418);
-            this.dgvRightPart.TabIndex = 0;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.dgvInitial);
-            this.tabPage2.Location = new System.Drawing.Point(4, 27);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(445, 424);
-            this.tabPage2.TabIndex = 4;
-            this.tabPage2.Text = "Initial";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // dgvInitial
-            // 
-            this.dgvInitial.AllowUserToAddRows = false;
-            this.dgvInitial.AllowUserToDeleteRows = false;
-            this.dgvInitial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvInitial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInitial.ColumnHeadersVisible = false;
-            this.dgvInitial.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dgvInitial.Location = new System.Drawing.Point(3, 3);
-            this.dgvInitial.Name = "dgvInitial";
-            this.dgvInitial.ReadOnly = true;
-            this.dgvInitial.RowHeadersVisible = false;
-            this.dgvInitial.Size = new System.Drawing.Size(132, 423);
-            this.dgvInitial.TabIndex = 2;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.dgvResult);
-            this.tabPage4.Location = new System.Drawing.Point(4, 27);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(445, 424);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Result";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // dgvResult
-            // 
-            this.dgvResult.AllowUserToAddRows = false;
-            this.dgvResult.AllowUserToDeleteRows = false;
-            this.dgvResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            this.dgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResult.ColumnHeadersVisible = false;
-            this.dgvResult.Dock = System.Windows.Forms.DockStyle.Left;
-            this.dgvResult.Location = new System.Drawing.Point(3, 3);
-            this.dgvResult.Name = "dgvResult";
-            this.dgvResult.ReadOnly = true;
-            this.dgvResult.RowHeadersVisible = false;
-            this.dgvResult.Size = new System.Drawing.Size(132, 423);
-            this.dgvResult.TabIndex = 1;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.button1);
-            this.tabPage3.Controls.Add(this.rtbLog);
-            this.tabPage3.Location = new System.Drawing.Point(4, 27);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(445, 424);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Log";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.Location = new System.Drawing.Point(4, 402);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(437, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Clear log";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // rtbLog
-            // 
-            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbLog.Location = new System.Drawing.Point(4, 4);
-            this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(437, 421);
-            this.rtbLog.TabIndex = 0;
-            this.rtbLog.Text = "";
-            // 
-            // saveMatrixInGenericFormatToolStripMenuItem
-            // 
-            this.saveMatrixInGenericFormatToolStripMenuItem.Name = "saveMatrixInGenericFormatToolStripMenuItem";
-            this.saveMatrixInGenericFormatToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.saveMatrixInGenericFormatToolStripMenuItem.Text = "Save matrix (GENERIC)";
-            this.saveMatrixInGenericFormatToolStripMenuItem.Click += new System.EventHandler(this.saveMatrixInGenericFormatToolStripMenuItem_Click);
             // 
             // sbtnP
             // 
@@ -843,18 +725,287 @@
             this.sbtnF.Text = "F";
             this.sbtnF.UseVisualStyleBackColor = false;
             // 
-            // openMatrixGENERICToolStripMenuItem
+            // tabControl1
             // 
-            this.openMatrixGENERICToolStripMenuItem.Name = "openMatrixGENERICToolStripMenuItem";
-            this.openMatrixGENERICToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.openMatrixGENERICToolStripMenuItem.Text = "Open matrix (GENERIC)";
-            this.openMatrixGENERICToolStripMenuItem.Click += new System.EventHandler(this.openMatrixGENERICToolStripMenuItem_Click);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(292, 54);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(659, 540);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dgvMatrix);
+            this.tabPage1.Controls.Add(this.dgvRightPart);
+            this.tabPage1.Location = new System.Drawing.Point(4, 27);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(651, 509);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Matrix";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dgvMatrix
+            // 
+            this.dgvMatrix.AllowUserToAddRows = false;
+            this.dgvMatrix.AllowUserToDeleteRows = false;
+            this.dgvMatrix.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvMatrix.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMatrix.ColumnHeadersVisible = false;
+            this.dgvMatrix.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvMatrix.Location = new System.Drawing.Point(3, 3);
+            this.dgvMatrix.Name = "dgvMatrix";
+            this.dgvMatrix.ReadOnly = true;
+            this.dgvMatrix.RowHeadersVisible = false;
+            this.dgvMatrix.Size = new System.Drawing.Size(525, 503);
+            this.dgvMatrix.TabIndex = 0;
+            // 
+            // dgvRightPart
+            // 
+            this.dgvRightPart.AllowUserToAddRows = false;
+            this.dgvRightPart.AllowUserToDeleteRows = false;
+            this.dgvRightPart.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvRightPart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRightPart.ColumnHeadersVisible = false;
+            this.dgvRightPart.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dgvRightPart.Location = new System.Drawing.Point(528, 3);
+            this.dgvRightPart.Name = "dgvRightPart";
+            this.dgvRightPart.ReadOnly = true;
+            this.dgvRightPart.RowHeadersVisible = false;
+            this.dgvRightPart.Size = new System.Drawing.Size(120, 503);
+            this.dgvRightPart.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.dgvInitial);
+            this.tabPage2.Location = new System.Drawing.Point(4, 27);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(445, 424);
+            this.tabPage2.TabIndex = 4;
+            this.tabPage2.Text = "Initial";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dgvInitial
+            // 
+            this.dgvInitial.AllowUserToAddRows = false;
+            this.dgvInitial.AllowUserToDeleteRows = false;
+            this.dgvInitial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvInitial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInitial.ColumnHeadersVisible = false;
+            this.dgvInitial.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dgvInitial.Location = new System.Drawing.Point(3, 3);
+            this.dgvInitial.Name = "dgvInitial";
+            this.dgvInitial.ReadOnly = true;
+            this.dgvInitial.RowHeadersVisible = false;
+            this.dgvInitial.Size = new System.Drawing.Size(132, 418);
+            this.dgvInitial.TabIndex = 2;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.dgvResult);
+            this.tabPage4.Location = new System.Drawing.Point(4, 27);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(445, 424);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Result";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dgvResult
+            // 
+            this.dgvResult.AllowUserToAddRows = false;
+            this.dgvResult.AllowUserToDeleteRows = false;
+            this.dgvResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvResult.ColumnHeadersVisible = false;
+            this.dgvResult.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dgvResult.Location = new System.Drawing.Point(3, 3);
+            this.dgvResult.Name = "dgvResult";
+            this.dgvResult.ReadOnly = true;
+            this.dgvResult.RowHeadersVisible = false;
+            this.dgvResult.Size = new System.Drawing.Size(132, 418);
+            this.dgvResult.TabIndex = 1;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.button1);
+            this.tabPage3.Controls.Add(this.rtbLog);
+            this.tabPage3.Location = new System.Drawing.Point(4, 27);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage3.Size = new System.Drawing.Size(445, 424);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Log";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button1.Location = new System.Drawing.Point(4, 397);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(437, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Clear log";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // rtbLog
+            // 
+            this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLog.Location = new System.Drawing.Point(4, 4);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.Size = new System.Drawing.Size(437, 416);
+            this.rtbLog.TabIndex = 0;
+            this.rtbLog.Text = "";
+            // 
+            // pnlGenericFormat
+            // 
+            this.pnlGenericFormat.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlGenericFormat.Controls.Add(this.cbxAutoDim);
+            this.pnlGenericFormat.Controls.Add(this.btnGenericMatrixSave);
+            this.pnlGenericFormat.Controls.Add(this.label16);
+            this.pnlGenericFormat.Controls.Add(this.btnGenericMatrixLoad);
+            this.pnlGenericFormat.Controls.Add(this.btnGenericDim);
+            this.pnlGenericFormat.Controls.Add(this.nudMatrixDim);
+            this.pnlGenericFormat.Controls.Add(this.label15);
+            this.pnlGenericFormat.Controls.Add(this.label14);
+            this.pnlGenericFormat.Controls.Add(this.label18);
+            this.pnlGenericFormat.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlGenericFormat.Location = new System.Drawing.Point(3, 387);
+            this.pnlGenericFormat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pnlGenericFormat.Name = "pnlGenericFormat";
+            this.pnlGenericFormat.Padding = new System.Windows.Forms.Padding(2);
+            this.pnlGenericFormat.Size = new System.Drawing.Size(286, 149);
+            this.pnlGenericFormat.TabIndex = 12;
+            // 
+            // label18
+            // 
+            this.label18.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.label18.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label18.Location = new System.Drawing.Point(2, 2);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(282, 24);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Generic format";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label14
+            // 
+            this.label14.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label14.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label14.Location = new System.Drawing.Point(2, 26);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(282, 22);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "Input";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(2, 48);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(67, 18);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Dimension:";
+            // 
+            // nudMatrixDim
+            // 
+            this.nudMatrixDim.Location = new System.Drawing.Point(75, 48);
+            this.nudMatrixDim.Maximum = new decimal(new int[] {
+            -159383552,
+            46653770,
+            5421,
+            0});
+            this.nudMatrixDim.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudMatrixDim.Name = "nudMatrixDim";
+            this.nudMatrixDim.Size = new System.Drawing.Size(107, 21);
+            this.nudMatrixDim.TabIndex = 3;
+            this.nudMatrixDim.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // btnGenericDim
+            // 
+            this.btnGenericDim.Location = new System.Drawing.Point(188, 46);
+            this.btnGenericDim.Name = "btnGenericDim";
+            this.btnGenericDim.Size = new System.Drawing.Size(35, 23);
+            this.btnGenericDim.TabIndex = 4;
+            this.btnGenericDim.Text = "File";
+            this.btnGenericDim.UseVisualStyleBackColor = true;
+            this.btnGenericDim.Click += new System.EventHandler(this.btnGenericDim_Click);
+            // 
+            // btnGenericMatrixLoad
+            // 
+            this.btnGenericMatrixLoad.Location = new System.Drawing.Point(42, 69);
+            this.btnGenericMatrixLoad.Name = "btnGenericMatrixLoad";
+            this.btnGenericMatrixLoad.Size = new System.Drawing.Size(239, 23);
+            this.btnGenericMatrixLoad.TabIndex = 5;
+            this.btnGenericMatrixLoad.Text = "Load matrix from file";
+            this.btnGenericMatrixLoad.UseVisualStyleBackColor = true;
+            this.btnGenericMatrixLoad.Click += new System.EventHandler(this.openMatrixGENERICToolStripMenuItem_Click);
+            // 
+            // label16
+            // 
+            this.label16.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label16.Location = new System.Drawing.Point(4, 95);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(282, 22);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "Output";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnGenericMatrixSave
+            // 
+            this.btnGenericMatrixSave.Location = new System.Drawing.Point(42, 120);
+            this.btnGenericMatrixSave.Name = "btnGenericMatrixSave";
+            this.btnGenericMatrixSave.Size = new System.Drawing.Size(239, 23);
+            this.btnGenericMatrixSave.TabIndex = 7;
+            this.btnGenericMatrixSave.Text = "Save matrix to file";
+            this.btnGenericMatrixSave.UseVisualStyleBackColor = true;
+            this.btnGenericMatrixSave.Click += new System.EventHandler(this.saveMatrixInGenericFormatToolStripMenuItem_Click);
+            // 
+            // cbxAutoDim
+            // 
+            this.cbxAutoDim.AutoSize = true;
+            this.cbxAutoDim.Location = new System.Drawing.Point(229, 47);
+            this.cbxAutoDim.Name = "cbxAutoDim";
+            this.cbxAutoDim.Size = new System.Drawing.Size(52, 22);
+            this.cbxAutoDim.TabIndex = 8;
+            this.cbxAutoDim.Text = "auto";
+            this.cbxAutoDim.UseVisualStyleBackColor = true;
+            this.cbxAutoDim.CheckedChanged += new System.EventHandler(this.cbxAutoDim_CheckedChanged);
+            // 
+            // sbtnG
+            // 
+            this.sbtnG.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.sbtnG.Dock = System.Windows.Forms.DockStyle.Left;
+            this.sbtnG.Location = new System.Drawing.Point(80, 2);
+            this.sbtnG.Name = "sbtnG";
+            this.sbtnG.Sink = true;
+            this.sbtnG.Size = new System.Drawing.Size(26, 26);
+            this.sbtnG.TabIndex = 3;
+            this.sbtnG.Text = "G";
+            this.sbtnG.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(745, 533);
+            this.ClientSize = new System.Drawing.Size(951, 618);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pnlLeft);
             this.Controls.Add(this.pnlTop);
@@ -889,6 +1040,9 @@
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResult)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.pnlGenericFormat.ResumeLayout(false);
+            this.pnlGenericFormat.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMatrixDim)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -958,6 +1112,17 @@
         private System.Windows.Forms.ToolStripMenuItem saveResultToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveMatrixInGenericFormatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openMatrixGENERICToolStripMenuItem;
+        private System.Windows.Forms.Panel pnlGenericFormat;
+        private System.Windows.Forms.CheckBox cbxAutoDim;
+        private System.Windows.Forms.Button btnGenericMatrixSave;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btnGenericMatrixLoad;
+        private System.Windows.Forms.Button btnGenericDim;
+        private System.Windows.Forms.NumericUpDown nudMatrixDim;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label18;
+        private src.GUI.SinkButton sbtnG;
     }
 }
 
