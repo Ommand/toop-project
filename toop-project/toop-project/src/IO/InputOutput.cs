@@ -766,9 +766,9 @@ namespace toop_project
 					{
 						int row = ReadInt(streamReader);
 						int col = ReadInt(streamReader);
-						if (row < 0 || col < 0 || row > n - 1 || col > n - 1)
+						if (row < 0 || col < 0)
 						{
-							throw new Exception("Некорректно введено расположение " + (i + 1).ToString() + " элемента (индексы не должны быть меньше 0 / больше n - 1).");
+							throw new Exception("Некорректно введено расположение " + (i + 1).ToString() + " элемента (индексы не должны быть меньше 0).");
 						}
 						double a = ReadDouble(streamReader);
 						if (row > n)
@@ -781,7 +781,7 @@ namespace toop_project
 						}
 					}
 					n++;
-					log.Info("Извлечение размерности из файла с матрицей завершено (Предположительно, n = " + n.ToString() + ").");
+					log.Info("Извлечение размерности из файла с матрицей завершено (n = " + n.ToString() + ").");
 				}
 			}
 			catch (Exception e)
