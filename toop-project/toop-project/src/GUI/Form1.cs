@@ -16,7 +16,7 @@ namespace toop_project {
 
         const String MatrixFileExtension = "mtx";
         const String VectorFileExtension = "vec";
-        const int maxDrawSize = 5;
+        const int maxDrawSize = 100;
 
         String resPath = System.IO.Path.GetFullPath(@"..\..\res\");
 
