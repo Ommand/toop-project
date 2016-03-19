@@ -419,17 +419,25 @@ namespace toop_project.src.Matrix
         // Подробные комментарии только для LU разложения
         public override BaseMatrix LU()
         {
-            var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
+            var newal = new double[al.Length][];
+            for (int i = 0; i < al.Length; i++)
+                newal[i] = al[i].Clone() as double[];
+
+            var matrPrec = new DiagonalMatrix(di.Clone() as double[], newal, au, shift_l, shift_u);
             // Деление всего нижнего треугольника на элементы главной диагонали, причём
             // элементы j-го столбца деляться на di[j] 
+
             for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
                 for (int j = 0, indl = shift_l[l_diags]; indl < al.Length; j++, indl++)
                     matrPrec.al[indl][l_diags] /= matrPrec.di[j];
+
+
 
             // Для расчёта новых di, необходимы произведения симметричных элементов
             // для этого нахожим одинаковые смещения
             HashSet<int> shift = new HashSet<int>(shift_l); // одинаковые смещения
             shift.IntersectWith(shift_u);
+
             if (shift.Count != 0)
                 for (int i = 1; i < di.Length; i++)
                 {
@@ -443,7 +451,9 @@ namespace toop_project.src.Matrix
 
         public override BaseMatrix LLt()
         {
-            var newal = al.Clone() as double[][];
+            var newal = new double[al.Length][];
+            for (int i = 0; i < al.Length; i++)
+                newal[i] = al[i].Clone() as double[];
             var matrPrec = new DiagonalMatrix(di.Clone() as double[], newal, newal, shift_l, shift_u);
             for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
                 for (int j = 0, indl = shift_l[l_diags]; indl < al.Length; j++, indl++)
@@ -461,7 +471,13 @@ namespace toop_project.src.Matrix
 
         public override BaseMatrix LUsq()
         {
-            var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
+            var newau = new double[au.Length][];
+            for (int i = 0; i < au.Length; i++)
+                newau[i] = au[i].Clone() as double[];
+            var newal = new double[al.Length][];
+            for (int i = 0; i < al.Length; i++)
+                newal[i] = al[i].Clone() as double[];
+            var matrPrec = new DiagonalMatrix(di.Clone() as double[], newal, newau, shift_l, shift_u);
             // Здесь нужно разделить и верхний и нижные треугольники
             for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
                 for (int j = 0, indl = shift_l[l_diags]; indl < al.Length; j++, indl++)
