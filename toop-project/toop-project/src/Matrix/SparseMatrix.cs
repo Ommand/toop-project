@@ -366,25 +366,28 @@ namespace toop_project.src.Matrix
                 double S = 0;
                 for (int k = i0; k < i1; k++)
                 {
+                    double Sl = 0, Su = 0;
                     int iind = i0;
                     int j = matrixILU.ja[k];
                     int j0 = matrixILU.ia[j];
                     int j1 = matrixILU.ia[j + 1];
-                    int jind = j0;
-                    double Sl = 0, Su = 0;
-                    while (iind < k)
+                    if (j1 - j0 != 0)
                     {
-                        if (matrixILU.ja[jind] > matrixILU.ja[iind])
-                            iind++;
-                        else
-                            if (matrixILU.ja[jind] < matrixILU.ja[iind])
-                            jind++;
-                        else
+                        int jind = j0;
+                        while (iind < k)
                         {
-                            Sl += matrixILU.al[iind] * matrixILU.au[jind];
-                            Su += matrixILU.au[iind] * matrixILU.al[jind];
-                            iind++;
-                            jind++;
+                            if (matrixILU.ja[jind] > matrixILU.ja[iind])
+                                iind++;
+                            else
+                                if (matrixILU.ja[jind] < matrixILU.ja[iind])
+                                jind++;
+                            else
+                            {
+                                Sl += matrixILU.al[iind] * matrixILU.au[jind];
+                                Su += matrixILU.au[iind] * matrixILU.al[jind];
+                                iind++;
+                                jind++;
+                            }
                         }
                     }
                     matrixILU.au[k] = (matrixILU.au[k] - Su);
@@ -408,25 +411,28 @@ namespace toop_project.src.Matrix
                 double S = 0;
                 for (k = i0; k < i1; k++)
                 {
+                    double Sl = 0, Su = 0;
                     int iind = i0;
                     int j = matrixILU.ja[k];
                     int j0 = matrixILU.ia[j];
                     int j1 = matrixILU.ia[j + 1];
-                    int jind = j0;
-                    double Sl = 0, Su = 0;
-                    while (iind < k)
+                    if (j1 - j0 != 0)
                     {
-                        if (matrixILU.ja[jind] > matrixILU.ja[iind])
-                            iind++;
-                        else
-                            if (matrixILU.ja[jind] < matrixILU.ja[iind])
-                            jind++;
-                        else
+                        int jind = j0;
+                        while (iind < k)
                         {
-                            Sl += matrixILU.al[iind] * matrixILU.au[jind];
-                            Su += matrixILU.au[iind] * matrixILU.al[jind];
-                            iind++;
-                            jind++;
+                            if (matrixILU.ja[jind] > matrixILU.ja[iind])
+                                iind++;
+                            else
+                                if (matrixILU.ja[jind] < matrixILU.ja[iind])
+                                jind++;
+                            else
+                            {
+                                Sl += matrixILU.al[iind] * matrixILU.au[jind];
+                                Su += matrixILU.au[iind] * matrixILU.al[jind];
+                                iind++;
+                                jind++;
+                            }
                         }
                     }
                     if (matrixILU.di[j] == 0)
@@ -453,24 +459,27 @@ namespace toop_project.src.Matrix
                 double S = 0;
                 for (k = i0; k < i1; k++)
                 {
+                    double Sl = 0;
                     int iind = i0;
                     int j = matrixLLt.ja[k];
                     int j0 = matrixLLt.ia[j];
                     int j1 = matrixLLt.ia[j + 1];
-                    int jind = j0;
-                    double Sl = 0;
-                    while (iind < k)
+                    if (j1 - j0 != 0)
                     {
-                        if (matrixLLt.ja[jind] > matrixLLt.ja[iind])
-                            iind++;
-                        else
-                            if (matrixLLt.ja[jind] < matrixLLt.ja[iind])
-                            jind++;
-                        else
+                        int jind = j0;
+                        while (iind < k)
                         {
-                            Sl += matrixLLt.al[iind] * matrixLLt.al[jind];
-                            iind++;
-                            jind++;
+                            if (matrixLLt.ja[jind] > matrixLLt.ja[iind])
+                                iind++;
+                            else
+                                if (matrixLLt.ja[jind] < matrixLLt.ja[iind])
+                                jind++;
+                            else
+                            {
+                                Sl += matrixLLt.al[iind] * matrixLLt.al[jind];
+                                iind++;
+                                jind++;
+                            }
                         }
                     }
                     if (matrixLLt.di[j] == 0)
