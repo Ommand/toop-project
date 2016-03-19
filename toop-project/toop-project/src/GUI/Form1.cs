@@ -148,14 +148,15 @@ namespace toop_project {
             dgvMatrix.Rows.Clear();
             dgvMatrix.Columns.Clear();
             
-            for(var i=0; i < matrix.Size; i++)
-                dgvMatrix.Columns.Add("","");
-
             if  (matrix.Size > maxDrawSize)
             {
+                dgvMatrix.Columns.Add("", "");
                 dgvMatrix.Rows.Add("Matrix is too big to draw");
                 return;
             }
+            for(var i=0; i < matrix.Size; i++)
+                dgvMatrix.Columns.Add("","");
+
 
             string[][] strs = new string[matrix.Size][];
             for(int i=0;i < matrix.Size;i++)
