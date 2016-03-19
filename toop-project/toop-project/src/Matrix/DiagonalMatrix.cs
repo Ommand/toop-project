@@ -419,7 +419,7 @@ namespace toop_project.src.Matrix
         // Подробные комментарии только для LU разложения
         public override BaseMatrix LU()
         {
-            var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au, shift_l, shift_u);
+            var matrPrec = new DiagonalMatrix(di.Clone() as double[], al.Clone() as double[][], au.Clone() as double[][], shift_l, shift_u);
             // Деление всего нижнего треугольника на элементы главной диагонали, причём
             // элементы j-го столбца деляться на di[j] 
             for (int l_diags = 0; l_diags < shift_l.Length; l_diags++)
