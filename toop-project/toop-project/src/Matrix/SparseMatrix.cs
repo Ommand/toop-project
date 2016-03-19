@@ -363,9 +363,8 @@ namespace toop_project.src.Matrix
             {
                 int i0 = matrixILU.ia[i];
                 int i1 = matrixILU.ia[i + 1];
-                int k;
                 double S = 0;
-                for (k = i0; k < i1; k++)
+                for (int k = i0; k < i1; k++)
                 {
                     int iind = i0;
                     int j = matrixILU.ja[k];
