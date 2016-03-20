@@ -41,9 +41,9 @@ namespace toop_project.src.Solver
                 {
                     alpha = scalRO / (ap * p);
                     x = x + p * alpha;
-                    // if (oIter % 100 == 0)
-                    // rNew = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
-                    // else
+                     if (oIter % 100 == 0)
+                     rNew = matrix.QMultiply(rightPart - matrix.SMultiply(matrix.SourceMatrix.Multiply(x)));
+                     else
                     rNew = rOld - ap * alpha;
                     z = matrix.QSolve(matrix.SSolve(rNew));
                     scaleRN = z * rNew;
