@@ -27,7 +27,7 @@ namespace toop_project.src.Solver
                 double nPi, oPi, alpha, w, oNev, bNev, betta;
                 oPi = alpha = w = 1;
                 int size = rightPart.Size;
-                Vector x, r, rTab, s, t, z, sqt;
+                Vector x, r, rTab, s, t, z, sqt, y;
                 Vector v = new Vector(size);
                 Vector p = new Vector(size);
                 v.Nullify();
@@ -44,9 +44,10 @@ namespace toop_project.src.Solver
                     nPi = rTab * r;
                     betta = (nPi / oPi) * (alpha / w);
                     p = r + (p - v * w) * betta;
-                    v = matrix.SourceMatrix.Multiply(p);
+                    y= matrix.QSolve(matrix.SSolve(p));
+                    v = matrix.SourceMatrix.Multiply(y);
                     alpha = nPi / (rTab * v);
-                    x = x + p * alpha;//УТОЧНИТЬ!!!!!!!!!!!!!!!
+                    x = x + y * alpha;//УТОЧНИТЬ!!!!!!!!!!!!!!!
                     s = r - v * alpha;
                     z = matrix.QSolve(matrix.SSolve(s));
                     t = matrix.SourceMatrix.Multiply(z);
