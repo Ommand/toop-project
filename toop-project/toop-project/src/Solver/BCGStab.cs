@@ -49,6 +49,7 @@ namespace toop_project.src.Solver
                     alpha = nPi / (rTab * v);
                     x = x + y * alpha;//УТОЧНИТЬ!!!!!!!!!!!!!!!
                     s = r - v * alpha;
+                    if (s.Norm() / bNev < ConGradParametrs.Epsilon) return x;
                     z = matrix.QSolve(matrix.SSolve(s));
                     t = matrix.SourceMatrix.Multiply(z);
                     sqt = matrix.QSolve(matrix.SSolve(t));
