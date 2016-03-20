@@ -29,6 +29,7 @@ namespace toop_project.src.Solver
                 x = initialSolution;
                 residual = rightPart - matrix.SourceMatrix.Multiply(x);
                 residual = matrix.SSolve(residual);
+                double rightPartNorm = matrix.SSolve(rightPart).Norm();
                 double residualNorm = residual.Norm();
                 x = matrix.QMultiply(initialSolution);
 
@@ -42,7 +43,7 @@ namespace toop_project.src.Solver
 
                 d = new Vector(m + 1);
 
-                for (int k = 1; k <= maxIterations && residualNorm > epsilon; k++)
+                for (int k = 1; k <= maxIterations && residualNorm / rightPartNorm > epsilon; k++)
                 {
                     d.Nullify();
                     V[0] = residual * (1.0 / residualNorm);
@@ -80,7 +81,7 @@ namespace toop_project.src.Solver
                     residual = matrix.SSolve(tmp);
                     residualNorm = residual.Norm();
 
-                    solverLogger.AddIterationInfo(k, residualNorm);
+                    solverLogger.AddIterationInfo(k, residualNorm / rightPartNorm);
                 }
 
                 return matrix.QSolve(x);                
