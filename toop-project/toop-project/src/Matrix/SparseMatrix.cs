@@ -391,9 +391,9 @@ namespace toop_project.src.Matrix
                         }
                     }
                     matrixILU.au[k] = (matrixILU.au[k] - Su);
-                    if (matrixILU.di[j] == 0)
-                        throw new Exception(String.Concat("Предобусловливание LU : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixILU.al[k] = (matrixILU.al[k] - Sl) / matrixILU.di[j];
+                    if (double.IsInfinity(matrixILU.al[k]))
+                        throw new Exception(String.Concat("Предобусловливание LU : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     S += matrixILU.au[k] * matrixILU.al[k]; // диагональ в U!!!!!
                 }
                 matrixILU.di[i] = matrixILU.di[i] - S;
@@ -435,10 +435,12 @@ namespace toop_project.src.Matrix
                             }
                         }
                     }
-                    if (matrixILU.di[j] == 0)
-                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixILU.au[k] = (matrixILU.au[k] - Su) / matrixILU.di[j];
+                    if (double.IsInfinity(matrixILU.au[k]))
+                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixILU.al[k] = (matrixILU.al[k] - Sl) / matrixILU.di[j];
+                    if (double.IsInfinity(matrixILU.al[k]))
+                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     S += matrixILU.au[k] * matrixILU.al[k]; // диагональ в U!!!!!
                 }
                 matrixILU.di[i] = Math.Sqrt(matrixILU.di[i] - S);
@@ -482,9 +484,9 @@ namespace toop_project.src.Matrix
                             }
                         }
                     }
-                    if (matrixLLt.di[j] == 0)
-                        throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixLLt.al[k] = (matrixLLt.al[k] - Sl) / matrixLLt.di[j];
+                    if (double.IsInfinity(matrixLLt.al[k]))
+                        throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     S += matrixLLt.al[k] * matrixLLt.al[k];
                 }
                 matrixLLt.di[i] = Math.Sqrt(matrixLLt.di[i] - S);
