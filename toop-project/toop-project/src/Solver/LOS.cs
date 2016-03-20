@@ -41,7 +41,7 @@ namespace toop_project.src.Solver
                 p = matrix.SSolve(matrix.SourceMatrix.Multiply(z));
 
                 rightnorm = matrix.SSolve(rightPart).Norm();
-                Residual = (r*r)/rightnorm;
+                Residual = r.Norm()/rightnorm;
 
                 solverLogger.AddIterationInfo(0, Residual);
                 for (k = 1; k <= LOSParametrs.MaxIterations && Residual > LOSParametrs.Epsilon; k++)
@@ -60,7 +60,7 @@ namespace toop_project.src.Solver
                     z = Ur + z * betta;
                     p = LAU + p * betta;
 
-                    Residual = (r * r) / rightnorm;
+                    Residual = r.Norm() / rightnorm;
                     solverLogger.AddIterationInfo(k, Residual);
 
                 }
