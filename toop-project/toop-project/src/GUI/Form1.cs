@@ -91,7 +91,6 @@ namespace toop_project {
 
         public Form1() {
             InitializeComponent();
-            setFileDialogs();
             setComboboxes();
             setDataBindings();
             src.Logging.Logger.Instance.IGui = this;
