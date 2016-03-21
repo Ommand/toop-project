@@ -694,15 +694,15 @@ namespace toop_project
 							int i0 = ia[rRow];
 							int i1 = ia[rRow + 1];
 							bool isExisting = false;
-							for (k = i0; k < i1; k++)
+							for (k = i1; k > i0; k--)
 							{
-								if (rCol == ja[k])
+								if (rCol == ja[k - 1])
 								{
-									a1[k] = a;
+									a1[k - 1] = a;
 									isExisting = true;
 									break;
 								}
-								if (rCol < ja[k])
+								if (rCol > ja[k - 1])
 								{
 									break;
 								}
