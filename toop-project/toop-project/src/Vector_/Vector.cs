@@ -10,7 +10,7 @@ namespace toop_project.src.Vector_
     {
         private double[] _vector;
 
-        private Vector(double[] v) { _vector = v;}
+        public Vector(double[] v) { _vector = v;}
 		
         public Vector(int capacity)
         {

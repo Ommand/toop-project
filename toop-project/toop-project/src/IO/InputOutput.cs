@@ -96,48 +96,31 @@ namespace toop_project
 		public static Vector InputVector(string fileName)
 		{
 			Logger log = Logger.Instance;
-			CultureInfo cultureInfo = new CultureInfo("en-US");
 			Vector vector;
-
-			string[] fileContent;
 
 			try
 			{
 				using (StreamReader streamReader = new StreamReader(fileName))
 				{
 					log.Info("Чтение информации о векторе из файла " + fileName + ".");
-					fileContent = streamReader.ReadToEnd().Split(new char[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-				}
 
-				//чтение n
-				int n;
-				log.Info("Ввод размерности вектора...");
-				if (!int.TryParse(fileContent[0], out n))
-				{
-					throw new Exception("Некорректно введена размерность вектора (Должна представлять собой целое число).");
-				}
-				if (n < 1)
-				{
-					throw new Exception("Некорректно введена размерность вектора (Не должна быть меньше 1).");
-				}
-				log.Info("Ввод размерности вектора завершен.");
-
-				double bi;
-
-				//чтение правой части
-				vector = new Vector(n);
-				log.Info("Ввод элементов вектора...");
-				for (int i = 0; i < n; i++)
-				{
-					if (!double.TryParse(fileContent[1 + i], NumberStyles.Any, cultureInfo, out bi))
+					//чтение n
+					int n;
+					log.Info("Ввод размерности вектора...");
+					n = ReadInt(streamReader);
+					if (n < 1)
 					{
-						throw new Exception("Некорректно введен " + (i + 1).ToString() + " элемент вектора (Должен представлять собой число).");
+						throw new Exception("Некорректно введена размерность вектора (Не должна быть меньше 1).");
 					}
-					vector[i] = bi;
-				}
-				log.Info("Ввод элементов вектора завершен.");
+					log.Info("Ввод размерности вектора завершен.");
 
-				log.Info("Успешное завершение ввода вектора.");
+					//чтение правой части
+					log.Info("Ввод элементов вектора...");
+					vector = new Vector(ReadDouble(streamReader, n));
+					log.Info("Ввод элементов вектора завершен.");
+
+					log.Info("Успешное завершение ввода вектора.");
+				}
 			}
 			catch (IndexOutOfRangeException e)
 			{
@@ -862,10 +845,10 @@ namespace toop_project
 			}
 			while (!delimiters.Contains<char>(symbol));
 
-			doubleValue = doubleValue.Replace('.', ',');
+			doubleValue = doubleValue.Replace(',', '.');
 
 			double result;
-			if (!double.TryParse(doubleValue, out result))
+			if (!double.TryParse(doubleValue, NumberStyles.Any, new CultureInfo("en-US"), out result))
 			{
 				throw new Exception("Некорректно введено число.");
 			}
