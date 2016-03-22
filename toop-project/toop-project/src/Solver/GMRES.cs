@@ -32,9 +32,15 @@ namespace toop_project.src.Solver
                 double rightPartNorm = matrix.SSolve(rightPart).Norm();
                 double residualNorm = residual.Norm();
 
-                if (System.Double.IsInfinity(residualNorm / rightPartNorm) || System.Double.IsNaN(residualNorm / rightPartNorm))
+                if (System.Double.IsInfinity(residualNorm / rightPartNorm))
                 {
-                    logger.Error("It is impossible to solve this SLAE by GMRES.");
+                    logger.Error("Residual is infinity. It is impossible to solve this SLAE by GMRES.");
+                    return x;
+                }
+
+                if (System.Double.IsNaN(residualNorm / rightPartNorm))
+                {
+                    logger.Error("Residual is NaN. It is impossible to solve this SLAE by GMRES.");
                     return x;
                 }
 
@@ -88,9 +94,15 @@ namespace toop_project.src.Solver
                     residual = matrix.SSolve(tmp);
                     residualNorm = residual.Norm();
 
-                    if (System.Double.IsInfinity(residualNorm / rightPartNorm) || System.Double.IsNaN(residualNorm / rightPartNorm))
+                    if (System.Double.IsInfinity(residualNorm / rightPartNorm))
                     {
-                        logger.Error("It is impossible to solve this SLAE by GMRES.");
+                        logger.Error("Residual is infinity. It is impossible to solve this SLAE by GMRES.");
+                        return x;
+                    }
+
+                    if (System.Double.IsNaN(residualNorm / rightPartNorm))
+                    {
+                        logger.Error("Residual is NaN. It is impossible to solve this SLAE by GMRES.");
                         return x;
                     }
 
@@ -100,8 +112,8 @@ namespace toop_project.src.Solver
                 return matrix.QSolve(x);                
             }
             else {
-                logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
-                throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in Jacobi");
+                logger.Error("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in GMRES");
+                throw new Exception("Incorrect " + solverParametrs.GetType().Name.ToString() + " as a  SolverParametrs in GMRES");
 
             }
         }

@@ -40,9 +40,15 @@ namespace toop_project.src.Solver
                 r = Lx + Dx + Ux - rightPart;
                 relativeResidual = r.Norm() / rightPartNorm;
 
-                if (System.Double.IsInfinity(relativeResidual) || System.Double.IsNaN(relativeResidual))
+                if (System.Double.IsInfinity(relativeResidual))
                 {
-                    logger.Error("It is impossible to solve this SLAE by Jacobi.");
+                    logger.Error("Residual is infinity. It is impossible to solve this SLAE by Jacobi.");
+                    return x;
+                }
+
+                if (System.Double.IsNaN(relativeResidual))
+                {
+                    logger.Error("Residual is NaN. It is impossible to solve this SLAE by Jacobi.");
                     return x;
                 }
 
@@ -62,12 +68,18 @@ namespace toop_project.src.Solver
                     r = Lx + Dx + Ux - rightPart;
                     relativeResidual = r.Norm() / rightPartNorm;
 
-                    if (System.Double.IsInfinity(relativeResidual) || System.Double.IsNaN(relativeResidual))
+                    if (System.Double.IsInfinity(relativeResidual))
                     {
-                        logger.Error("It is impossible to solve this SLAE by Jacobi.");
+                        logger.Error("Residual is infinity. It is impossible to solve this SLAE by Jacobi.");
                         return x;
                     }
-                        
+
+                    if (System.Double.IsNaN(relativeResidual))
+                    {
+                        logger.Error("Residual is NaN. It is impossible to solve this SLAE by Jacobi.");
+                        return x;
+                    }
+
                     solverLogger.AddIterationInfo(k, relativeResidual);
                 }
 
