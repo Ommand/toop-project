@@ -19,6 +19,7 @@ namespace toop_project {
         const int maxDrawSize = 100;
 
         String resPath = System.IO.Path.GetFullPath(@"..\..\res\");
+        String resLogPath = System.IO.Path.GetFullPath(@"..\..\res\SolvingLog.txt");
 
         OpenFileDialog ofdMatrix = new OpenFileDialog();
         OpenFileDialog ofdMatrixGeneric = new OpenFileDialog();
@@ -204,6 +205,30 @@ namespace toop_project {
             }
             for (var i = 0; i < vec.Size; i++)
                 dgvResult.Rows.Add(vec[i].ToString());
+
+            /*
+            RESULT PRINT
+            */
+            try
+            {
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(resLogPath, true))
+                {
+                    int iterInd1 = lblIter.Text.IndexOf(' ') + 1, iterInd2 = lblIter.Text.IndexOf('/');
+
+                    string line = ofdMatrixGeneric.FileName + ','
+                        + cmbSolver.Text + ','
+                        + cmbPrecond.Text + ','
+                        + lblIter.Text.Substring(iterInd1, iterInd2 - iterInd1) + ','
+                        + lblResidual.Text.Substring(lblResidual.Text.IndexOf(' ')).Replace(',', '.') + ',';
+                    for (int i = 0; i < slae.Result.Size; i++) line += slae.Result[i].ToString().Replace(',', '.') + " ";
+
+                    writer.WriteLine(line);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Write log error: " + ex.Message);
+            }
         }
 
         void ClearDgv(DataGridView dgv) {
