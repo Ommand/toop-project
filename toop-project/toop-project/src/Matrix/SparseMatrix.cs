@@ -391,9 +391,11 @@ namespace toop_project.src.Matrix
                         }
                     }
                     matrixILU.au[k] = (matrixILU.au[k] - Su) / matrixILU.di[j];
-                    if (double.IsInfinity(matrixILU.au[k]))
-                        throw new Exception(String.Concat("Предобусловливание LU : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
                     matrixILU.al[k] = (matrixILU.al[k] - Sl);
+                    if (double.IsInfinity(matrixILU.au[k]))
+                        throw new Exception(String.Concat("Предобусловливание LU : деление на 0 для расчёта элемента (", j + 1, ",", i + 1, ")"));
+                    if (double.IsNaN(matrixILU.au[k]))
+                        throw new Exception(String.Concat("Предобусловливание LU : неопределённость 0/0 для элемента (", j+1, ",", i+1,")"));
                     S += matrixILU.au[k] * matrixILU.al[k]; // диагональ в U!!!!!
                 }
                 matrixILU.di[i] = matrixILU.di[i] - S;
@@ -437,10 +439,14 @@ namespace toop_project.src.Matrix
                     }
                     matrixILU.au[k] = (matrixILU.au[k] - Su) / matrixILU.di[j];
                     if (double.IsInfinity(matrixILU.au[k]))
-                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
+                        throw new Exception(String.Concat("Предобусловливание LU : деление на 0 для расчёта элемента (", j + 1, ",", i + 1, ")"));
+                    if (double.IsNaN(matrixILU.au[k]))
+                        throw new Exception(String.Concat("Предобусловливание LUsq : неопределённость 0/0 для элемента (", j + 1, ",", i + 1, ")"));
                     matrixILU.al[k] = (matrixILU.al[k] - Sl) / matrixILU.di[j];
                     if (double.IsInfinity(matrixILU.al[k]))
-                        throw new Exception(String.Concat("Предобусловливание LUsq : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
+                        throw new Exception(String.Concat("Предобусловливание LU : деление на 0 для расчёта элемента (", i + 1, ",", j + 1, ")"));
+                    if (double.IsNaN(matrixILU.al[k]))
+                        throw new Exception(String.Concat("Предобусловливание LUsq : неопределённость 0/0 для элемента (", i + 1, ",", j + 1, ")"));
                     S += matrixILU.au[k] * matrixILU.al[k]; // диагональ в U!!!!!
                 }
                 matrixILU.di[i] = Math.Sqrt(matrixILU.di[i] - S);
@@ -486,7 +492,9 @@ namespace toop_project.src.Matrix
                     }
                     matrixLLt.al[k] = (matrixLLt.al[k] - Sl) / matrixLLt.di[j];
                     if (double.IsInfinity(matrixLLt.al[k]))
-                        throw new Exception(String.Concat("Предобусловливание LLt : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
+                        throw new Exception(String.Concat("Предобусловливание LU : деление на 0 для расчёта элемента (", i + 1, ",", j + 1, ")"));
+                    if (double.IsNaN(matrixLLt.al[k]))
+                        throw new Exception(String.Concat("Предобусловливание LUsq : неопределённость 0/0 для элемента (", i + 1, ",", j + 1, ")"));
                     S += matrixLLt.al[k] * matrixLLt.al[k];
                 }
                 matrixLLt.di[i] = Math.Sqrt(matrixLLt.di[i] - S);
