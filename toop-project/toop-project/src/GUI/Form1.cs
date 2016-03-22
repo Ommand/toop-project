@@ -197,6 +197,10 @@ namespace toop_project {
         private void updateDgvResult(src.Vector_.Vector vec) {
             tabControl1.SelectedIndex = 2;
             ClearDgv(dgvResult);
+
+            if (vec == null)
+                return;
+
             if (vec.Size > maxDrawSize)
             {
                 dgvResult.Rows.Add("Vector is too big to draw");
