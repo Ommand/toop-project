@@ -391,9 +391,9 @@ namespace toop_project.src.Matrix
                         }
                     }
                     matrixILU.au[k] = (matrixILU.au[k] - Su) / matrixILU.di[j];
-                    matrixILU.al[k] = (matrixILU.al[k] - Sl);
-                    if (double.IsInfinity(matrixILU.al[k]))
+                    if (double.IsInfinity(matrixILU.au[k]))
                         throw new Exception(String.Concat("Предобусловливание LU : на диагонали матрицы элемент №", j, " равен 0 (деление на 0)"));
+                    matrixILU.al[k] = (matrixILU.al[k] - Sl);
                     S += matrixILU.au[k] * matrixILU.al[k]; // диагональ в U!!!!!
                 }
                 matrixILU.di[i] = matrixILU.di[i] - S;
