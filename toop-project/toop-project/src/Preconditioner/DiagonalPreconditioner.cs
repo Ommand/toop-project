@@ -27,7 +27,11 @@ namespace toop_project.src.Preconditioner
         {
             var vec = matrix.Diagonal.Clone() as Vector;
             for (int i = 0; i < vec.Size; i++)
+            {
                 vec[i] = Math.Sqrt(vec[i]);
+                if (!(vec[i] == vec[i]))
+                    throw new Exception(String.Concat("Предобусловливание Diagonal : извлечение корня из отричательного числа, элемент диагонали №", i));
+            }
             return vec;
         }
 
