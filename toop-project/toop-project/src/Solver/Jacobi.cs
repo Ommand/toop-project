@@ -40,6 +40,12 @@ namespace toop_project.src.Solver
                 r = Lx + Dx + Ux - rightPart;
                 relativeResidual = r.Norm() / rightPartNorm;
 
+                if (System.Double.IsInfinity(relativeResidual) || System.Double.IsNaN(relativeResidual))
+                {
+                    logger.Error("It is impossible to solve this SLAE by Jacobi.");
+                    return x;
+                }
+
                 Db = Vector.Division(rightPart, diagonal);
 
                 solverLogger.AddIterationInfo(0, relativeResidual);
@@ -56,6 +62,12 @@ namespace toop_project.src.Solver
                     r = Lx + Dx + Ux - rightPart;
                     relativeResidual = r.Norm() / rightPartNorm;
 
+                    if (System.Double.IsInfinity(relativeResidual) || System.Double.IsNaN(relativeResidual))
+                    {
+                        logger.Error("It is impossible to solve this SLAE by Jacobi.");
+                        return x;
+                    }
+                        
                     solverLogger.AddIterationInfo(k, relativeResidual);
                 }
 

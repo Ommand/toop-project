@@ -31,6 +31,13 @@ namespace toop_project.src.Solver
                 residual = matrix.SSolve(residual);
                 double rightPartNorm = matrix.SSolve(rightPart).Norm();
                 double residualNorm = residual.Norm();
+
+                if (System.Double.IsInfinity(residualNorm / rightPartNorm) || System.Double.IsNaN(residualNorm / rightPartNorm))
+                {
+                    logger.Error("It is impossible to solve this SLAE by GMRES.");
+                    return x;
+                }
+
                 x = matrix.QMultiply(initialSolution);
 
                 V = new Vector[m];
@@ -80,6 +87,12 @@ namespace toop_project.src.Solver
                     tmp = rightPart - matrix.SourceMatrix.Multiply(matrix.QSolve(x));
                     residual = matrix.SSolve(tmp);
                     residualNorm = residual.Norm();
+
+                    if (System.Double.IsInfinity(residualNorm / rightPartNorm) || System.Double.IsNaN(residualNorm / rightPartNorm))
+                    {
+                        logger.Error("It is impossible to solve this SLAE by GMRES.");
+                        return x;
+                    }
 
                     solverLogger.AddIterationInfo(k, residualNorm / rightPartNorm);
                 }
