@@ -201,15 +201,6 @@ namespace toop_project {
 
             if (vec == null)
                 return;
-
-            if (vec.Size > maxDrawSize)
-            {
-                dgvResult.Rows.Add("Vector is too big to draw");
-                return;
-            }
-            for (var i = 0; i < vec.Size; i++)
-                dgvResult.Rows.Add(vec[i].ToString());
-
             /*
             RESULT PRINT
             */
@@ -233,6 +224,18 @@ namespace toop_project {
             {
                 MessageBox.Show("Write log error: " + ex.Message);
             }
+            /*
+            END RESULT PRINT
+            */
+
+            if (vec.Size > maxDrawSize)
+            {
+                dgvResult.Rows.Add("Vector is too big to draw");
+                return;
+            }
+            for (var i = 0; i < vec.Size; i++)
+                dgvResult.Rows.Add(vec[i].ToString());
+
         }
 
         void ClearDgv(DataGridView dgv) {
