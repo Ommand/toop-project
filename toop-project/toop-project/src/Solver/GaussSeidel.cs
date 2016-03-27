@@ -51,7 +51,6 @@ namespace toop_project.src.Solver
                     DEx = Vector.Division(Ex+Fx,di);                
                     xnext = (DEb - DEx) * w + x * (1 - w);
                     Ex = matrix.SourceMatrix.UMult(xnext, false);
-                    Fx = matrix.SourceMatrix.LMult(xnext, false);
                     Dx = Vector.Mult(di, xnext);
 
                     
@@ -65,6 +64,19 @@ namespace toop_project.src.Solver
                     r = Dx + Fx + Ex - rightPart;
 
                     Residual = r.Norm() / rpnorm;
+
+                    if (System.Double.IsInfinity(Residual))
+                    {
+                        logger.Error("Residual is infinity. It is impossible to solve this SLAE by GaussSeidel .");
+                        return xnext;
+                    }
+
+                    if (System.Double.IsNaN(Residual))
+                    {
+                        logger.Error("Residual is NaN. It is impossible to solve this SLAE by GaussSeidel.");
+                        return xnext;
+                    }
+
                     solverLogger.AddIterationInfo(k, Residual);
 
                 }
