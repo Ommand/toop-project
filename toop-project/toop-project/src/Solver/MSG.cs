@@ -55,6 +55,17 @@ namespace toop_project.src.Solver
                     oIter++;
 
                     oNev = rNew.Norm() / bNev;
+                    if (System.Double.IsInfinity(oNev))
+                    {
+                        logger.Error("Residual is infinity. It is impossible to solve this SLAE by MSG.");
+                        return x;
+                    }
+
+                    if (System.Double.IsNaN(oNev))
+                    {
+                        logger.Error("Residual is NaN. It is impossible to solve this SLAE by MSG.");
+                        return x;
+                    }
 
                     solverLogger.AddIterationInfo(oIter, oNev);//logger
                 }
