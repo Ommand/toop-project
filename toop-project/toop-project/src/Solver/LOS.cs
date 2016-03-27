@@ -61,6 +61,19 @@ namespace toop_project.src.Solver
                     p = LAU + p * betta;
 
                     Residual = r.Norm() / rightnorm;
+
+                    if (System.Double.IsInfinity(Residual))
+                    {
+                        logger.Error("Residual is infinity. It is impossible to solve this SLAE by LOS.");
+                        return x;
+                    }
+
+                    if (System.Double.IsNaN(Residual))
+                    {
+                        logger.Error("Residual is NaN. It is impossible to solve this SLAE by LOS.");
+                        return x;
+                    }
+
                     solverLogger.AddIterationInfo(k, Residual);
 
                 }

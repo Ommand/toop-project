@@ -38,7 +38,17 @@ namespace toop_project.src.Solver
                 bNev = rightPart.Norm();
                 oNev = r.Norm() / bNev;
                 solverLogger.AddIterationInfo(oIter, oNev);//logger
+                if (System.Double.IsInfinity(oNev))
+                {
+                    logger.Error("Residual is infinity. It is impossible to solve this SLAE by BSG Stab.");
+                    return x;
+                }
 
+                if (System.Double.IsNaN(oNev))
+                {
+                    logger.Error("Residual is NaN. It is impossible to solve this SLAE by BSG Stab.");
+                    return x;
+                }
                 while (oIter < ConGradParametrs.MaxIterations && oNev > ConGradParametrs.Epsilon)
                 {
                     nPi = rTab * r;
@@ -60,6 +70,18 @@ namespace toop_project.src.Solver
                     oPi = nPi;
                     oIter++;
                     oNev = r.Norm() / bNev;
+
+                    if (System.Double.IsInfinity(oNev))
+                    {
+                        logger.Error("Residual is infinity. It is impossible to solve this SLAE by BSG Stab.");
+                        return x;
+                    }
+
+                    if (System.Double.IsNaN(oNev))
+                    {
+                        logger.Error("Residual is NaN. It is impossible to solve this SLAE by BSG Stab.");
+                        return x;
+                    }
                     solverLogger.AddIterationInfo(oIter, oNev);//logger
                 }
 
